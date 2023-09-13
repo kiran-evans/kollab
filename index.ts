@@ -7,7 +7,12 @@ app.use(express.urlencoded({ extended: true }));
 import dotenv from 'dotenv';
 dotenv.config();
 
+import path from 'path';
+
 // Routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 // Connect to db
 import { sequelize } from './pg';
