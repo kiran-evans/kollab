@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import path from 'path';
-app.use('/', express.static(path.join(__dirname, '')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', (req, res) => {
