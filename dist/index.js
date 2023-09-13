@@ -20,9 +20,10 @@ app.use(express_1.default.urlencoded({ extended: true }));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const path_1 = __importDefault(require("path"));
+app.use('/', express_1.default.static(path_1.default.join(__dirname, '')));
 // Routes
 app.get('/', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '/public/index.html'));
+    res.sendFile(path_1.default.join(__dirname, '/index.html'));
 });
 // Connect to db
 const pg_1 = require("./pg");
@@ -34,5 +35,5 @@ const pg_1 = require("./pg");
 }))();
 // Server start
 app.listen(process.env.PORT, () => {
-    console.log(`[server] server started on '${process.env.PORT}'`);
+    console.log(`[server] server started on '${process.env.DOMAIN}'`);
 });
