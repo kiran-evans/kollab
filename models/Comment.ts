@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../pg";
+import { sequelize } from "../lib/pg";
 
 export class Comment extends Model {
     declare id: string;

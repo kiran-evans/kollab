@@ -25,7 +25,7 @@ import userRouter from './routers/userRouter';
 app.use('/user', userRouter);
 
 // Connect to db
-import { sequelize } from './pg';
+import { sequelize } from './lib/pg';
 (async () => {
     await sequelize.authenticate();
     console.log(`[server] connected to '${sequelize.getDatabaseName()}'`);
