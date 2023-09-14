@@ -35,3 +35,23 @@ export const getPost = (async (req, res) => {
         console.error(err);
     }
 }) satisfies RequestHandler;
+
+export const updatePost = (async (req, res) => {
+    try {
+        const user = await User.authenticate(req.body.idToken);
+        await Post.update({
+            ...req.body
+        }, {
+            where: {
+                author_id: user.id
+            }
+        });
+
+        return res.status(200).send();
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
