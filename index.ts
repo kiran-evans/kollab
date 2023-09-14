@@ -15,8 +15,17 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+import commentRouter from './routers/commentRouter';
+app.use('/comment', commentRouter);
+
+import postRouter from './routers/postRouter';
+app.use('/post', postRouter);
+
+import userRouter from './routers/userRouter';
+app.use('/user', userRouter);
+
 // Connect to db
-import { sequelize } from './pg';
+import { sequelize } from './lib/pg';
 (async () => {
     await sequelize.authenticate();
     console.log(`[server] connected to '${sequelize.getDatabaseName()}'`);
