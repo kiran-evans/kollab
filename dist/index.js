@@ -20,13 +20,19 @@ app.use(express_1.default.urlencoded({ extended: true }));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const path_1 = __importDefault(require("path"));
-app.use('/', express_1.default.static(path_1.default.join(__dirname, '')));
+app.use('/', express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path_1.default.join(__dirname, '/index.html'));
 });
+const commentRouter_1 = __importDefault(require("./routers/commentRouter"));
+app.use('/comment', commentRouter_1.default);
+const postRouter_1 = __importDefault(require("./routers/postRouter"));
+app.use('/post', postRouter_1.default);
+const userRouter_1 = __importDefault(require("./routers/userRouter"));
+app.use('/user', userRouter_1.default);
 // Connect to db
-const pg_1 = require("./pg");
+const pg_1 = require("./lib/pg");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     yield pg_1.sequelize.authenticate();
     console.log(`[server] connected to '${pg_1.sequelize.getDatabaseName()}'`);
