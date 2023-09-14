@@ -6,6 +6,9 @@ export class Post extends Model {
     declare author_id: string;
     declare title: string;
     declare body: string;
+    declare upvotes: Array<string>;
+    declare downvotes: Array<string>;
+    declare comments: Array<string>;
 }
 
 Post.init({
@@ -25,6 +28,21 @@ Post.init({
     body: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    upvotes: {
+        type: DataTypes.ARRAY(DataTypes.UUID),
+        allowNull: false,
+        defaultValue: []
+    },
+    downvotes: {
+        type: DataTypes.ARRAY(DataTypes.UUID),
+        allowNull: false,
+        defaultValue: []
+    },
+    comments: {
+        type: DataTypes.ARRAY(DataTypes.UUID),
+        allowNull: false,
+        defaultValue: []
     }
 }, {
     sequelize,
