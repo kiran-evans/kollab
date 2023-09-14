@@ -18,6 +18,9 @@ app.get('/', (req, res) => {
 import postRouter from './routers/postRouter';
 app.use('/post', postRouter);
 
+import commentRouter from './routers/commentRouter';
+app.use('/comment', commentRouter);
+
 // Connect to db
 import { sequelize } from './pg';
 (async () => {
