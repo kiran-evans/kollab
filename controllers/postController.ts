@@ -102,3 +102,29 @@ export const upvotePost = (async (req, res) => {
         console.error(err);
     }
 }) satisfies RequestHandler;
+
+export const downvotePost = (async (req, res) => {
+    try {
+        const user = await User.authenticate(req.body.idToken);
+        const post = await Post.findByPk(req.params.id);
+        if (!post) return res.status(404).send();
+
+        if (post.downvotes.includes(user.id)) {
+            // If the user has already downvoted this post, remove the downvote
+            const index = post.downvotes.indexOf(user.id);
+            post.downvotes.splice(index, 1);
+        } else {
+            // Else, add them to the list of downvotes
+            post.downvotes.push(user.id);
+        }
+
+        await post.save();
+
+        return res.status(200).send(post.toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
