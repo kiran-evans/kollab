@@ -5,6 +5,7 @@ import { sequelize } from '../lib/pg';
 export class User extends Model {
     declare id: string;
     declare firebase_id: string;
+    declare username: string;
 
     static authenticate = async (idToken: string): Promise<User> => {
         const decodedIdToken = await firebase.auth().verifyIdToken(idToken)
@@ -37,6 +38,11 @@ User.init({
     },
     firebase_id: {
         type: DataTypes.UUID,
+        allowNull: false,
+        unique: true
+    },
+    username: {
+        type: DataTypes.TEXT,
         allowNull: false,
         unique: true
     }

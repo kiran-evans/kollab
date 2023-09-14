@@ -9,6 +9,15 @@ export class Post extends Model {
     declare upvotes: Array<string>;
     declare downvotes: Array<string>;
     declare comments: Array<string>;
+    declare tools: Array<string>;
+    declare difficulty: Difficulty;
+}
+
+export enum Difficulty {
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+    'Expert'
 }
 
 Post.init({
@@ -43,6 +52,14 @@ Post.init({
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
         defaultValue: []
+    },
+    tools: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false,
+        defaultValue: []
+    },
+    difficulty: {
+        type: DataTypes.ENUM({ values: Object.keys(Difficulty) })
     }
 }, {
     sequelize,
