@@ -11,7 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .all(
-        param('id').isUUID()
+        param('id').notEmpty().isUUID()
     )
     .put(
         body('idToken').notEmpty().isJWT(),

@@ -76,3 +76,29 @@ export const deletePost = (async (req, res) => {
         console.error(err);
     }
 }) satisfies RequestHandler;
+
+export const upvotePost = (async (req, res) => {
+    try {
+        const user = await User.authenticate(req.body.idToken);
+        const post = await Post.findByPk(req.params.id);
+        if (!post) return res.status(404).send();
+
+        if (post.upvotes.includes(user.id)) {
+            // If the user has already upvoted this post, remove the upvote
+            const index = post.upvotes.indexOf(user.id);
+            post.upvotes.splice(index, 1);
+        } else {
+            // Else, add them to the list of upvotes
+            post.upvotes.push(user.id);
+        }
+
+        await post.save();
+
+        return res.status(200).send(post.toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
