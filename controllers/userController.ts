@@ -20,7 +20,10 @@ export const getUser = (async (req, res) => {
 
         if (!user) return res.status(404).send();
 
-        return res.status(200).json(user.toJSON());
+        // Exclude the firebase_id from the returned body
+        const { firebase_id, ...body } = user.toJSON();
+
+        return res.status(200).json(body);
 
     } catch (err: any) {
         res.statusMessage = err;

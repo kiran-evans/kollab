@@ -8,6 +8,7 @@ const router = Router();
 router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
+        body('username').notEmpty().isAlphanumeric().isLength({ min: 3, max: 15 }),
         createUser
     )
     .put(
