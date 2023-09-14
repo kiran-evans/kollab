@@ -15,6 +15,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+import postRouter from './routers/postRouter';
+app.use('/post', postRouter);
+
 // Connect to db
 import { sequelize } from './pg';
 (async () => {
