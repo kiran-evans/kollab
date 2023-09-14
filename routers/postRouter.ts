@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createPost, getPost, updatePost } from "../controllers/postController";
+import { createPost, deletePost, getPost, updatePost } from "../controllers/postController";
 
 const router = Router();
 
@@ -25,11 +25,9 @@ router.route('/:id')
         body('body').notEmpty().isString(),
         updatePost
     )
-    .patch(
-        body('idToken').notEmpty().isJWT()
-    )
     .delete(
-        body('idToken').notEmpty().isJWT()
+        body('idToken').notEmpty().isJWT(),
+        deletePost
     );
 
 export default router;

@@ -6,13 +6,13 @@ export const createPost = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
 
-        Post.create({
+        const post = await Post.create({
             author_id: user.id,
             title: req.body.title,
             body: req.body.body
         });
 
-        return res.status(201).send();
+        return res.status(201).json(post.toJSON());
 
     } catch (err: any) {
         res.statusMessage = err;
@@ -39,15 +39,36 @@ export const getPost = (async (req, res) => {
 export const updatePost = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
-        await Post.update({
+        const [affectedCount, affectedRows] = await Post.update({
             ...req.body
         }, {
             where: {
+                id: req.params.id,
+                author_id: user.id
+            },
+            returning: true
+        });
+
+        return res.status(200).send(affectedRows[0].toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
+
+export const deletePost = (async (req, res) => {
+    try {
+        const user = await User.authenticate(req.body.idToken);
+        await Post.destroy({
+            where: {
+                id: req.params.id,
                 author_id: user.id
             }
         });
 
-        return res.status(200).send();
+        return res.status(204).send();
 
     } catch (err: any) {
         res.statusMessage = err;
