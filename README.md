@@ -4,8 +4,13 @@ A collaborative note-taking app
 
 ## env
 
-`PG_URL`
+```env
+PG_URL
 
-`PORT`
+FB_CLIENT_EMAIL
+FB_PRIVATE_KEY
+FB_PROJECT_ID
 
-`DOMAIN`
+PORT
+DOMAIN
+```
