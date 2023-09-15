@@ -1,12 +1,28 @@
 import './App.css'
+import Root from './components/Root/Root'
+import Main from './components/Main/Main'
 
-import Nav from './components/Nav/Nav'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children:[
+      {
+        path: '/',
+        element:<Main />,
+      },
+    ],
+  }
+])
 
 function App() {
   document.title = "Collab-Rate"
   return (
     <>
-    <Nav />
+    <RouterProvider router={routes} />
     </>
   )
 }
