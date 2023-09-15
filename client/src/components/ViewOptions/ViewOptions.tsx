@@ -1,3 +1,5 @@
+import './ViewOptions.css'
+
 function ViewOptions() {
   return (
     <div className="view-options">

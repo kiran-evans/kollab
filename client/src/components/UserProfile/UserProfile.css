@@ -1,3 +1,7 @@
+.user-session {
+    display: flex;
+    align-items: center;
+}
 #user-icon {
     display: grid;
     background-color: #1ad;
@@ -8,4 +12,9 @@
     width: 3rem;
     height: 3rem;
     cursor: pointer;
+}
+.user-auth a {
+    padding: 0.25rem 0;
+    margin: 0.25rem;
+    border-bottom: 0.2rem white double;
 }
