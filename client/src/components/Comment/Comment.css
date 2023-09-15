@@ -1,0 +1,17 @@
+.comment {
+    text-align: left;
+    padding: 0 1rem;
+    margin: 1rem 0;
+}
+.comment * {
+    margin: 0;
+    padding: 0;
+}
+.comment .comment-author {
+    font-style: italic;
+    text-decoration: none;
+    color: #FFF;
+}
+.comment .comment-message {
+    padding-left: 1rem;
+}

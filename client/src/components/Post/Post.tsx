@@ -9,6 +9,9 @@ function Post() {
             <p>Difficulty: Intermediate</p>
             <p>Duration: 12 Days </p>
         </div>
+        <h3 className='post-title'>
+            Title
+        </h3>
         <div className="post-tools">
             <p>JavaScript</p>
             <p>React</p>

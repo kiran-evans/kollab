@@ -1,5 +1,5 @@
 .post {
-    background-color: #0013;
+    background-color: #0023;
     padding: 0.25rem 0.75rem;
     margin: 2rem 1rem;
 }
@@ -11,6 +11,9 @@
 }
 .post .post-tools {
     border: 0.1rem solid #FFF1;
+    padding: 0 1rem;
+    width: 85%;
+    margin-inline: auto;
 }
 .post .image {
     display: block;

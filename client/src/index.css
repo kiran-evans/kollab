@@ -13,3 +13,63 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+body {
+  margin: 0;
+  padding: 0;
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100dvh;
+  text-align: center;
+  display: grid;
+  grid-template-rows: auto 1fr ;
+}
+main {
+  width: 100%;
+  /* min-height: 100%; */
+  overflow: auto;
+  background-color: #0022;
+}
+fieldset {
+  background-color: #0012;
+  border: 1px solid #FFF1;
+  text-align: left;
+  min-width: max-content;
+  width: 30%;
+  margin: 3rem auto;
+}
+fieldset legend {
+  font-weight: bold;
+}
+fieldset label, fieldset input {
+  display: block;
+}
+fieldset input:not(input[type=submit]) {
+  border: 1px solid #FFF1;
+  width: 100%;
+  height: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+fieldset input[type=submit] {
+  border: 1px solid #FFF1;
+  box-shadow: 0.1rem 0.1rem 0rem #FFF4;
+  margin: 0 0.5rem;
+  padding: 0.25rem;
+  margin-inline: auto;
+}
+fieldset input[type=submit]:hover {
+  font-weight: bold;
+}
+fieldset input[type=submit]:active {
+  scale: 0.9;
+}
+
+
+
+a:hover::before {
+  content: '> ';
+}
+a:hover::after {
+  content: ' <';
+}

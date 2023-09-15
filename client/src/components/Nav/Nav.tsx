@@ -17,11 +17,16 @@ function Nav() {
                 <NavLink to='/'>
                     Home
                 </NavLink>
-                <NavLink to='main'>
-                    Main
+                <NavLink to='/comments'>
+                    Comments
+                    {/* Move to userprofile dropdown menu */}
                 </NavLink>
-                <NavLink to='about'>
-                    About
+                <NavLink to='/posts/userid'>
+                    Saved
+                </NavLink>
+                <NavLink to='/posts/userid'>
+                    My Posts
+                    {/* Move to userprofile dropdown menu */}
                 </NavLink>
             </nav>
         </div>
