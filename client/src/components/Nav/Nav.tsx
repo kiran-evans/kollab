@@ -2,25 +2,27 @@ import './Nav.css';
 import Search from '../Search/Search';
 import UserProfile from '../UserProfile/UserProfile';
 
+import { Link, NavLink } from 'react-router-dom';
+
 function Nav() {
   return (
     <header>
         <div className="head-right">
             <h1>
-                <a href='/home'>
+                <Link to='/'>
                     Collab-rate
-                </a>
+                </Link>
             </h1>
             <nav>
-                <a href='home'>
+                <NavLink to='/'>
                     Home
-                </a>
-                <a href='main'>
+                </NavLink>
+                <NavLink to='main'>
                     Main
-                </a>
-                <a href='about'>
+                </NavLink>
+                <NavLink to='about'>
                     About
-                </a>
+                </NavLink>
             </nav>
         </div>
         <div className="head-left">

@@ -1,0 +1,22 @@
+.post {
+    background-color: #0013;
+    padding: 0.25rem 0.75rem;
+    margin: 2rem 1rem;
+}
+
+.post div {
+    display: flex;
+    margin: 0.75rem 0;
+    justify-content: space-between;
+}
+.post .post-tools {
+    border: 0.1rem solid #FFF1;
+}
+.post .image {
+    display: block;
+    width: 100%;
+    background-color: #0009;
+}
+.post .post-rating {
+    display: block;
+}
