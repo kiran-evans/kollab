@@ -1,8 +1,9 @@
 .user-session {
     display: flex;
     align-items: center;
+    position: relative;
 }
-#user-icon {
+.user-icon {
     display: grid;
     background-color: #1ad;
     border: 0.1rem solid #FFF;

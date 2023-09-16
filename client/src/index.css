@@ -65,8 +65,10 @@ fieldset input[type=submit]:active {
   scale: 0.9;
 }
 
-
-
+p {
+  margin: 0.125rem 0.5rem;
+  padding: 0;
+}
 a:hover::before {
   content: '> ';
 }

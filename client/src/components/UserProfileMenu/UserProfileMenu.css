@@ -1,0 +1,25 @@
+.user-profile-menu {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    translate: 0% 100%;
+    padding: 0.5rem 1rem;
+    display: none;
+    gap: 0.5rem;
+    flex-direction: column;
+    
+    background-color: #002E;
+    border: 0.1rem solid #FFF;
+}
+.user-profile-menu a {
+    border-bottom: 0.1rem solid #FFF;
+}
+#user-profile-check {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#user-profile-check:checked ~ .user-profile-menu {
+    display: flex;
+}

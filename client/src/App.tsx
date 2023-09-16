@@ -7,6 +7,7 @@ import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 import Comments from './pages/comments/Comments'
+import UserPreferences from './pages/userPreferences/UserPreferences'
 
 const routes = createBrowserRouter([
   {
@@ -23,6 +24,9 @@ const routes = createBrowserRouter([
           }, {
             path: 'comments',
             element: <Comments />
+          }, {
+            path: '/preference',
+            element: <UserPreferences />
           }
         ]
       }, {
