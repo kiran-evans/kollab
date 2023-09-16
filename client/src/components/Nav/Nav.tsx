@@ -19,20 +19,17 @@ function Nav() {
                 </NavLink>
                 <NavLink to='/comments'>
                     Comments
-                    {/* Move to userprofile dropdown menu */}
                 </NavLink>
                 <NavLink to='/posts/userid'>
                     Saved
-                </NavLink>
-                <NavLink to='/posts/userid'>
-                    My Posts
-                    {/* Move to userprofile dropdown menu */}
                 </NavLink>
             </nav>
         </div>
         <div className="head-left">
             <Search />
-            <p>Theme</p>
+            <div className="theme-mode">
+                <p>Theme</p>
+            </div>
             <UserProfile />
         </div>
     </header>

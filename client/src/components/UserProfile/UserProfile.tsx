@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './UserProfile.css'
+import UserProfileMenu from '../UserProfileMenu/UserProfileMenu'
 function UserProfile() {
   return (
     <>
@@ -13,7 +14,11 @@ function UserProfile() {
           Login
         </Link>
       </div>
-      <div id='user-icon'>USR</div>
+      <label htmlFor="user-profile-check">
+      <div className='user-icon'>USR</div>
+      </label>
+      <input type="checkbox" name="user-profile-check" id="user-profile-check" />
+      <UserProfileMenu />
     </div>
     </>
   )

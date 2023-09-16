@@ -1,4 +1,4 @@
-function UserPreferences() {
+export default function UserPreferences() {
   return (
     <div>
         User Settings
@@ -12,5 +12,3 @@ function UserPreferences() {
     </div>
   )
 }
-
-export default UserPreferences
