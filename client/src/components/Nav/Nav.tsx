@@ -23,6 +23,9 @@ function Nav() {
                 <NavLink to='/posts/userid'>
                     Saved
                 </NavLink>
+                <NavLink to='/new-post'>
+                    New Post
+                </NavLink>
             </nav>
         </div>
         <div className="head-left">

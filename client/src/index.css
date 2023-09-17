@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   padding: 0;
@@ -39,17 +42,23 @@ fieldset {
   width: 30%;
   margin: 3rem auto;
 }
+fieldset fieldset {
+  margin: 0;
+  width: 100%;
+}
 fieldset legend {
   font-weight: bold;
 }
-fieldset label, fieldset input {
+fieldset label, fieldset input:not(input[type=radio]), fieldset textarea {
   display: block;
 }
-fieldset input:not(input[type=submit]) {
+fieldset input:not(input[type=submit], input[type=radio]), fieldset textarea {
   border: 1px solid #FFF1;
   width: 100%;
-  height: 1.5rem;
   margin-bottom: 0.75rem;
+}
+fieldset input:not(input[type=submit]) {
+  height: 1.5rem;
 }
 fieldset input[type=submit] {
   border: 1px solid #FFF1;
@@ -64,7 +73,6 @@ fieldset input[type=submit]:hover {
 fieldset input[type=submit]:active {
   scale: 0.9;
 }
-
 p {
   margin: 0.125rem 0.5rem;
   padding: 0;

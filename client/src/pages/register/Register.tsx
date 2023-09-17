@@ -15,7 +15,7 @@ export default function Register () {
                     </label>
                     <label htmlFor="confirm-password">
                         Confirm-Password:
-                        <input type="password" name="confirm-password" id="cconfirm-password" />
+                        <input type="password" name="confirm-password" id="confirm-password" />
                     </label>
                 <input type="submit" value="Submit" />
                 </fieldset>
