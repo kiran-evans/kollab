@@ -8,6 +8,7 @@ import Register from './pages/register/Register'
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes'
 import Comments from './pages/comments/Comments'
 import UserPreferences from './pages/userPreferences/UserPreferences'
+import NewPost from './pages/NewPost/NewPost'
 
 const routes = createBrowserRouter([
   {
@@ -22,6 +23,9 @@ const routes = createBrowserRouter([
             path: '',
             element: <Posts />
           }, {
+            path: '/new-post',
+            element: <NewPost />
+          }, {
             path: 'comments',
             element: <Comments />
           }, {
@@ -35,7 +39,11 @@ const routes = createBrowserRouter([
       }, {
         path: '/register',
         element: <Register />
-      }, 
+      },
+      {
+        path: '*',
+        element: <h1>404 Page Not found</h1>
+      } 
     ],
   }
 ])
