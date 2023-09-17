@@ -12,6 +12,7 @@ export const createPost = (async (req, res) => {
             body: req.body.body
         });
 
+        // Send the Post body back in the response
         return res.status(201).json(post.toJSON());
 
     } catch (err: any) {
@@ -23,10 +24,13 @@ export const createPost = (async (req, res) => {
 
 export const getPost = (async (req, res) => {
     try {
+        // Anyone can get a Post by its id
         const post = await Post.findByPk(req.params.id);
 
+        // Return status 404 if no Post found with that id
         if (!post) return res.status(404).send();
 
+        // Respond with the Post body as JSON
         return res.status(200).json(post.toJSON());
 
     } catch (err: any) {
@@ -38,7 +42,10 @@ export const getPost = (async (req, res) => {
 
 export const updatePost = (async (req, res) => {
     try {
+        // Authenticate the request
         const user = await User.authenticate(req.body.idToken);
+
+        // Update the Post body only if the User sending the request is the author of the Post
         const [affectedCount, affectedRows] = await Post.update({
             ...req.body
         }, {
@@ -49,6 +56,7 @@ export const updatePost = (async (req, res) => {
             returning: true
         });
 
+        // Respond with the result of the update() query
         return res.status(200).send(affectedRows[0].toJSON());
 
     } catch (err: any) {
@@ -61,6 +69,8 @@ export const updatePost = (async (req, res) => {
 export const deletePost = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
+
+        // Delete the Post if the User sending the request is the author of the Post
         await Post.destroy({
             where: {
                 id: req.params.id,
@@ -79,10 +89,16 @@ export const deletePost = (async (req, res) => {
 
 export const upvotePost = (async (req, res) => {
     try {
+        // Authenticate the user
         const user = await User.authenticate(req.body.idToken);
+
+        // Find the post
         const post = await Post.findByPk(req.params.id);
+
+        // If there is no Post with that id, respond with status 404
         if (!post) return res.status(404).send();
 
+        // Add or remove the User's id to the Post's 'upvotes' column
         if (post.upvotes.includes(user.id)) {
             // If the user has already upvoted this post, remove the upvote
             const index = post.upvotes.indexOf(user.id);
