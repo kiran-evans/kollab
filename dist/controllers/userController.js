@@ -24,6 +24,7 @@ exports.deleteUser = exports.updateUser = exports.getUser = exports.createUser =
 const User_1 = require("../models/User");
 exports.createUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Calling the authenticate() method will find or create a user with a valid Firebase Auth instance
         const user = yield User_1.User.authenticate(req.params.idToken);
         return res.status(201).json(user.toJSON());
     }
@@ -35,11 +36,12 @@ exports.createUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 exports.getUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Get any user by their id. Anyone with access to the API can perform this request.
         const user = yield User_1.User.findByPk(req.params.id);
         if (!user)
             return res.status(404).send();
-        // Exclude the firebase_id from the returned body
-        const _a = user.toJSON(), { firebase_id } = _a, body = __rest(_a, ["firebase_id"]);
+        // Exclude sensitive and irrelevant data from the returned body
+        const _a = user.toJSON(), { firebase_id, date_created, date_modified } = _a, body = __rest(_a, ["firebase_id", "date_created", "date_modified"]);
         return res.status(200).json(body);
     }
     catch (err) {
@@ -50,7 +52,9 @@ exports.getUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 exports.updateUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Authenticate the request first
         const user = yield User_1.User.authenticate(req.body.idToken);
+        // Update the user data if the request comes from the same user
         const [affectedCount, affectedRows] = yield User_1.User.update(Object.assign({}, req.body), {
             where: {
                 id: user.id
@@ -67,7 +71,9 @@ exports.updateUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 exports.deleteUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Authenticate the request comes from a valid Firebase Auth user
         const user = yield User_1.User.authenticate(req.body.idToken);
+        // Delete the user if the id matches the one who sent the request
         yield User_1.User.destroy({
             where: {
                 id: user.id
