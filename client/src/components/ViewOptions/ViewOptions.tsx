@@ -1,48 +1,88 @@
-import './ViewOptions.css'
+import { useState } from "react";
+import "./ViewOptions.css";
+import ViewTool from "../ViewTool/ViewTool";
 
 function ViewOptions() {
-  return (
-    <div className="view-options">
-        <label htmlFor="sort">
-          Sort:
-          <select name="sort" id="sort-options">
-            <option value="date">Date</option>
-            <option value="score">Score</option>
-            <option value="username">Username</option>
-            <option value="duration">Duration</option>
-          </select>
-        </label>
-        <label htmlFor="difficulty">
-          Difficulty:
-          <select name="difficult" id="difficulty-options">
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="expert">Expert</option>
-          </select>
-        </label>
-        <div className="tools-filter">
-          <p>Tools</p>
-          <label htmlFor="nodejs">
-            NodeJs:
-            <input type="checkbox" name="nodejs" id="nodejs" />
-          </label>
-          <label htmlFor="React">
-            React:
-            <input type="checkbox" name="reactjs" id="reactjs" />
-          </label>
-          <label htmlFor="javascript">
-            JavaScript:
-            <input type="checkbox" name="javascript" id="javascript" />
-          </label>
+    const tempTools = [
+        {
+            name: "javaScript",
+            isChecked: false,
+        },
+        {
+            name: "node",
+            isChecked: false,
+        },
+    ];
+    const [viewOptions, setViewOptions] = useState({
+        sort: "date",
+        difficulty: "",
+        tools: [...tempTools], // Array of all tools used by projects
+    });
+
+    const handleSelector = ({ target }) => {
+        setViewOptions((prev) => ({ ...prev, [target.name]: target.value }));
+    };
+
+    const handleReset = () => {
+        setViewOptions({
+            sort: "date",
+            difficulty: "",
+            tools: [...viewOptions.tools.map(tool=> ({...tool, isChecked: false}))],
+        });
+    };
+
+    const handleToolCheck = ({ target }) => {
+      // loops through tools n toggle obj with matching name
+        setViewOptions((prev) => ({
+            ...prev,
+            tools: [
+                ...prev.tools.map((tool) => {
+                    if (tool.name == target.name) {
+                        return { name: tool.name, isChecked: target.checked };
+                    } else {
+                        return tool;
+                    }
+                }),
+            ],
+        }));
+    };
+
+    return (
+        <div className="view-options">
+            <label htmlFor="sort">
+                Sort:
+                <select name="sort" id="sort-options" onChange={(e) => handleSelector(e)}>
+                    <option value="date">Date</option>
+                    <option value="score">Score</option>
+                    <option value="username">Username</option>
+                    <option value="duration">Duration</option>
+                </select>
+            </label>
+            <label htmlFor="difficulty">
+                Difficulty:
+                <select name="difficulty" id="difficulty-options" onChange={(e) => handleSelector(e)}>
+                    <option value="">All</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </label>
+            <div className="tools-filter">
+                <p>Tools</p>
+                {viewOptions.tools.map((tool) => (
+                    <ViewTool
+                        key={tool.name}
+                        name={tool.name}
+                        isChecked={tool.isChecked}
+                        handleChange={handleToolCheck}
+                    />
+                ))}
+            </div>
+
+            <input type="button" value="Reset" onClick={() => handleReset()} />
         </div>
-        <label htmlFor="only-saved">
-          Show only saved:
-          <input type="checkbox" name="only-saved" id="only-saved" />
-        </label>
-        <input type="button" value="Reset" />
-      </div>
-  )
+    );
 }
 
-export default ViewOptions
+export default ViewOptions;
