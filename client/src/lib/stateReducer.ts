@@ -1,5 +1,5 @@
-import type { User } from 'firebase/auth';
 import { Reducer } from 'react';
+import { User } from '../../../models/User';
 
 /**
  * @type AppState
