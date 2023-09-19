@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
 
 /**
- * @type {Object} Comment
+ * @type Comment
  * @property {string} id - The UUID of this Comment
  * @property {string} author_id - The UUID of the User who made this Comment
  * @property {string} body - The stringified markdown body of this Comment

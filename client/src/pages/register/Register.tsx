@@ -50,19 +50,19 @@ export default function Register() {
 
                     <label htmlFor="email">
                         Email:
-                        <input type="email" name="email" id="email" />
+                        <input type="email" name="email" id="email" value={formEntries.email} onChange={e => setFormEntries({...formEntries, email: e.target.value})} />
                     </label>
                     <label htmlFor="username">
                         Username:
-                        <input type="text" name="username" id="username" />
+                        <input type="text" name="username" id="username" value={formEntries.username} onChange={e => setFormEntries({...formEntries, username: e.target.value})} />
                     </label>
                     <label htmlFor="password">
                         Password:
-                        <input type="password" name="password" id="password" />
+                        <input type="password" name="password" id="password" value={formEntries.password} onChange={e => setFormEntries({...formEntries, password: e.target.value})} />
                     </label>
                     <label htmlFor="confirm-password">
                         Confirm Password:
-                        <input type="password" name="confirm-password" id="confirm-password" />
+                        <input type="password" name="confirm-password" id="confirm-password" value={formEntries.confirmPassword} onChange={e => setFormEntries({...formEntries, confirmPassword: e.target.value})} />
                     </label>
                 <input type="submit" value="Submit" />
                 </fieldset>

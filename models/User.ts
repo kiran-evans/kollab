@@ -3,7 +3,7 @@ import { firebase } from '../lib/fb';
 import { sequelize } from '../lib/pg';
 
 /**
- * @type {Object} User
+ * @type User
  * @property {string} id - The UUID of the User
  * @property {string} firebase_id - The id of the Firebase Auth user associated with this User
  * @property {string} username - This User's username
@@ -15,7 +15,7 @@ export class User extends Model {
 
     /**
      * Verifies that the idToken is valid, and returns the associated user data from the database.
-     * Will throw an error if the provided idToken is not valid.
+     * Will throw an error if the provided idToken is not valid or there is no user in the database with that Firebase Auth uid.
      * 
      * @param {string} idToken - The Firebase idToken to be verified.
      * 
@@ -25,22 +25,21 @@ export class User extends Model {
         // Get auth user object from Firebase Auth
         const decodedIdToken = await firebase.auth().verifyIdToken(idToken)
             .catch(err => {
-                return null;
+                throw err;
             });
         // If idToken is invalid
-        if (!decodedIdToken) throw "Failed authentication.";
+        if (!decodedIdToken) {
+            throw "Failed to verifify idToken.";
+        }
 
         // Create a new user in the db - or get the user if already exists - and return the data
-        const [user, created] = await User.findOrCreate({
+        const user = await User.findOne({
             where: {
-                firebase_id: decodedIdToken.uid
-            },
-            defaults: {
                 firebase_id: decodedIdToken.uid
             }
         });
 
-        if (created) console.log(`[server] created user '${user.id}'`);        
+        if (!user) throw `User with firebase_auth_id=${decodedIdToken.uid} does not exist in the database.`;
 
         return user;
     }
@@ -53,7 +52,7 @@ User.init({
         defaultValue: DataTypes.UUIDV4
     },
     firebase_id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },

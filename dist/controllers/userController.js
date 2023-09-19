@@ -21,11 +21,19 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUser = exports.createUser = void 0;
+const fb_1 = require("../lib/fb");
 const User_1 = require("../models/User");
 exports.createUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Calling the authenticate() method will find or create a user with a valid Firebase Auth instance
-        const user = yield User_1.User.authenticate(req.params.idToken);
+        // Get auth user object from Firebase Auth
+        const decodedIdToken = yield fb_1.firebase.auth().verifyIdToken(req.body.idToken);
+        if (!decodedIdToken) {
+            throw "Failed to verify idToken.";
+        }
+        const user = yield User_1.User.create({
+            username: req.body.username,
+            firebase_id: decodedIdToken.uid
+        });
         return res.status(201).json(user.toJSON());
     }
     catch (err) {

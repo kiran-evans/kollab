@@ -26,11 +26,11 @@ app.get('/', (req, res) => {
     res.sendFile(path_1.default.join(__dirname, '/index.html'));
 });
 const commentRouter_1 = __importDefault(require("./routers/commentRouter"));
-app.use('/comment', commentRouter_1.default);
+app.use('/api/comment', commentRouter_1.default);
 const postRouter_1 = __importDefault(require("./routers/postRouter"));
-app.use('/post', postRouter_1.default);
+app.use('/api/post', postRouter_1.default);
 const userRouter_1 = __importDefault(require("./routers/userRouter"));
-app.use('/user', userRouter_1.default);
+app.use('/api/user', userRouter_1.default);
 // Connect to db
 const pg_1 = require("./lib/pg");
 (() => __awaiter(void 0, void 0, void 0, function* () {
