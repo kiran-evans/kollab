@@ -20,6 +20,7 @@ exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
             title: req.body.title,
             body: req.body.body
         });
+        // Send the Post body back in the response
         return res.status(201).json(post.toJSON());
     }
     catch (err) {
@@ -30,9 +31,12 @@ exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 exports.getPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Anyone can get a Post by its id
         const post = yield Post_1.Post.findByPk(req.params.id);
+        // Return status 404 if no Post found with that id
         if (!post)
             return res.status(404).send();
+        // Respond with the Post body as JSON
         return res.status(200).json(post.toJSON());
     }
     catch (err) {
@@ -43,7 +47,9 @@ exports.getPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () 
 }));
 exports.updatePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Authenticate the request
         const user = yield User_1.User.authenticate(req.body.idToken);
+        // Update the Post body only if the User sending the request is the author of the Post
         const [affectedCount, affectedRows] = yield Post_1.Post.update(Object.assign({}, req.body), {
             where: {
                 id: req.params.id,
@@ -51,6 +57,7 @@ exports.updatePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
             },
             returning: true
         });
+        // Respond with the result of the update() query
         return res.status(200).send(affectedRows[0].toJSON());
     }
     catch (err) {
@@ -62,6 +69,7 @@ exports.updatePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.deletePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.User.authenticate(req.body.idToken);
+        // Delete the Post if the User sending the request is the author of the Post
         yield Post_1.Post.destroy({
             where: {
                 id: req.params.id,
@@ -78,10 +86,14 @@ exports.deletePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 exports.upvotePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Authenticate the user
         const user = yield User_1.User.authenticate(req.body.idToken);
+        // Find the post
         const post = yield Post_1.Post.findByPk(req.params.id);
+        // If there is no Post with that id, respond with status 404
         if (!post)
             return res.status(404).send();
+        // Add or remove the User's id to the Post's 'upvotes' column
         if (post.upvotes.includes(user.id)) {
             // If the user has already upvoted this post, remove the upvote
             const index = post.upvotes.indexOf(user.id);

@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
 
 /**
- * @type {Object} Post
+ * @type Post
  * @property {string} id - The UUID of this Post
  * @property {string} author_id - The UUID of the author User of this Post
  * @property {string} title - The title of this Post

@@ -3,6 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Comment = void 0;
 const sequelize_1 = require("sequelize");
 const pg_1 = require("../lib/pg");
+/**
+ * @type Comment
+ * @property {string} id - The UUID of this Comment
+ * @property {string} author_id - The UUID of the User who made this Comment
+ * @property {string} body - The stringified markdown body of this Comment
+ */
 class Comment extends sequelize_1.Model {
 }
 exports.Comment = Comment;

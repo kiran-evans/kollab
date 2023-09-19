@@ -1,7 +1,10 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import './UserProfile.css'
+import { AppContext } from '../../lib/ContextProvider'
 import UserProfileMenu from '../UserProfileMenu/UserProfileMenu'
+import './UserProfile.css'
 function UserProfile() {
+    const { state } = useContext(AppContext);
   return (
     <>
     <div className='user-session'>
@@ -15,7 +18,7 @@ function UserProfile() {
         </Link>
       </div>
       <label htmlFor="user-profile-check">
-      <div className='user-icon'>USR</div>
+                  <div className='user-icon'>{state.user?.username ?? ':)'}</div>
       </label>
       <input type="checkbox" name="user-profile-check" id="user-profile-check" />
       <UserProfileMenu />

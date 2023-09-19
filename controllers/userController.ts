@@ -1,10 +1,19 @@
 import { RequestHandler } from "express";
+import { firebase } from "../lib/fb";
 import { User } from "../models/User";
 
 export const createUser = (async (req, res) => {
     try {
-        // Calling the authenticate() method will find or create a user with a valid Firebase Auth instance
-        const user = await User.authenticate(req.params.idToken);
+        // Get auth user object from Firebase Auth
+        const decodedIdToken = await firebase.auth().verifyIdToken(req.body.idToken);
+        if (!decodedIdToken) {
+            throw "Failed to verify idToken.";
+        }
+
+        const user = await User.create({
+            username: req.body.username,
+            firebase_id: decodedIdToken.uid
+        });
 
         return res.status(201).json(user.toJSON());
 

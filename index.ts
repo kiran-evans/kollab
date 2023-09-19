@@ -16,13 +16,13 @@ app.get('/', (req, res) => {
 });
 
 import commentRouter from './routers/commentRouter';
-app.use('/comment', commentRouter);
+app.use('/api/comment', commentRouter);
 
 import postRouter from './routers/postRouter';
-app.use('/post', postRouter);
+app.use('/api/post', postRouter);
 
 import userRouter from './routers/userRouter';
-app.use('/user', userRouter);
+app.use('/api/user', userRouter);
 
 // Connect to db
 import { sequelize } from './lib/pg';
