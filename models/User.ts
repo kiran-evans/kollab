@@ -13,7 +13,8 @@ export class User extends Model {
     declare firebase_id: string;
     declare username: string;
 
-    /** Verifies that the idToken is valid, and returns the associated user data from the database.
+    /**
+     * Verifies that the idToken is valid, and returns the associated user data from the database.
      * Will throw an error if the provided idToken is not valid.
      * 
      * @param {string} idToken - The Firebase idToken to be verified.
