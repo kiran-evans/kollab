@@ -45,7 +45,7 @@
     margin-top: 0.75rem;
     padding: 0.5rem;
 }
-.tools-adder input {
+.tools-adder .tools-list input, .tools-adder .new-tool input  {
     margin: 0;
 }
 .tools-adder input[type=button] {

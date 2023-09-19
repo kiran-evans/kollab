@@ -15,3 +15,7 @@
 .comment .comment-message {
     padding-left: 1rem;
 }
+.comment input[type=button] {
+    margin: 0 0.5rem;
+    padding: 0 0.5rem;
+}
