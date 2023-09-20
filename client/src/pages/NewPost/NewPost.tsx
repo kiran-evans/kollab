@@ -82,11 +82,6 @@ export default function NewPost() {
                             </div>
                         ))}
                     </div>
-                    <div className="new-tool">
-                        <label htmlFor="tool-name">Name:</label>
-                        <input type="text" name="tool" id="tool-name" />
-                        <input id="add-tool" type="button" value="+" />
-                    </div>
                 </fieldset>
 
                 <label htmlFor="upload-file">
