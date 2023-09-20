@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Difficulty } from '../../../../models/Post';
-import { Tool } from '../../../../models/Tool';
+import { Difficulty } from '../../../../types/Post';
+import { Tool } from '../../../../types/Tool';
 import { createNewTool, getToolsByName } from '../../api/toolsApi';
 import { fb } from '../../lib/firebase';
 import "./NewPost.css";

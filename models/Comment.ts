@@ -1,13 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
+import { Comment } from "../types/Comment";
 
-export type Comment = {
-    id: string;
-    author_id: string;
-    message: string;
+export class CommentModel extends Model implements Comment {
+    declare id: string;
+    declare author_id: string;
+    declare message: string;
 }
-
-export class CommentModel extends Model {}
 CommentModel.init({
     id: {
         type: DataTypes.UUID,

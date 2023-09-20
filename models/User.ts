@@ -1,12 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { firebase } from '../lib/fb';
 import { sequelize } from '../lib/pg';
-
-export type User = {
-    id: string;
-    firebase_id: string;
-    username: string;
-}
+import { User } from '../types/User';
 
 export class UserModel extends Model implements User {
     declare id: string;

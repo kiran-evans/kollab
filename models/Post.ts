@@ -1,26 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
-
-export type Post = {
-    id: string;
-    author_id: string;
-    title: string;
-    message: string;
-    upvotes: Array<string>;
-    downvotes: Array<string>;
-    tools: Array<string>;
-    difficulty: Difficulty;
-}
-
-/**
- * The possible level of effort required
- */
-export enum Difficulty {
-    'Beginner',
-    'Intermediate',
-    'Advanced',
-    'Expert'
-}
+import { Difficulty, Post } from "../types/Post";
 
 export class PostModel extends Model implements Post {
     declare id: string;
