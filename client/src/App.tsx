@@ -18,9 +18,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/">
-                    <Root />
-
+                <Route path="/" element={<Root />}>
                     <Route path="" element={<Posts />} />
                     <Route path="new-post" element={<NewPost />} />
                     <Route path="comments" element={<Comments />} />
