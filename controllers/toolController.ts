@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
-import { Tool } from "../models/Tool";
-import { User } from "../models/User";
+import { ToolModel } from "../models/Tool";
+import { UserModel } from "../models/User";
 
 /**
  * Creates a Tool.
@@ -9,9 +9,9 @@ import { User } from "../models/User";
  */
 export const createTool = (async (req, res) => {
     try {
-        await User.authenticate(req.body.idToken);
+        await UserModel.authenticate(req.body.idToken);
 
-        const tool = await Tool.create({
+        const tool = await ToolModel.create({
             name: req.body.name
         });
 
@@ -35,7 +35,7 @@ export const getAllTools = (async (req, res) => {
     try {
         // If name is provided, return results of ILIKE.
         // If no name is provided, return results where name NOT null.
-        const tools = await Tool.findAll({
+        const tools = await ToolModel.findAll({
             order: [
                 ['createdAt', 'DESC']
             ],

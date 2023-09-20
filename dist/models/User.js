@@ -40,7 +40,7 @@ User.authenticate = (idToken) => __awaiter(void 0, void 0, void 0, function* () 
     });
     // If idToken is invalid
     if (!decodedIdToken) {
-        throw "Failed to verifify idToken.";
+        throw "Failed to verify idToken.";
     }
     // Create a new user in the db - or get the user if already exists - and return the data
     const user = yield _a.findOne({

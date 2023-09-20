@@ -11,7 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.updateComment = exports.getComment = exports.createComment = void 0;
 const Comment_1 = require("../models/Comment");
+const Post_1 = require("../models/Post");
 const User_1 = require("../models/User");
+/**
+ * Creates a Comment and then adds the Comment's UUID to the related Post's 'comments' column.
+ * @returns The updated Post.
+ */
 exports.createComment = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.User.authenticate(req.body.idToken);
@@ -19,8 +24,14 @@ exports.createComment = ((req, res) => __awaiter(void 0, void 0, void 0, functio
             author_id: user.id,
             body: req.body.body
         });
+        const post = yield Post_1.Post.findByPk(req.body.post_id);
+        if (!post)
+            throw `No Post exists with id=${req.body.post_id}.`;
+        // Add the new comment to the Post's 'comments' array and save it
+        post.comments.push(comment.id);
+        yield post.save();
         // Respond with the Comment's body as JSON
-        return res.status(201).json(comment.toJSON());
+        return res.status(201).json(post.toJSON());
     }
     catch (err) {
         res.statusMessage = err;

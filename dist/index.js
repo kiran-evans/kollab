@@ -26,6 +26,8 @@ const commentRouter_1 = __importDefault(require("./routers/commentRouter"));
 app.use('/api/comment', commentRouter_1.default);
 const postRouter_1 = __importDefault(require("./routers/postRouter"));
 app.use('/api/post', postRouter_1.default);
+const toolRouter_1 = __importDefault(require("./routers/toolRouter"));
+app.use('/api/tool', toolRouter_1.default);
 const userRouter_1 = __importDefault(require("./routers/userRouter"));
 app.use('/api/user', userRouter_1.default);
 app.get('*', (req, res) => {

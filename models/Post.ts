@@ -1,27 +1,15 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
 
-/**
- * @type Post
- * @property {string} id - The UUID of this Post
- * @property {string} author_id - The UUID of the author User of this Post
- * @property {string} title - The title of this Post
- * @property {string} message - The stringified message of this Post
- * @property {string[]} upvotes - UUIDs of the Users who upvoted this Post
- * @property {string[]} downvotes - UUIDs of the Users who downvoted this Post
- * @property {string[]} tools - UUIDs of the Tools which this Post is tagged with
- * @property {Difficulty} difficulty - The Difficulty rating of this Post
- */
-export class Post extends Model {
-    declare id: string;
-    declare author_id: string;
-    declare title: string;
-    declare message: string;
-    declare upvotes: Array<string>;
-    declare downvotes: Array<string>;
-    declare comments: Array<string>;
-    declare tools: Array<string>;
-    declare difficulty: Difficulty;
+export type Post = {
+    id: string;
+    author_id: string;
+    title: string;
+    message: string;
+    upvotes: Array<string>;
+    downvotes: Array<string>;
+    tools: Array<string>;
+    difficulty: Difficulty;
 }
 
 /**
@@ -34,7 +22,18 @@ export enum Difficulty {
     'Expert'
 }
 
-Post.init({
+export class PostModel extends Model implements Post {
+    declare id: string;
+    declare author_id: string;
+    declare title: string;
+    declare message: string;
+    declare upvotes: Array<string>;
+    declare downvotes: Array<string>;
+    declare comments: Array<string>;
+    declare tools: Array<string>;
+    declare difficulty: Difficulty;
+}
+PostModel.init({
     id: {
         type: DataTypes.UUID,
         primaryKey: true,

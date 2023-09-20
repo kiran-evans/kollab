@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { firebase } from "../lib/fb";
-import { User } from "../models/User";
+import { UserModel } from "../models/User";
 
 export const createUser = (async (req, res) => {
     try {
@@ -10,7 +10,7 @@ export const createUser = (async (req, res) => {
             throw "Failed to verify idToken.";
         }
 
-        const user = await User.create({
+        const user = await UserModel.create({
             username: req.body.username,
             firebase_id: decodedIdToken.uid
         });
@@ -27,7 +27,7 @@ export const createUser = (async (req, res) => {
 export const getUser = (async (req, res) => {
     try {
         // Get any user by their id. Anyone with access to the API can perform this request.
-        const user = await User.findByPk(req.params.id);
+        const user = await UserModel.findByPk(req.params.id);
 
         if (!user) return res.status(404).send();
 
@@ -46,14 +46,14 @@ export const getUser = (async (req, res) => {
 export const updateUser = (async (req, res) => {
     try {
         // Authenticate the request first
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         // Update the user data if the request comes from the same user
-        const [affectedCount, affectedRows] = await User.update({
+        const [affectedCount, affectedRows] = await UserModel.update({
             ...req.body
         }, {
             where: {
-                id: user.id
+                id: user.getDataValue('id')
             },
             returning: true
         });
@@ -70,12 +70,12 @@ export const updateUser = (async (req, res) => {
 export const deleteUser = (async (req, res) => {
     try {
         // Authenticate the request comes from a valid Firebase Auth user
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         // Delete the user if the id matches the one who sent the request
-        await User.destroy({
+        await UserModel.destroy({
             where: {
-                id: user.id
+                id: user.getDataValue('id')
             }
         });
 

@@ -1,17 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
 
-/**
- * @type Tool
- * @property {string} id - The UUID of this Tool
- * @property {string} name - The string to be used to represent this Tool
- */
-export class Tool extends Model {
-    declare id: string;
-    declare name: string;
+export type Tool = {
+    id: string;
+    name: string;
 }
 
-Tool.init({
+export class ToolModel extends Model {}
+ToolModel.init({
     id: {
         type: DataTypes.UUID,
         primaryKey: true,

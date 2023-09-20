@@ -16,10 +16,20 @@ const User_1 = require("../models/User");
 exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.User.authenticate(req.body.idToken);
+        /*
+            Convert the array of Tool objects into an array of
+            UUIDs for the relation database.
+        */
+        const tools = Array();
+        req.body.tools.forEach((tool) => {
+            tools.push(tool.id);
+        });
         const post = yield Post_1.Post.create({
             author_id: user.id,
             title: req.body.title,
-            body: req.body.body
+            message: req.body.message,
+            tools: tools,
+            difficulty: req.body.difficulty
         });
         // Send the Post body back in the response
         return res.status(201).json(post.toJSON());

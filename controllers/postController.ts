@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
-import { Post } from "../models/Post";
+import { PostModel } from "../models/Post";
 import { Tool } from "../models/Tool";
-import { User } from "../models/User";
+import { UserModel } from "../models/User";
 
 export const createPost = (async (req, res) => {
     try {
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         /* 
             Convert the array of Tool objects into an array of
@@ -17,8 +17,8 @@ export const createPost = (async (req, res) => {
             tools.push(tool.id);
         });
         
-        const post = await Post.create({
-            author_id: user.id,
+        const post = await PostModel.create({
+            author_id: user.getDataValue('id'),
             title: req.body.title,
             message: req.body.message,
             tools: tools,
@@ -38,7 +38,7 @@ export const createPost = (async (req, res) => {
 export const getPostById = (async (req, res) => {
     try {
         // Anyone can get a Post by its id
-        const post = await Post.findByPk(req.params.id);
+        const post = await PostModel.findByPk(req.params.id);
 
         // Return status 404 if no Post found with that id
         if (!post) return res.status(404).send();
@@ -63,7 +63,7 @@ export const getPostById = (async (req, res) => {
 export const getAllPosts = (async (req, res) => {
     try {
         // Get all Posts. If no author_id is queried, get all Posts WHERE author_id NOT null.
-        const posts = await Post.findAll({
+        const posts = await PostModel.findAll({
             limit: Number(req.query.limit),
             offset: Number(req.query.offset),
             order: [
@@ -87,10 +87,10 @@ export const getAllPosts = (async (req, res) => {
 export const updatePostById = (async (req, res) => {
     try {
         // Authenticate the request
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         // Update the Post body only if the User sending the request is the author of the Post
-        const [affectedCount, affectedRows] = await Post.update({
+        const [affectedCount, affectedRows] = await PostModel.update({
             ...req.body
         }, {
             where: {
@@ -112,10 +112,10 @@ export const updatePostById = (async (req, res) => {
 
 export const deletePostById = (async (req, res) => {
     try {
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         // Delete the Post if the User sending the request is the author of the Post
-        await Post.destroy({
+        await PostModel.destroy({
             where: {
                 id: req.params.id,
                 author_id: user.id
@@ -134,10 +134,10 @@ export const deletePostById = (async (req, res) => {
 export const upvotePost = (async (req, res) => {
     try {
         // Authenticate the user
-        const user = await User.authenticate(req.body.idToken);
+        const user = await UserModel.authenticate(req.body.idToken);
 
         // Find the post
-        const post = await Post.findByPk(req.params.id);
+        const post = await PostModel.findByPk(req.params.id);
 
         // If there is no Post with that id, respond with status 404
         if (!post) return res.status(404).send();
@@ -165,8 +165,8 @@ export const upvotePost = (async (req, res) => {
 
 export const downvotePost = (async (req, res) => {
     try {
-        const user = await User.authenticate(req.body.idToken);
-        const post = await Post.findByPk(req.params.id);
+        const user = await UserModel.authenticate(req.body.idToken);
+        const post = await PostModel.findByPk(req.params.id);
         if (!post) return res.status(404).send();
 
         if (post.downvotes.includes(user.id)) {

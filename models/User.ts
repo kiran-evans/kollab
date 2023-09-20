@@ -2,13 +2,13 @@ import { DataTypes, Model } from 'sequelize';
 import { firebase } from '../lib/fb';
 import { sequelize } from '../lib/pg';
 
-/**
- * @type User
- * @property {string} id - The UUID of the User
- * @property {string} firebase_id - The id of the Firebase Auth user associated with this User
- * @property {string} username - This User's username
- */
-export class User extends Model {
+export type User = {
+    id: string;
+    firebase_id: string;
+    username: string;
+}
+
+export class UserModel extends Model implements User {
     declare id: string;
     declare firebase_id: string;
     declare username: string;
@@ -21,7 +21,7 @@ export class User extends Model {
      * 
      * @returns A Promise containing the User's data from the database.
      */
-    static authenticate = async (idToken: string): Promise<User> => {
+    static authenticate = async (idToken: string): Promise<UserModel> => {
         // Get auth user object from Firebase Auth
         const decodedIdToken = await firebase.auth().verifyIdToken(idToken)
             .catch(err => {
@@ -33,7 +33,7 @@ export class User extends Model {
         }
 
         // Create a new user in the db - or get the user if already exists - and return the data
-        const user = await User.findOne({
+        const user = await UserModel.findOne({
             where: {
                 firebase_id: decodedIdToken.uid
             }
@@ -45,7 +45,7 @@ export class User extends Model {
     }
 }
 
-User.init({
+UserModel.init({
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
