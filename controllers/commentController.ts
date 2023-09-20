@@ -1,7 +1,12 @@
 import { RequestHandler } from "express";
 import { Comment } from "../models/Comment";
+import { Post } from "../models/Post";
 import { User } from "../models/User";
 
+/**
+ * Creates a Comment and then adds the Comment's UUID to the related Post's 'comments' column.
+ * @returns The updated Post.
+ */
 export const createComment = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
@@ -11,8 +16,15 @@ export const createComment = (async (req, res) => {
             body: req.body.body
         });
 
+        const post = await Post.findByPk(req.body.post_id);
+        if (!post) throw `No Post exists with id=${req.body.post_id}.`;
+
+        // Add the new comment to the Post's 'comments' array and save it
+        post.comments.push(comment.id);
+        await post.save();
+
         // Respond with the Comment's body as JSON
-        return res.status(201).json(comment.toJSON());
+        return res.status(201).json(post.toJSON());
 
     } catch (err: any) {
         res.statusMessage = err;

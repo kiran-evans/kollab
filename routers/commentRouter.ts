@@ -7,6 +7,7 @@ const router = Router();
 router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
+        body('post_id').notEmpty().isUUID(),
         body('body').notEmpty().isString(),
         createComment
     );
