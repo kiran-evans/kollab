@@ -15,13 +15,16 @@ export default function NewPost() {
     const [post, setPost] = useState(initialState);
     
     const [toolSearchQuery, setToolSearchQuery] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
     const [foundTools, setFoundTools] = useState(Array<Tool>());
 
     // Update the <datalist> for the foundTools whenever the user searches in the search box
     useEffect(() => {
+        setIsSearching(true);
         (async () => {
             const res = await getToolsByName(toolSearchQuery);
             setFoundTools(await res.json());
+            setIsSearching(false);
         })();
     }, [toolSearchQuery]);
 
@@ -68,6 +71,7 @@ export default function NewPost() {
 
                     <label htmlFor='searchTools'>Search Tools</label>
                     <input type="search" list="foundToolsList" name="searchTools" id="searchTools" value={toolSearchQuery} onChange={e => setToolSearchQuery(e.target.value)} />
+                    {isSearching && <p>Searching tools...</p>}
                     <datalist id="foundToolsList">
                         {foundTools.map(tool => (
                             <option value={tool.name} onSelect={() => handleToolSelect(tool)} />
