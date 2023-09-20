@@ -8,7 +8,7 @@ router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
-        body('body').notEmpty().isString(),
+        body('message').notEmpty().isAlphanumeric(),
         body('tools').notEmpty().isArray(),
         body('difficulty').notEmpty(),
         createPost

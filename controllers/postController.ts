@@ -1,16 +1,28 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
 import { Post } from "../models/Post";
+import { Tool } from "../models/Tool";
 import { User } from "../models/User";
 
 export const createPost = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
 
+        /* 
+            Convert the array of Tool objects into an array of
+            UUIDs for the relation database.
+        */
+        const tools = Array<string>();
+        req.body.tools.forEach((tool: Tool) => {
+            tools.push(tool.id);
+        });
+        
         const post = await Post.create({
             author_id: user.id,
             title: req.body.title,
-            body: req.body.body
+            message: req.body.message,
+            tools: tools,
+            difficulty: req.body.difficulty
         });
 
         // Send the Post body back in the response
