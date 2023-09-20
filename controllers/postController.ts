@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
-import { PostModel } from "../models/Post";
-import { Tool } from "../models/Tool";
-import { UserModel } from "../models/User";
+import { PostModel } from "../models/Post.ts";
+import { ToolModel } from "../models/Tool.ts";
+import { UserModel } from "../models/User.ts";
 
 export const createPost = (async (req, res) => {
     try {
@@ -13,7 +13,7 @@ export const createPost = (async (req, res) => {
             UUIDs for the relation database.
         */
         const tools = Array<string>();
-        req.body.tools.forEach((tool: Tool) => {
+        req.body.tools.forEach((tool: ToolModel) => {
             tools.push(tool.id);
         });
         

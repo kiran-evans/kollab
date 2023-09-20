@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../lib/pg";
-import { Difficulty, Post } from "../types/Post";
+import { Difficulty, Post } from "../client/types/Post.ts";
+import { sequelize } from "../lib/pg.ts";
 
 export class PostModel extends Model implements Post {
     declare id: string;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, query } from "express-validator";
-import { createTool, getAllTools } from "../controllers/toolController";
+import { createTool, getAllTools } from "../controllers/toolController.ts";
 
 const router = Router();
 

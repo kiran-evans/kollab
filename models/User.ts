@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
-import { firebase } from '../lib/fb';
-import { sequelize } from '../lib/pg';
-import { User } from '../types/User';
+import { User } from '../client/types/User.ts';
+import { firebase } from '../lib/fb.ts';
+import { sequelize } from '../lib/pg.ts';
 
 export class UserModel extends Model implements User {
     declare id: string;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createUser, deleteUser, getUser, updateUser } from "../controllers/userController";
+import { createUser, deleteUser, getUser, updateUser } from "../controllers/userController.ts";
 
 const router = Router();
 
