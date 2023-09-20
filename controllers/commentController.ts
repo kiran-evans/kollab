@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
-import { CommentModel } from "../models/Comment.ts";
-import { PostModel } from "../models/Post.ts";
-import { UserModel } from "../models/User.ts";
+import { CommentModel } from "../models/Comment";
+import { PostModel } from "../models/Post";
+import { UserModel } from "../models/User";
 
 /**
  * Creates a Comment and then adds the Comment's UUID to the related Post's 'comments' column.

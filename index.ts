@@ -12,16 +12,16 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Routes
 
-import commentRouter from './routers/commentRouter.ts';
+import commentRouter from './routers/commentRouter';
 app.use('/api/comment', commentRouter);
 
-import postRouter from './routers/postRouter.ts';
+import postRouter from './routers/postRouter';
 app.use('/api/post', postRouter);
 
-import toolRouter from './routers/toolRouter.ts';
+import toolRouter from './routers/toolRouter';
 app.use('/api/tool', toolRouter);
 
-import userRouter from './routers/userRouter.ts';
+import userRouter from './routers/userRouter';
 app.use('/api/user', userRouter);
 
 app.get('*', (req, res) => {
@@ -29,7 +29,7 @@ app.get('*', (req, res) => {
 });
 
 // Connect to db
-import { sequelize } from './lib/pg.ts';
+import { sequelize } from './lib/pg';
 (async () => {
     await sequelize.authenticate();
     console.log(`[server] connected to '${sequelize.getDatabaseName()}'`);

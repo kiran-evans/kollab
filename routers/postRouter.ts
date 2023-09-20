@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
-import { createPost, deletePostById, downvotePost, getAllPosts, getPostById, updatePostById, upvotePost } from "../controllers/postController.ts";
+import { createPost, deletePostById, downvotePost, getAllPosts, getPostById, updatePostById, upvotePost } from "../controllers/postController";
 
 const router = Router();
 

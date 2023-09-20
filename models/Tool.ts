@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import { Tool } from "../client/types/Tool.ts";
-import { sequelize } from "../lib/pg.ts";
+import { Tool } from "..//types/Tool";
+import { sequelize } from "../lib/pg";
 
 export class ToolModel extends Model implements Tool {
     declare id: string;

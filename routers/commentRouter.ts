@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createComment, deleteComment, getComment, updateComment } from "../controllers/commentController.ts";
+import { createComment, deleteComment, getComment, updateComment } from "../controllers/commentController";
 
 const router = Router();
 

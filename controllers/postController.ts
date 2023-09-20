@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
-import { PostModel } from "../models/Post.ts";
-import { ToolModel } from "../models/Tool.ts";
-import { UserModel } from "../models/User.ts";
+import { PostModel } from "../models/Post";
+import { ToolModel } from "../models/Tool";
+import { UserModel } from "../models/User";
 
 export const createPost = (async (req, res) => {
     try {

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
-import { ToolModel } from "../models/Tool.ts";
-import { UserModel } from "../models/User.ts";
+import { ToolModel } from "../models/Tool";
+import { UserModel } from "../models/User";
 
 /**
  * Creates a Tool.

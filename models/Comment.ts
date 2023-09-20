@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import { Comment } from "../client/types/Comment.ts";
-import { sequelize } from "../lib/pg.ts";
+import { sequelize } from "../lib/pg";
+import { Comment } from "../types/Comment";
 
 export class CommentModel extends Model implements Comment {
     declare id: string;

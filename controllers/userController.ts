@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { firebase } from "../lib/fb.ts";
-import { UserModel } from "../models/User.ts";
+import { firebase } from "../lib/fb";
+import { UserModel } from "../models/User";
 
 export const createUser = (async (req, res) => {
     try {
