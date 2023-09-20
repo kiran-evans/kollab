@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.downvotePost = exports.upvotePost = exports.deletePost = exports.updatePost = exports.getPost = exports.createPost = void 0;
+exports.downvotePost = exports.upvotePost = exports.deletePostById = exports.updatePostById = exports.getAllPosts = exports.getPostById = exports.createPost = void 0;
 const Post_1 = require("../models/Post");
 const User_1 = require("../models/User");
 exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,7 +29,7 @@ exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.error(err);
     }
 }));
-exports.getPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getPostById = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Anyone can get a Post by its id
         const post = yield Post_1.Post.findByPk(req.params.id);
@@ -45,7 +45,31 @@ exports.getPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.error(err);
     }
 }));
-exports.updatePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+/**
+ * Get all posts in the database, using parameters.
+ *
+ * @param limit - The number of Posts required.
+ * @param offset - Where to start counting from.
+ */
+exports.getAllPosts = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const posts = yield Post_1.Post.findAll({
+            limit: Number(req.query.limit),
+            offset: Number(req.query.offset),
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
+        // Respond with the Post body as JSON
+        return res.status(200).json(posts);
+    }
+    catch (err) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}));
+exports.updatePostById = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Authenticate the request
         const user = yield User_1.User.authenticate(req.body.idToken);
@@ -66,7 +90,7 @@ exports.updatePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.error(err);
     }
 }));
-exports.deletePost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deletePostById = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.User.authenticate(req.body.idToken);
         // Delete the Post if the User sending the request is the author of the Post

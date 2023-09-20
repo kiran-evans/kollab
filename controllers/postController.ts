@@ -47,11 +47,13 @@ export const getPostById = (async (req, res) => {
  * @param offset - Where to start counting from.
  */
 export const getAllPosts = (async (req, res) => {
-    try {
+    try {        
         const posts = await Post.findAll({
-            limit: Number(req.params.limit),
-            offset: Number(req.params.offset),
-            order: ['date_created', 'DESC']
+            limit: Number(req.query.limit),
+            offset: Number(req.query.offset),
+            order: [
+                ['createdAt', 'DESC']
+            ]
         });
 
         // Respond with the Post body as JSON

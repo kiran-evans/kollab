@@ -22,15 +22,15 @@ dotenv_1.default.config();
 const path_1 = __importDefault(require("path"));
 app.use('/', express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Routes
-app.get('/', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '/index.html'));
-});
 const commentRouter_1 = __importDefault(require("./routers/commentRouter"));
 app.use('/api/comment', commentRouter_1.default);
 const postRouter_1 = __importDefault(require("./routers/postRouter"));
 app.use('/api/post', postRouter_1.default);
 const userRouter_1 = __importDefault(require("./routers/userRouter"));
 app.use('/api/user', userRouter_1.default);
+app.get('*', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, '/index.html', req.originalUrl));
+});
 // Connect to db
 const pg_1 = require("./lib/pg");
 (() => __awaiter(void 0, void 0, void 0, function* () {

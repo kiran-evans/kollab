@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 import { createPost, deletePostById, downvotePost, getAllPosts, getPostById, updatePostById, upvotePost } from "../controllers/postController";
 
 const router = Router();
@@ -12,8 +12,8 @@ router.route('/')
         createPost
     )
     .get(
-        param('limit').notEmpty().isNumeric(),
-        param('offset').notEmpty().isNumeric(),
+        query('limit').notEmpty().isNumeric(),
+        query('offset').notEmpty().isNumeric(),
         getAllPosts
     );
 
