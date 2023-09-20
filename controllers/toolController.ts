@@ -29,6 +29,7 @@ export const createTool = (async (req, res) => {
  * Get all Tools in the database.
  * 
  * @param name - (Optional) Search the database for Tools with name LIKE this.
+ * @returns An array of Tools.
  */
 export const getAllTools = (async (req, res) => {
     try {

@@ -1,4 +1,3 @@
-
 /**
  * 
  * @param username - The username that the user entered.

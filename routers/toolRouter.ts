@@ -7,7 +7,7 @@ const router = Router();
 router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
-        body('name').notEmpty().isString(),
+        body('name').notEmpty().isAlphanumeric(),
         createTool
     )
     .get(

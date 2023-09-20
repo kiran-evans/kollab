@@ -11,6 +11,8 @@ export default function NewPost() {
         difficulty: Difficulty.Beginner
     };
     const [post, setPost] = useState(initialState);
+    
+    const [toolSearchQuery, setToolSearchQuery] = useState("");
 
     return (
         <form>
