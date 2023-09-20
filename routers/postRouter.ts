@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createPost, deletePost, downvotePost, getPost, updatePost, upvotePost } from "../controllers/postController";
+import { createPost, deletePostById, downvotePost, getAllPosts, getPostById, updatePostById, upvotePost } from "../controllers/postController";
 
 const router = Router();
 
@@ -10,6 +10,11 @@ router.route('/')
         body('title').notEmpty().isAlphanumeric(),
         body('body').notEmpty().isString(),
         createPost
+    )
+    .get(
+        param('limit').notEmpty().isNumeric(),
+        param('offset').notEmpty().isNumeric(),
+        getAllPosts
     );
 
 router.route('/:id')
@@ -17,17 +22,17 @@ router.route('/:id')
         param('id').notEmpty().isUUID(),
     )
     .get(
-        getPost
+        getPostById
     )
     .put(
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
         body('body').notEmpty().isString(),
-        updatePost
+        updatePostById
     )
     .delete(
         body('idToken').notEmpty().isJWT(),
-        deletePost
+        deletePostById
     );
 
 router.route('/upvote/:id')
@@ -35,13 +40,13 @@ router.route('/upvote/:id')
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         upvotePost
-    )
+    );
 
 router.route('/downvote/:id')
     .patch(
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         downvotePost
-    )
+    );
 
 export default router;

@@ -22,7 +22,7 @@ export const createPost = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const getPost = (async (req, res) => {
+export const getPostById = (async (req, res) => {
     try {
         // Anyone can get a Post by its id
         const post = await Post.findByPk(req.params.id);
@@ -40,7 +40,31 @@ export const getPost = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const updatePost = (async (req, res) => {
+/**
+ * Get all posts in the database, using parameters.
+ * 
+ * @param limit - The number of Posts required.
+ * @param offset - Where to start counting from.
+ */
+export const getAllPosts = (async (req, res) => {
+    try {
+        const posts = await Post.findAll({
+            limit: Number(req.params.limit),
+            offset: Number(req.params.offset),
+            order: ['date_created', 'DESC']
+        });
+
+        // Respond with the Post body as JSON
+        return res.status(200).json(posts);
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
+
+export const updatePostById = (async (req, res) => {
     try {
         // Authenticate the request
         const user = await User.authenticate(req.body.idToken);
@@ -66,7 +90,7 @@ export const updatePost = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const deletePost = (async (req, res) => {
+export const deletePostById = (async (req, res) => {
     try {
         const user = await User.authenticate(req.body.idToken);
 
