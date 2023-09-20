@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.downvotePost = exports.upvotePost = exports.deletePostById = exports.updatePostById = exports.getAllPosts = exports.getPostById = exports.createPost = void 0;
+const sequelize_1 = require("sequelize");
 const Post_1 = require("../models/Post");
 const User_1 = require("../models/User");
 exports.createPost = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,15 +51,21 @@ exports.getPostById = ((req, res) => __awaiter(void 0, void 0, void 0, function*
  *
  * @param limit - The number of Posts required.
  * @param offset - Where to start counting from.
+ * @param author_id - (Optional) The UUID of the Post's author User
  */
 exports.getAllPosts = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
+        // Get all Posts. If no author_id is queried, get all Posts WHERE author_id NOT null.
         const posts = yield Post_1.Post.findAll({
             limit: Number(req.query.limit),
             offset: Number(req.query.offset),
             order: [
                 ['createdAt', 'DESC']
-            ]
+            ],
+            where: {
+                author_id: (_a = req.query.author_id) !== null && _a !== void 0 ? _a : { [sequelize_1.Op.not]: null }
+            }
         });
         // Respond with the Post body as JSON
         return res.status(200).json(posts);

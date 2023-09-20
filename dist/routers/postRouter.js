@@ -6,7 +6,7 @@ const postController_1 = require("../controllers/postController");
 const router = (0, express_1.Router)();
 router.route('/')
     .post((0, express_validator_1.body)('idToken').notEmpty().isJWT(), (0, express_validator_1.body)('title').notEmpty().isAlphanumeric(), (0, express_validator_1.body)('body').notEmpty().isString(), postController_1.createPost)
-    .get((0, express_validator_1.query)('limit').notEmpty().isNumeric(), (0, express_validator_1.query)('offset').notEmpty().isNumeric(), postController_1.getAllPosts);
+    .get((0, express_validator_1.query)('limit').notEmpty().isNumeric(), (0, express_validator_1.query)('offset').notEmpty().isNumeric(), (0, express_validator_1.query)('author_id').isUUID(), postController_1.getAllPosts);
 router.route('/:id')
     .all((0, express_validator_1.param)('id').notEmpty().isUUID())
     .get(postController_1.getPostById)

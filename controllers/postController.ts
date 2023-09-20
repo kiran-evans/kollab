@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Op } from "sequelize";
 import { Post } from "../models/Post";
 import { User } from "../models/User";
 
@@ -45,15 +46,20 @@ export const getPostById = (async (req, res) => {
  * 
  * @param limit - The number of Posts required.
  * @param offset - Where to start counting from.
+ * @param author_id - (Optional) The UUID of the Post's author User
  */
 export const getAllPosts = (async (req, res) => {
-    try {        
+    try {
+        // Get all Posts. If no author_id is queried, get all Posts WHERE author_id NOT null.
         const posts = await Post.findAll({
             limit: Number(req.query.limit),
             offset: Number(req.query.offset),
             order: [
                 ['createdAt', 'DESC']
-            ]
+            ],
+            where: {
+                author_id: req.query.author_id ?? { [Op.not]: null }
+            }
         });
 
         // Respond with the Post body as JSON

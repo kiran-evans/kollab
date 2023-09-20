@@ -14,6 +14,7 @@ router.route('/')
     .get(
         query('limit').notEmpty().isNumeric(),
         query('offset').notEmpty().isNumeric(),
+        query('author_id').isUUID(),
         getAllPosts
     );
 
