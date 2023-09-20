@@ -14,3 +14,22 @@ export const getToolsByName = async (name: string) => {
 
     return res;
 }
+
+export const createNewTool = async (name: string, idToken: string) => {
+    const res = await fetch('/api/tool', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            idToken,
+            name
+        })
+    });
+
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+
+    return res;
+}

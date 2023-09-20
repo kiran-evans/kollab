@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Difficulty } from '../../../../models/Post';
 import { Tool } from '../../../../models/Tool';
-import { getToolsByName } from '../../api/toolsApi';
+import { createNewTool, getToolsByName } from '../../api/toolsApi';
+import { fb } from '../../lib/firebase';
 import "./NewPost.css";
 
 export default function NewPost() {
@@ -17,6 +18,8 @@ export default function NewPost() {
     const [toolSearchQuery, setToolSearchQuery] = useState("");
     const [isSearching, setIsSearching] = useState(false);
     const [foundTools, setFoundTools] = useState(Array<Tool>());
+
+    const [newToolName, setNewToolName] = useState("");
 
     // Update the <datalist> for the foundTools whenever the user searches in the search box
     useEffect(() => {
@@ -39,6 +42,20 @@ export default function NewPost() {
     const handleRemoveTool = (removeTool: Tool) => {
         // Remove this tool from the Post's array of Tools
         setPost({ ...post, tools: post.tools.splice(post.tools.indexOf(removeTool), 1) });
+    }
+
+    const handleCreateNewTool = async () => {
+        // User must be logged in to do this
+        if (!fb.auth.currentUser) return;
+
+        // Create the new tool in the db
+        const res = await createNewTool(newToolName, await fb.auth.currentUser.getIdToken());
+        
+        // Add the new tool to the list
+        setPost({ ...post, tools: [...post.tools, await res.json()] });
+
+        // Reset the input field
+        setNewToolName("");
     }
 
     return (
@@ -77,6 +94,13 @@ export default function NewPost() {
                             <option value={tool.name} onSelect={() => handleToolSelect(tool)} />
                         ))}
                     </datalist>
+
+                    <div className="new-tool">
+                        <p>Can't find the tool you're looking for? Add a new tool.</p>
+                        <label htmlFor="tool-name">Name:</label>
+                        <input type="text" name="tool" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
+                        <input id="add-tool" type="button" value="+" onClick={handleCreateNewTool} />
+                    </div>
                     
                     <div className="tools-list">
                         {post.tools.map(tool => (
