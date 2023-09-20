@@ -29,7 +29,7 @@ export class User extends Model {
             });
         // If idToken is invalid
         if (!decodedIdToken) {
-            throw "Failed to verifify idToken.";
+            throw "Failed to verify idToken.";
         }
 
         // Create a new user in the db - or get the user if already exists - and return the data
