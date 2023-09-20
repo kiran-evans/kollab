@@ -9,6 +9,8 @@ router.route('/')
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
         body('body').notEmpty().isString(),
+        body('tools').notEmpty().isArray(),
+        body('difficulty').notEmpty(),
         createPost
     )
     .get(

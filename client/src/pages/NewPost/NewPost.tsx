@@ -1,6 +1,17 @@
+import { useState } from 'react';
+import { Difficulty } from '../../../../models/Post';
 import "./NewPost.css";
 
 export default function NewPost() {
+
+    const initialState = {
+        title: "",
+        body: "",
+        tools: Array<string>(),
+        difficulty: Difficulty.Beginner
+    };
+    const [post, setPost] = useState(initialState);
+
     return (
         <form>
             <fieldset>
@@ -8,7 +19,7 @@ export default function NewPost() {
 
                 <label htmlFor="title">
                     Title:
-                    <input type="text" name="title" id="title" />
+                    <input type="text" name="title" id="title" value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
                 </label>
                 <label htmlFor="message">
                     Message:
@@ -17,22 +28,14 @@ export default function NewPost() {
 
                 <fieldset className="difficulty-picker">
                     <legend>Difficulty:</legend>
-                    <input className="difficulty-radio" type="radio" name="difficulty" id="difficulty-beginner" />
-                    <label className="for-difficulty" htmlFor="difficulty-beginner">
-                        Beginner
-                    </label>
-                    <input className="difficulty-radio" type="radio" name="difficulty" id="difficulty-intermediate" />
-                    <label className="for-difficulty" htmlFor="difficulty-intermediate">
-                        Intermediate
-                    </label>
-                    <input className="difficulty-radio" type="radio" name="difficulty" id="difficulty-advanced" />
-                    <label className="for-difficulty" htmlFor="difficulty-advanced">
-                        Advanced
-                    </label>
-                    <input className="difficulty-radio" type="radio" name="difficulty" id="difficulty-expert" />
-                    <label className="for-difficulty" htmlFor="difficulty-expert">
-                        Expert
-                    </label>
+                    {Object.keys(Difficulty).map(difficulty => (
+                        <>
+                            <input className="difficulty-radio" type="radio" name="difficulty" id={`difficulty-${difficulty}`} />
+                            <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
+                                {difficulty}
+                            </label>
+                        </>
+                    ))}
                 </fieldset>
                 <fieldset className="tools-adder">
                     <legend>Tools</legend>
