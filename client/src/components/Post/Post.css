@@ -1,5 +1,5 @@
 .post {
-    background-color: #0023;
+    background-color: var(--color-bg-main);
     padding: 0.25rem 0.75rem;
     margin: 2rem 1rem;
 }
@@ -10,7 +10,7 @@
     justify-content: space-between;
 }
 .post .post-tools {
-    border: 0.1rem solid #FFF1;
+    border: 0.1rem solid var(--color-bg-secondary);
     padding: 0 1rem;
     width: 85%;
     margin-inline: auto;
@@ -18,7 +18,7 @@
 .post .image {
     display: block;
     width: 100%;
-    background-color: #0009;
+    background-color: var(--color-bg-secondary);
 }
 .post .post-rating {
     display: block;
