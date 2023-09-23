@@ -1,11 +1,40 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --color-fg-main: #F4F8FA;
+  --color-fg-secondary: #A0B0C0;
+  --color-fg-transparent: #FFFA;
+  --color-fg-dark: #2b2a33;
+  
+  --color-bg-main: #031A33;
+  --color-bg-secondary: #355286;
+  --color-bg-transparent: #0023;
+  --color-bg-dark: #4B6B76;
+  
+  /* 
+  #07E478; green light
+  #4C054A; purple dark
+  #355286; # light fading blue
+  #F111E5; bright magenta
+  #CF3258; # light red 
+  #11008C; # bright deep blue 
+  #E11F5D; # light red 
+  #812BF1;  bright purple
+  #2335D9; light blue
+  #A5B8C5; # bright gray
+  #32ECB9; # light bright green
+  #031A33; ### dark deep blue
+  #C71E5F; ## dark magenta
+  #67A1D0; light bright blue
+  #B81246; ## deep tomato red
+  #4B6B76; ### gray = support
+   */
+
+  font-family: sans-serif ,Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: #D8D8D8;
-  background-color: #242424;
+  color: var(--color-fg-main);
+  /* background-color: var(--color-bg-main); */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,6 +44,7 @@
 }
 * {
   box-sizing: border-box;
+  transition: all 0.35s ease-in;
 }
 body {
   margin: 0;
@@ -32,11 +62,11 @@ main {
   width: 100%;
   /* min-height: 100%; */
   overflow: auto;
-  background-color: #0022;
+  background-color: var(--color-bg-transparent);
 }
 fieldset {
-  background-color: #0012;
-  border: 1px solid #FFF1;
+  background-color: var(--color-bg-main);
+  border: 1px solid var(--color-bg-secondary);
   text-align: left;
   min-width: max-content;
   width: 30%;
@@ -53,7 +83,8 @@ fieldset label, fieldset input:not(input[type=radio]), fieldset textarea {
   display: block;
 }
 fieldset input:not(input[type=submit], input[type=radio]), fieldset textarea {
-  border: 1px solid #FFF1;
+  background-color: var(--color-fg-dark);
+  border: 1px solid var(--color-bg-secondary);
   width: 100%;
   margin-bottom: 0.75rem;
 }
@@ -61,17 +92,7 @@ fieldset input:not(input[type=submit]) {
   height: 1.5rem;
 }
 fieldset input[type=submit] {
-  border: 1px solid #FFF1;
-  box-shadow: 0.1rem 0.1rem 0rem #FFF4;
-  margin: 0 0.5rem;
-  padding: 0.25rem;
   margin-inline: auto;
-}
-fieldset input[type=submit]:hover {
-  font-weight: bold;
-}
-fieldset input[type=submit]:active {
-  scale: 0.9;
 }
 p {
   margin: 0.125rem 0.5rem;
@@ -82,4 +103,18 @@ a:hover::before {
 }
 a:hover::after {
   content: ' <';
+}
+input[type=button], input[type=submit] {
+  background-color: var(--color-bg-secondary);
+  border: 0.2rem solid var(--color-fg-dark);
+  box-shadow: 0.15rem 0.15rem 0.15rem var(--color-fg-transparent);
+  margin: 0 0.25rem;
+  padding: 0.125rem 0.35rem;
+  cursor: pointer;
+}
+input[type=button]:hover, input[type=submit]:hover {
+  scale: 1.05;
+}
+input[type=button]:active, input[type=submit]:active {
+  scale: 0.9;
 }

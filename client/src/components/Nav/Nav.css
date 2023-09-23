@@ -2,28 +2,28 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    background-color: #0023;
+    background-color: var(--color-bg-main);
     padding: 0 0.5rem;
+    border-bottom: 0.1rem solid var(--color-fg-main);
 }
 .head-right {
     display: flex;
     align-items: center;
     gap: 5rem;
 }
-header a{
-    color: white;
+header a {
+    color: var(--color-fg-main);
     text-decoration: none;
     text-transform: capitalize;
 }
 nav a {
-    border-bottom: 0.1rem white solid;
+    border-bottom: 0.1rem solid var(--color-fg-main);
     padding: 0.25rem;
     margin: 0 0.25rem;
     text-decoration: none;
-    color: white;
 }
 nav a:hover {
-    border-top: 0.1rem white solid;
+    border-top: 0.1rem solid var(--color-fg-main);
     padding: 0.25rem;
     margin: 0 0.25rem;
 }
