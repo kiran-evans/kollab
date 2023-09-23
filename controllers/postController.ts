@@ -1,27 +1,17 @@
 import { RequestHandler } from "express";
 import { Op } from "sequelize";
 import { PostModel } from "../models/Post";
-import { ToolModel } from "../models/Tool";
 import { UserModel } from "../models/User";
 
 export const createPost = (async (req, res) => {
     try {
         const user = await UserModel.authenticate(req.body.idToken);
-
-        /* 
-            Convert the array of Tool objects into an array of
-            UUIDs for the relation database.
-        */
-        const tools = Array<string>();
-        req.body.tools.forEach((tool: ToolModel) => {
-            tools.push(tool.id);
-        });
         
         const post = await PostModel.create({
             author_id: user.getDataValue('id'),
             title: req.body.title,
             message: req.body.message,
-            tools: tools,
+            tools: req.body.tools,
             difficulty: req.body.difficulty
         });
 

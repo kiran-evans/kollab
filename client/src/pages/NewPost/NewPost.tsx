@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Difficulty } from '../../../types/Post';
 import { Tool } from '../../../types/Tool';
 import { createPost } from '../../api/postApi';
 import { createNewTool, getToolsByName } from '../../api/toolsApi';
+import { AppContext } from '../../lib/ContextProvider';
 import { fb } from '../../lib/firebase';
 import "./NewPost.css";
 
 export default function NewPost() {
+    const { state } = useContext(AppContext);
 
     const initialState = {
         title: "",
@@ -60,6 +62,10 @@ export default function NewPost() {
         setNewToolName("");
     }
 
+    /**
+     * Converts the result of the image <input> event into an array of Files.
+     * Updates the state with these Files included in the Post.
+     */
     const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
@@ -87,9 +93,9 @@ export default function NewPost() {
         e.preventDefault();
 
         // If the user is not logged in, cancel this operation.
-        if (!fb.auth.currentUser) return;
+        if (!fb.auth.currentUser || !state.user) return;
         
-        const createdPost = await createPost(post, await fb.auth.currentUser.getIdToken());
+        const createdPost = await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
         console.log(createdPost);
         // Redirect
     }
