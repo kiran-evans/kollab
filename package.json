@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --outDir ./dist",
-    "dev": "node ./dist/index.js",
-    "start": "cd client && npm i && npm run build && cd ../ && npm i && npm run build && npm run dev"
+    "start": "node ./dist/index.js",
+    "dev": "npm run build && npm run start",
+    "startAll": "cd client && npm i && npm run build && cd ../ && npm i && npm run build && npm run dev"
   },
   "author": "",
   "license": "ISC",

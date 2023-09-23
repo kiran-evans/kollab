@@ -1,36 +1,15 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUser = exports.createUser = void 0;
 const fb_1 = require("../lib/fb");
 const User_1 = require("../models/User");
-exports.createUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createUser = (async (req, res) => {
     try {
-        // Get auth user object from Firebase Auth
-        const decodedIdToken = yield fb_1.firebase.auth().verifyIdToken(req.body.idToken);
+        const decodedIdToken = await fb_1.firebase.auth().verifyIdToken(req.body.idToken);
         if (!decodedIdToken) {
             throw "Failed to verify idToken.";
         }
-        const user = yield User_1.User.create({
+        const user = await User_1.UserModel.create({
             username: req.body.username,
             firebase_id: decodedIdToken.uid
         });
@@ -41,15 +20,13 @@ exports.createUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).send();
         console.error(err);
     }
-}));
-exports.getUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.getUser = (async (req, res) => {
     try {
-        // Get any user by their id. Anyone with access to the API can perform this request.
-        const user = yield User_1.User.findByPk(req.params.id);
+        const user = await User_1.UserModel.findByPk(req.params.id);
         if (!user)
             return res.status(404).send();
-        // Exclude sensitive and irrelevant data from the returned body
-        const _a = user.toJSON(), { firebase_id, date_created, date_modified } = _a, body = __rest(_a, ["firebase_id", "date_created", "date_modified"]);
+        const { firebase_id, date_created, date_modified, ...body } = user.toJSON();
         return res.status(200).json(body);
     }
     catch (err) {
@@ -57,15 +34,15 @@ exports.getUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).send();
         console.error(err);
     }
-}));
-exports.updateUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.updateUser = (async (req, res) => {
     try {
-        // Authenticate the request first
-        const user = yield User_1.User.authenticate(req.body.idToken);
-        // Update the user data if the request comes from the same user
-        const [affectedCount, affectedRows] = yield User_1.User.update(Object.assign({}, req.body), {
+        const user = await User_1.UserModel.authenticate(req.body.idToken);
+        const [affectedCount, affectedRows] = await User_1.UserModel.update({
+            ...req.body
+        }, {
             where: {
-                id: user.id
+                id: user.getDataValue('id')
             },
             returning: true
         });
@@ -76,15 +53,13 @@ exports.updateUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).send();
         console.error(err);
     }
-}));
-exports.deleteUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.deleteUser = (async (req, res) => {
     try {
-        // Authenticate the request comes from a valid Firebase Auth user
-        const user = yield User_1.User.authenticate(req.body.idToken);
-        // Delete the user if the id matches the one who sent the request
-        yield User_1.User.destroy({
+        const user = await User_1.UserModel.authenticate(req.body.idToken);
+        await User_1.UserModel.destroy({
             where: {
-                id: user.id
+                id: user.getDataValue('id')
             }
         });
         return res.status(204).send();
@@ -94,4 +69,4 @@ exports.deleteUser = ((req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).send();
         console.error(err);
     }
-}));
+});

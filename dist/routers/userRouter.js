@@ -4,7 +4,6 @@ const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const userController_1 = require("../controllers/userController");
 const router = (0, express_1.Router)();
-// Only the user themselves can perform PUT or DELETE on their data
 router.route('/')
     .post((0, express_validator_1.body)('idToken').notEmpty().isJWT(), (0, express_validator_1.body)('username').notEmpty().isAlphanumeric().isLength({ min: 3, max: 15 }), userController_1.createUser)
     .put((0, express_validator_1.body)('idToken').notEmpty().isJWT(), userController_1.updateUser)

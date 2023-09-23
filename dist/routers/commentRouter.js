@@ -5,7 +5,7 @@ const express_validator_1 = require("express-validator");
 const commentController_1 = require("../controllers/commentController");
 const router = (0, express_1.Router)();
 router.route('/')
-    .post((0, express_validator_1.body)('idToken').notEmpty().isJWT(), (0, express_validator_1.body)('body').notEmpty().isString(), commentController_1.createComment);
+    .post((0, express_validator_1.body)('idToken').notEmpty().isJWT(), (0, express_validator_1.body)('post_id').notEmpty().isUUID(), (0, express_validator_1.body)('body').notEmpty().isString(), commentController_1.createComment);
 router.route('/:id')
     .all((0, express_validator_1.param)('id').notEmpty().isUUID())
     .get(commentController_1.getComment)

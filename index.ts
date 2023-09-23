@@ -11,9 +11,6 @@ import path from 'path';
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/index.html'));
-});
 
 import commentRouter from './routers/commentRouter';
 app.use('/api/comment', commentRouter);
@@ -21,8 +18,15 @@ app.use('/api/comment', commentRouter);
 import postRouter from './routers/postRouter';
 app.use('/api/post', postRouter);
 
+import toolRouter from './routers/toolRouter';
+app.use('/api/tool', toolRouter);
+
 import userRouter from './routers/userRouter';
 app.use('/api/user', userRouter);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/index.html', req.originalUrl));
+});
 
 // Connect to db
 import { sequelize } from './lib/pg';

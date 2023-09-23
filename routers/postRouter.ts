@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
-import { createPost, deletePost, downvotePost, getPost, updatePost, upvotePost } from "../controllers/postController";
+import { body, param, query } from "express-validator";
+import { createPost, deletePostById, downvotePost, getAllPosts, getPostById, updatePostById, upvotePost } from "../controllers/postController";
 
 const router = Router();
 
@@ -8,8 +8,17 @@ router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
-        body('body').notEmpty().isString(),
+        body('message').notEmpty().isAlphanumeric(),
+        body('images').isArray(),
+        body('tools').isArray(),
+        body('difficulty').notEmpty(),
         createPost
+    )
+    .get(
+        query('limit').notEmpty().isNumeric(),
+        query('offset').notEmpty().isNumeric(),
+        query('author_id').isUUID(),
+        getAllPosts
     );
 
 router.route('/:id')
@@ -17,17 +26,17 @@ router.route('/:id')
         param('id').notEmpty().isUUID(),
     )
     .get(
-        getPost
+        getPostById
     )
     .put(
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
         body('body').notEmpty().isString(),
-        updatePost
+        updatePostById
     )
     .delete(
         body('idToken').notEmpty().isJWT(),
-        deletePost
+        deletePostById
     );
 
 router.route('/upvote/:id')
@@ -35,13 +44,13 @@ router.route('/upvote/:id')
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         upvotePost
-    )
+    );
 
 router.route('/downvote/:id')
     .patch(
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         downvotePost
-    )
+    );
 
 export default router;
