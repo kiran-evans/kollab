@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth/cordova';
+import { getStorage } from 'firebase/storage';
 
 const app = initializeApp({
     apiKey: import.meta.env.VITE_FB_API_KEY,
@@ -13,11 +14,13 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 const google = new GoogleAuthProvider();
 
 export const fb = {
     app,
     auth,
+    storage,
     google
 }

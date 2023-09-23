@@ -9,7 +9,7 @@ export default function NewPost() {
 
     const initialState = {
         title: "",
-        body: "",
+        message: "",
         tools: Array<Tool>(),
         difficulty: Difficulty.Beginner
     };

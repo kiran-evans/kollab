@@ -33,10 +33,10 @@ export default function Register() {
             throw "Firebase Auth failed to create user.";
         }
         
-        const res = await signUpUser(formEntries.username, await fb.auth.currentUser.getIdToken());
+        const user = await signUpUser(formEntries.username, await fb.auth.currentUser.getIdToken());
         dispatch({
             type: 'SET_USER',
-            payload: await res.json()
+            payload: user
         });
 
         setFormEntries(initialFormEntries);
