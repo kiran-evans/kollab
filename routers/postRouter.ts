@@ -9,7 +9,8 @@ router.route('/')
         body('idToken').notEmpty().isJWT(),
         body('title').notEmpty().isAlphanumeric(),
         body('message').notEmpty().isAlphanumeric(),
-        body('tools').notEmpty().isArray(),
+        body('images').isArray(),
+        body('tools').isArray(),
         body('difficulty').notEmpty(),
         createPost
     )

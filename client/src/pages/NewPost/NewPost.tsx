@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Difficulty } from '../../../types/Post';
 import { Tool } from '../../../types/Tool';
+import { createPost } from '../../api/postApi';
 import { createNewTool, getToolsByName } from '../../api/toolsApi';
 import { fb } from '../../lib/firebase';
 import "./NewPost.css";
@@ -10,6 +11,7 @@ export default function NewPost() {
     const initialState = {
         title: "",
         message: "",
+        images: Array<File>(),
         tools: Array<Tool>(),
         difficulty: Difficulty.Beginner
     };
@@ -58,8 +60,42 @@ export default function NewPost() {
         setNewToolName("");
     }
 
+    const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+
+        // If no files have been added
+        if (!e.target.files) return;
+
+        const addedImages = Array<File>();
+        for (let i = 0; i < e.target.files.length; i++) {
+            const thisFile = e.target.files.item(i);
+
+            // If thisFile is empty, skip it
+            if (!thisFile) continue;
+
+            // If this file is not an image, skip it
+            if (!thisFile.type.includes("image")) continue;
+            
+            addedImages.push(thisFile);
+        }
+
+        // Add these images to the array
+        setPost({ ...post, images: [...post.images, ...addedImages] });
+    }
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // If the user is not logged in, cancel this operation.
+        if (!fb.auth.currentUser) return;
+        
+        const createdPost = await createPost(post, await fb.auth.currentUser.getIdToken());
+        console.log(createdPost);
+        // Redirect
+    }
+
     return (
-        <form>
+        <form onSubmit={e => handleSubmit(e)}>
             <fieldset>
                 <legend>New Post</legend>
 
@@ -112,9 +148,12 @@ export default function NewPost() {
                     </div>
                 </fieldset>
 
-                <label htmlFor="upload-file">
-                    Upload Image:
-                    <input type="file" name="upload" id="upload-file" />
+                <label htmlFor="add-images">
+                    Add Images:
+                    <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
+                    {post.images.map(file => (
+                        <img src={URL.createObjectURL(file)} alt={file.name} />
+                    ))}
                 </label>
 
                 <input type="submit" value="Submit" />

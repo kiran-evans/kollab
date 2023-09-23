@@ -4,6 +4,7 @@ export type Post = {
     author_id: string;
     title: string;
     message: string;
+    images: Array<string>;
     upvotes: Array<string>;
     downvotes: Array<string>;
     tools: Array<string>;

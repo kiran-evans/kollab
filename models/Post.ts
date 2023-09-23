@@ -7,6 +7,7 @@ export class PostModel extends Model implements Post {
     declare author_id: string;
     declare title: string;
     declare message: string;
+    declare images: Array<string>;
     declare upvotes: Array<string>;
     declare downvotes: Array<string>;
     declare comments: Array<string>;
@@ -31,6 +32,11 @@ PostModel.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
+    images: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false,
+        defaultValue: []
+    },
     upvotes: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
@@ -47,7 +53,7 @@ PostModel.init({
         defaultValue: []
     },
     tools: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+        type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
         defaultValue: []
     },
