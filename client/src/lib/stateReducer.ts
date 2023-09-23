@@ -1,12 +1,15 @@
 import { Reducer } from 'react';
 import { User } from '../../types/User';
-
+import { Post } from '../../types/Post';
+import { Comment } from '../../types/Comment'
 /**
  * @type AppState
  * @property {User | null} user - This part of the AppState stores whether or not there is a User logged in.
  */
 export type AppState = {
-    user: User | null
+    user: User | null,
+    posts: Post[],
+    comments: Comment[]
 }
 
 /**
@@ -16,7 +19,7 @@ export type AppState = {
  */
 export type ContextAction = {
     type: string;
-    payload: User | null;
+    payload: any;
 }
 
 /**
@@ -32,6 +35,12 @@ export const stateReducer = ((state, action) => {
     switch (action.type) {
         case 'SET_USER':
             newState.user = action.payload;
+            break;
+        case 'LOAD_POSTS':
+            newState.posts = action.payload;
+            break;
+        case 'LOAD_COMMENTS':
+            newState.comments = action.payload;
             break;
         default:
             return state;

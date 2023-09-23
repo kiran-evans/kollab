@@ -21,13 +21,14 @@ function App() {
                 <Route path="/" element={<Root />}>
                     <Route path="" element={<Posts />} />
                     <Route path="new-post" element={<NewPost />} />
-                    <Route path="comments" element={<Comments />} />
+                    <Route path=":postId" element={<Comments />} />
                     <Route path="preferences" element={state.user ? <UserPreferences /> : <Navigate to="/login" />} />
+                    
+                    <Route path="login" element={state.user ? <Navigate to="/" /> : <Login />} />
+                    <Route path="register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="*" element={<h1>Page Not Found</h1>} />
                 </Route>
 
-                <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />
-                <Route path="/register" element={state.user ? <Navigate to="/" /> : <Register />} />
-                <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
         </BrowserRouter>
     )

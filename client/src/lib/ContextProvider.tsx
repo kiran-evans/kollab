@@ -2,7 +2,9 @@ import { Dispatch, createContext, useReducer } from 'react';
 import { AppState, ContextAction, stateReducer } from './stateReducer';
 
 const initialState: AppState = {
-    user: null
+    user: null,
+    posts: [],
+    comments: []
 }
 
 export const AppContext = createContext<{ state: AppState, dispatch: Dispatch<ContextAction> }>({ state: initialState, dispatch: () => {} });

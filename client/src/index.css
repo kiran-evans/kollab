@@ -99,22 +99,24 @@ p {
   padding: 0;
 }
 a:hover::before {
-  content: '> ';
+  content: '.';
 }
 a:hover::after {
-  content: ' <';
+  content: '.';
 }
-input[type=button], input[type=submit] {
+input[type=button], input[type=submit], .button {
   background-color: var(--color-bg-secondary);
   border: 0.2rem solid var(--color-fg-dark);
   box-shadow: 0.15rem 0.15rem 0.15rem var(--color-fg-transparent);
   margin: 0 0.25rem;
   padding: 0.125rem 0.35rem;
   cursor: pointer;
+  color: var(--color-fg-main);
+  text-decoration: none;
 }
-input[type=button]:hover, input[type=submit]:hover {
+input[type=button]:hover, input[type=submit]:hover, .button:hover {
   scale: 1.05;
 }
-input[type=button]:active, input[type=submit]:active {
+input[type=button]:active, input[type=submit]:active, .button:active {
   scale: 0.9;
 }
