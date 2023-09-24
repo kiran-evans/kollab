@@ -1,7 +1,9 @@
+import { Logout, Tune } from '@mui/icons-material';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../lib/ContextProvider';
 import { fb } from '../../lib/firebase';
+import Login from '../../pages/login/Login';
 import './UserProfileMenu.css';
 
 export default function UserProfileMenu() {
@@ -17,10 +19,16 @@ export default function UserProfileMenu() {
 
     return (
         <div className="user-profile-menu">
-            <p>@{state.user?.username ?? ':)'}</p>
-        <Link to='/post/currentuserid'>My Post</Link>
-        <Link to='/preference'>Preferences</Link>
-        <Link to='/' onClick={handleLogout}>Logout</Link>
+            {state.user ? 
+                <>
+                <p>@{state.user.username}</p>
+                <Link to={`/${state.user.username}/posts`}>My Posts</Link>
+                <Link to='/preferences'><Tune />&nbsp;Preferences</Link>
+                <Link to='/' onClick={handleLogout}><Logout />&nbsp;Logout</Link>
+                </>
+                :
+                <Link to='/login'><Login />&nbsp;Login</Link>
+            }
         </div>
     )
 }
