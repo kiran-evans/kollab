@@ -1,6 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { getUserByFirebaseId } from "../../api/userApi";
 import { AppContext } from "../../lib/ContextProvider";
 import { fb } from "../../lib/firebase";
@@ -16,7 +16,7 @@ export default function Login() {
 
     const [isFetching, setIsFetching] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsFetching(true);
 
