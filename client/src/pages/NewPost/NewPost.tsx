@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Difficulty } from '../../../types/Post';
 import { createPost } from '../../api/postApi';
 import { AppContext } from '../../lib/ContextProvider';
@@ -8,6 +9,7 @@ import "./NewPost.css";
 
 export default function NewPost() {
     const { state } = useContext(AppContext);
+    const navigator = useNavigate();
 
     const initialState = {
         title: "",
@@ -32,7 +34,9 @@ export default function NewPost() {
 
     const handleRemoveTool = (removeTool: string) => {
         // Remove this tool from the Post's array of Tools
-        setPost({ ...post, tools: post.tools.splice(post.tools.indexOf(removeTool), 1) });
+        const updatedToolsArray = [...post.tools];
+        updatedToolsArray.splice(post.tools.indexOf(removeTool), 1)
+        setPost({ ...post, tools: updatedToolsArray });
     }
 
     /**
@@ -62,7 +66,7 @@ export default function NewPost() {
         setPost({ ...post, images: [...post.images, ...addedImages] });
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setIsFetching(true);
 
@@ -71,11 +75,11 @@ export default function NewPost() {
         
         await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
         setIsFetching(false);
-        // Redirect
+        navigator(`/${state.user.username}/posts`);
     }
 
     return (
-        <form onSubmit={e => handleSubmit(e)}>
+        <form>
             <fieldset disabled={isFetching}>
                 <legend>New Post</legend>
 
@@ -90,7 +94,7 @@ export default function NewPost() {
 
                 <fieldset className="difficulty-picker">
                     <legend>Difficulty:</legend>
-                    {Object.keys(Difficulty).map(difficulty => (
+                    {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
                         <>
                             <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} />
                             <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
@@ -126,7 +130,7 @@ export default function NewPost() {
                     ))}
                 </label>
 
-                <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
+                <button type="submit" onSubmit={e => handleSubmit(e)}>{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>
         </form>
     );

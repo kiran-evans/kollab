@@ -46,7 +46,7 @@ PostModel.init({
         defaultValue: []
     },
     tools: {
-        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.UUID),
+        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.TEXT),
         allowNull: false,
         defaultValue: []
     },
