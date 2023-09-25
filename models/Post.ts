@@ -53,7 +53,7 @@ PostModel.init({
         defaultValue: []
     },
     tools: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         allowNull: false,
         defaultValue: []
     },
