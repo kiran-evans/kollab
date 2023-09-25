@@ -62,3 +62,38 @@ export const createPost = async (postBody: {
 
     return await res.json();
 }
+
+
+export const getAllPosts = (async () => {
+    // Fake 
+    return Promise.resolve([
+        {
+            id: 'fakefetchstring',
+            author_id: 'fake fetch name',
+            title: 'string',
+            message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, commodi alias ab, rem quidem molestiae vero non reprehenderit illo maiores quasi omnis minima, dolor repellat. Saepe unde numquam illo aperiam!',
+            images: ['imagez'],
+            upvotes: [],
+            downvotes: [],
+            tools: [{name:'Node'}, {name:'Python'}, {name:'Express'}, {name:'JavaScript'}],
+            difficulty: 'Beginner'
+        }, {
+            id: 'fakefetchsome',
+            author_id: 'fake fetch the ssstring',
+            title: 'supe user',
+            message: 'lorem ipsum',
+            images: [],
+            upvotes: [],
+            downvotes: [],
+            tools: [{name:'JavaScript'}, {name:'React'}, {name:'SQL'}],
+            difficulty: 'Beginner'
+        }
+    ])
+
+    const res = await fetch('/api/post?limit=50&offset=0')
+    if (!res.ok) {
+        throw Error(res.statusText)
+    }
+    //console.log(res)
+    return await res.json();
+})

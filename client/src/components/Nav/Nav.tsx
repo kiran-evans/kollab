@@ -17,9 +17,6 @@ function Nav() {
                 <NavLink to='/'>
                     Home
                 </NavLink>
-                <NavLink to='/comments'>
-                    Comments
-                </NavLink>
                 <NavLink to='/posts/userid'>
                     Saved
                 </NavLink>

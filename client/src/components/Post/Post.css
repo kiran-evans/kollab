@@ -18,8 +18,10 @@
 .post .image {
     display: block;
     width: 100%;
+    max-width: 50%;
     background-color: var(--color-bg-secondary);
 }
 .post .post-rating {
     display: block;
+    width: min-content;
 }

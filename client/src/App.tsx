@@ -23,11 +23,12 @@ function App() {
                     <Route path="new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
                     <Route path="comments" element={<Comments />} />
                     <Route path="preferences" element={state.user ? <UserPreferences /> : <Navigate to="/login" />} />
+                    
+                    <Route path="login" element={state.user ? <Navigate to="/" /> : <Login />} />
+                    <Route path="register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="*" element={<h1>Page Not Found</h1>} />
                 </Route>
 
-                <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />
-                <Route path="/register" element={state.user ? <Navigate to="/" /> : <Register />} />
-                <Route path="*" element={<h1>Page Not Found</h1>} />
             </Routes>
         </BrowserRouter>
     )
