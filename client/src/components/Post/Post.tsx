@@ -15,7 +15,7 @@ function Post({data}) { // specify type : Post
         </h3>
         <div className="post-tools">
             {
-                data.tools.map(tool => <p key={tool}>{tool}</p>)
+                data.tools.map(tool => <p key={tool.name}>{tool.name}</p>)
             }
         </div>
         <div className="post-contents">

@@ -80,7 +80,7 @@ export const getAllPosts = (async () => {
             images: ['imagez'],
             upvotes: [],
             downvotes: [],
-            tools: ['Node', 'Python', 'Express', 'JavaScript'],
+            tools: [{name:'Node'}, {name:'Python'}, {name:'Express'}, {name:'JavaScript'}],
             difficulty: 'Beginner'
         }, {
             id: 'fakefetchsome',
@@ -90,7 +90,7 @@ export const getAllPosts = (async () => {
             images: [],
             upvotes: [],
             downvotes: [],
-            tools: ['JavaScript','React','SQL',],
+            tools: [{name:'JavaScript'}, {name:'React'}, {name:'SQL'}],
             difficulty: 'Beginner'
         }
     ])

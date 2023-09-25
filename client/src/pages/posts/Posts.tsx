@@ -4,11 +4,12 @@ import ViewOptions from '../../components/ViewOptions/ViewOptions'
 import './Posts.css'
 import { getAllPosts } from '../../api/postApi'
 import { AppContext } from '../../lib/ContextProvider'
-import { selectPosts } from '../../lib/ContextActions'
+import { selectPosts, selectTools } from '../../lib/ContextActions'
 
 function Posts() {
   const { state, dispatch } = useContext(AppContext);
-  const posts = selectPosts(state);
+  let posts = selectPosts(state);
+  const tools = selectTools(state);
   
   useEffect(() => {
     const loadPosts = async () => {
@@ -21,7 +22,7 @@ function Posts() {
   }, [])
   return (
     <>
-      <ViewOptions />
+      <ViewOptions tools={tools} />
       <div className="posts">
         {
           posts.length > 0 ? 

@@ -1,23 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ViewOptions.css";
 import ViewTool from "../ViewTool/ViewTool";
 
-function ViewOptions() {
-    const tempTools = [
-        {
-            name: "javaScript",
-            isChecked: false,
-        },
-        {
-            name: "node",
-            isChecked: false,
-        },
-    ];
+function ViewOptions({tools}) {
     const [viewOptions, setViewOptions] = useState({
         sort: "date",
         difficulty: "",
-        tools: [...tempTools], // Array of all tools used by projects
+        tools: [], // Array of all tools used by projects
     });
+    useEffect(()=> {
+        setViewOptions(prev => ({...prev, tools: tools }))
+    },[tools])
 
     const handleSelector = ({ target }) => {
         setViewOptions((prev) => ({ ...prev, [target.name]: target.value }));
@@ -46,7 +39,6 @@ function ViewOptions() {
             ],
         }));
     };
-
     return (
         <div className="view-options">
             <label htmlFor="sort">
@@ -74,7 +66,7 @@ function ViewOptions() {
                     <ViewTool
                         key={tool.name}
                         name={tool.name}
-                        isChecked={tool.isChecked}
+                        isChecked={tool?.isChecked}
                         handleChange={handleToolCheck}
                     />
                 ))}
