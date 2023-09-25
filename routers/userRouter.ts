@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
+import { body, query } from "express-validator";
 import { createUser, deleteUser, getUser, updateUser } from "../controllers/userController";
 
 const router = Router();
@@ -20,9 +20,10 @@ router.route('/')
         deleteUser
     );
 
-router.route('/:id')
+router.route('/')
     .get(
-        param('id').notEmpty().isUUID(),
+        query('id').isUUID(),
+        query('firebase_id').isAlphanumeric(),
         getUser
     );
 

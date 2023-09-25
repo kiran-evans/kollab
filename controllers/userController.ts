@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Op } from "sequelize";
 import { firebase } from "../lib/fb";
 import { UserModel } from "../models/User";
 
@@ -26,8 +27,13 @@ export const createUser = (async (req, res) => {
 
 export const getUser = (async (req, res) => {
     try {
-        // Get any user by their id. Anyone with access to the API can perform this request.
-        const user = await UserModel.findByPk(req.params.id);
+        // Get any user by their id or firebase_id, depending on which one is present in the request query
+        const user = await UserModel.findOne({
+            where: {
+                id: req.query.id ?? { [Op.not]: null },
+                firebase_id: req.query.firebase_id ?? { [Op.not]: null }
+            }
+        })
 
         if (!user) return res.status(404).send();
 

@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Difficulty } from '../../../types/Post';
 import { Tool } from '../../../types/Tool';
 import { createPost } from '../../api/postApi';
@@ -21,6 +22,7 @@ export default function NewPost() {
     
     const [toolSearchQuery, setToolSearchQuery] = useState("");
     const [isSearching, setIsSearching] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
     const [foundTools, setFoundTools] = useState(Array<Tool>());
 
     const [newToolName, setNewToolName] = useState("");
@@ -66,7 +68,7 @@ export default function NewPost() {
      * Converts the result of the image <input> event into an array of Files.
      * Updates the state with these Files included in the Post.
      */
-    const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddImage = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
         // If no files have been added
@@ -91,18 +93,19 @@ export default function NewPost() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsFetching(true);
 
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
         
-        const createdPost = await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
-        console.log(createdPost);
+        await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
+        setIsFetching(false);
         // Redirect
     }
 
     return (
         <form onSubmit={e => handleSubmit(e)}>
-            <fieldset>
+            <fieldset disabled={isFetching}>
                 <legend>New Post</legend>
 
                 <label htmlFor="title">
@@ -130,7 +133,7 @@ export default function NewPost() {
 
                     <label htmlFor='searchTools'>Search Tools</label>
                     <input type="search" list="foundToolsList" name="searchTools" id="searchTools" value={toolSearchQuery} onChange={e => setToolSearchQuery(e.target.value)} />
-                    {isSearching && <p>Searching tools...</p>}
+                    {isSearching && <p><CircularProgress />&nbsp;Searching tools...</p>}
                     <datalist id="foundToolsList">
                         {foundTools.map(tool => (
                             <option value={tool.name} onSelect={() => handleToolSelect(tool)} />
@@ -162,7 +165,7 @@ export default function NewPost() {
                     ))}
                 </label>
 
-                <input type="submit" value="Submit" />
+                <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>
         </form>
     );
