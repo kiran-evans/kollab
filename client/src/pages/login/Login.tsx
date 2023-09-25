@@ -1,6 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent, useContext, useState } from "react";
+import { Link } from 'react-router-dom';
 import { getUserByFirebaseId } from "../../api/userApi";
 import { AppContext } from "../../lib/ContextProvider";
 import { fb } from "../../lib/firebase";
@@ -46,6 +47,7 @@ export default function Login() {
                     <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Logging in...</> : <>Login</>}</button>
                 </fieldset>
             </form>
+            <Link to="/register">Don't have an account? Register</Link>
         </>
     );
 }
