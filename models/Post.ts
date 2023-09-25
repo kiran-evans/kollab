@@ -58,7 +58,8 @@ PostModel.init({
         defaultValue: []
     },
     difficulty: {
-        type: DataTypes.ENUM({ values: Object.keys(Difficulty) })
+        type: DataTypes.ENUM,
+        values: Object.keys(Difficulty).filter(i => { return isNaN(Number(i)) })
     }
 }, {
     sequelize,

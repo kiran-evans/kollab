@@ -16,8 +16,8 @@ export type Post = {
  * The possible level of effort required
  */
 export enum Difficulty {
-    'Beginner',
-    'Intermediate',
-    'Advanced',
-    'Expert'
+    Beginner = "Beginner",
+    Intermediate = "Intermediate",
+    Advanced = "Advanced",
+    Expert = "Expert"
 }

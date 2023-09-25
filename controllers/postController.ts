@@ -6,11 +6,15 @@ import { UserModel } from "../models/User";
 export const createPost = (async (req, res) => {
     try {
         const user = await UserModel.authenticate(req.body.idToken);
+
+        console.log(req.body);
+        
         
         const post = await PostModel.create({
             author_id: user.getDataValue('id'),
             title: req.body.title,
             message: req.body.message,
+            images: req.body.images,
             tools: req.body.tools,
             difficulty: req.body.difficulty
         });

@@ -32,7 +32,7 @@ export const createPost = async (postBody: {
         message: postBody.message,
         images: Array<string>(),
         tools: postBody.tools,
-        difficuly: postBody.difficulty
+        difficulty: postBody.difficulty
     };
 
     // Upload any images to Firebase Storage and add their URLs to the body.
@@ -44,6 +44,9 @@ export const createPost = async (postBody: {
             body.images.push(imgRef.fullPath);
         }
     }
+
+    console.log(body);
+    
 
     const res = await fetch('/api/post', {
         method: 'POST',

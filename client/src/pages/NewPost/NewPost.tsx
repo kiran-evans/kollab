@@ -1,3 +1,4 @@
+import { Add } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +24,9 @@ export default function NewPost() {
     const [newToolName, setNewToolName] = useState("");
     const [isFetching, setIsFetching] = useState(false);
 
-    const handleAddTool = () => {
+    const handleAddTool = (e: FormEvent) => {
+        e.preventDefault();
+        
         // Make sure this tool isn't already in the array of tools for this Post
         if (post.tools.includes(newToolName.toLocaleLowerCase())) return;
 
@@ -66,7 +69,7 @@ export default function NewPost() {
         setPost({ ...post, images: [...post.images, ...addedImages] });
     }
 
-    const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsFetching(true);
 
@@ -79,17 +82,17 @@ export default function NewPost() {
     }
 
     return (
-        <form>
+        <form onSubmit={e => handleSubmit(e)}>
             <fieldset disabled={isFetching}>
                 <legend>New Post</legend>
 
                 <label htmlFor="title">
                     Title:
-                    <input type="text" id="title" value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
+                    <input type="text" id="title" required value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
                 </label>
                 <label htmlFor="message">
                     Message:
-                    <textarea id="message" value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
+                    <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
                 </label>
 
                 <fieldset className="difficulty-picker">
@@ -109,7 +112,7 @@ export default function NewPost() {
                     <div className="new-tool">
                         <label htmlFor="tool-name">Add tool:</label>
                         <input type="text" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
-                        <input id="add-tool" type="button" value="+" onClick={handleAddTool} />
+                        <button id="add-tool" type="button" onClick={handleAddTool}><Add /></button>
                     </div>
                     
                     <div className="tools-list">
@@ -122,15 +125,13 @@ export default function NewPost() {
                     </div>
                 </fieldset>
 
-                <label htmlFor="add-images">
-                    Add Images:
-                    <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
-                    {post.images.map(file => (
-                        <img src={URL.createObjectURL(file)} alt={file.name} />
-                    ))}
-                </label>
+                <label htmlFor="add-images">Add Images:</label>
+                <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
+                {post.images.map(file => (
+                    <img width="200px" src={URL.createObjectURL(file)} alt={file.name} />
+                ))}
 
-                <button type="submit" onSubmit={e => handleSubmit(e)}>{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
+                <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>
         </form>
     );
