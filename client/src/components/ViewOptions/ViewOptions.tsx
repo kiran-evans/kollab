@@ -1,18 +1,8 @@
-import { useEffect, useState } from "react";
 import "./ViewOptions.css";
 import ViewTool from "../ViewTool/ViewTool";
 
-function ViewOptions({tools}) {
-    const [viewOptions, setViewOptions] = useState({
-        sort: "date",
-        difficulty: "",
-        tools: [], // Array of all tools used by projects
-    });
-    useEffect(()=> {
-        setViewOptions(prev => ({...prev, tools: tools }))
-    },[tools])
-
-    const handleSelector = ({ target }) => {
+function ViewOptions({viewOptions, setViewOptions}) {
+    const handleOptionsSelector = ({ target }) => {
         setViewOptions((prev) => ({ ...prev, [target.name]: target.value }));
     };
 
@@ -43,7 +33,7 @@ function ViewOptions({tools}) {
         <div className="view-options">
             <label htmlFor="sort">
                 Sort:
-                <select name="sort" id="sort-options" onChange={(e) => handleSelector(e)}>
+                <select name="sort" id="sort-options"  value={viewOptions.sort} onChange={(e) => handleOptionsSelector(e)}>
                     <option value="date">Date</option>
                     <option value="score">Score</option>
                     <option value="username">Username</option>
@@ -52,12 +42,12 @@ function ViewOptions({tools}) {
             </label>
             <label htmlFor="difficulty">
                 Difficulty:
-                <select name="difficulty" id="difficulty-options" onChange={(e) => handleSelector(e)}>
+                <select name="difficulty" id="difficulty-options"  value={viewOptions.difficulty} onChange={(e) => handleOptionsSelector(e)}>
                     <option value="">All</option>
-                    <option value="beginner">Beginner</option>
-                    <option value="intermediate">Intermediate</option>
-                    <option value="advanced">Advanced</option>
-                    <option value="expert">Expert</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Expert">Expert</option>
                 </select>
             </label>
             <div className="tools-filter">

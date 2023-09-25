@@ -1,28 +1,25 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import Post from '../../components/Post/Post'
 import ViewOptions from '../../components/ViewOptions/ViewOptions'
 import './Posts.css'
-import { getAllPosts } from '../../api/postApi'
 import { AppContext } from '../../lib/ContextProvider'
 import { selectPosts, selectTools } from '../../lib/ContextActions'
 
 function Posts() {
-  const { state, dispatch } = useContext(AppContext);
-  let posts = selectPosts(state);
+  const { state } = useContext(AppContext);
   const tools = selectTools(state);
   
-  useEffect(() => {
-    const loadPosts = async () => {
-      dispatch({
-        type: 'LOAD_POSTS',
-        payload: [...await getAllPosts()]
-      })
-    }
-    loadPosts()
-  }, [])
+  const [viewOptions, setViewOptions] = useState({
+    sort: "date",
+    difficulty: "",
+    tools: tools, // Array of all tools used by projects
+  });
+  
+  const posts = selectPosts(state, viewOptions); // all post
+  
   return (
     <>
-      <ViewOptions tools={tools} />
+      <ViewOptions viewOptions={viewOptions} setViewOptions={setViewOptions} />
       <div className="posts">
         {
           posts.length > 0 ? 

@@ -95,10 +95,10 @@ export const getAllPosts = (async () => {
         }
     ])
 
-    const res = await fetch('/api/post')
+    const res = await fetch('/api/post?limit=50&offset=0')
     if (!res.ok) {
         throw Error(res.statusText)
     }
-    console.log(res)
+    //console.log(res)
     return await res.json();
 })

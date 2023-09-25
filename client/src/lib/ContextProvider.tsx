@@ -1,9 +1,10 @@
 import { Dispatch, createContext, useReducer } from 'react';
 import { AppState, ContextAction, stateReducer } from './stateReducer';
+import { getAllPosts } from '../api/postApi';
 
 const initialState: AppState = {
     user: null,
-    posts: [],
+    posts: [...await getAllPosts()],
     comments: []
 }
 
