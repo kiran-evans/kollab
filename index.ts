@@ -4,6 +4,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+import cors, { CorsOptions } from 'cors';
+const corsOptions: CorsOptions = {
+    allowedHeaders: ['content-type']
+}
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 import dotenv from 'dotenv';
 dotenv.config();
 

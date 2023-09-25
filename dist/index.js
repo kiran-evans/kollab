@@ -7,6 +7,12 @@ const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+const cors_1 = __importDefault(require("cors"));
+const corsOptions = {
+    allowedHeaders: ['content-type']
+};
+app.use((0, cors_1.default)(corsOptions));
+app.options('*', (0, cors_1.default)(corsOptions));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const path_1 = __importDefault(require("path"));
