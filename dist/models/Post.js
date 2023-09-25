@@ -25,6 +25,11 @@ PostModel.init({
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     },
+    images: {
+        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.TEXT),
+        allowNull: false,
+        defaultValue: []
+    },
     upvotes: {
         type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.UUID),
         allowNull: false,
@@ -41,7 +46,7 @@ PostModel.init({
         defaultValue: []
     },
     tools: {
-        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.TEXT),
+        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.UUID),
         allowNull: false,
         defaultValue: []
     },

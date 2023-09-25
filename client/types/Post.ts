@@ -7,6 +7,7 @@ export type Post = {
     images: Array<string>;
     upvotes: Array<string>;
     downvotes: Array<string>;
+    comments: Array<string>;
     tools: Array<string>;
     difficulty: Difficulty;
 }

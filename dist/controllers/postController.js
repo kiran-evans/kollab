@@ -7,15 +7,11 @@ const User_1 = require("../models/User");
 exports.createPost = (async (req, res) => {
     try {
         const user = await User_1.UserModel.authenticate(req.body.idToken);
-        const tools = Array();
-        req.body.tools.forEach((tool) => {
-            tools.push(tool.id);
-        });
         const post = await Post_1.PostModel.create({
             author_id: user.getDataValue('id'),
             title: req.body.title,
             message: req.body.message,
-            tools: tools,
+            tools: req.body.tools,
             difficulty: req.body.difficulty
         });
         return res.status(201).json(post.toJSON());

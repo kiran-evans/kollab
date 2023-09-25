@@ -8,6 +8,6 @@ router.route('/')
     .post((0, express_validator_1.body)('idToken').notEmpty().isJWT(), (0, express_validator_1.body)('username').notEmpty().isAlphanumeric().isLength({ min: 3, max: 15 }), userController_1.createUser)
     .put((0, express_validator_1.body)('idToken').notEmpty().isJWT(), userController_1.updateUser)
     .delete((0, express_validator_1.body)('idToken').notEmpty().isJWT(), userController_1.deleteUser);
-router.route('/:id')
-    .get((0, express_validator_1.param)('id').notEmpty().isUUID(), userController_1.getUser);
+router.route('/')
+    .get((0, express_validator_1.query)('id').isUUID(), (0, express_validator_1.query)('firebase_id').isAlphanumeric(), userController_1.getUser);
 exports.default = router;
