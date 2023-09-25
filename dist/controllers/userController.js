@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUser = exports.createUser = void 0;
+const sequelize_1 = require("sequelize");
 const fb_1 = require("../lib/fb");
 const User_1 = require("../models/User");
 exports.createUser = (async (req, res) => {
@@ -23,7 +24,12 @@ exports.createUser = (async (req, res) => {
 });
 exports.getUser = (async (req, res) => {
     try {
-        const user = await User_1.UserModel.findByPk(req.params.id);
+        const user = await User_1.UserModel.findOne({
+            where: {
+                id: req.query.id ?? { [sequelize_1.Op.not]: null },
+                firebase_id: req.query.firebase_id ?? { [sequelize_1.Op.not]: null }
+            }
+        });
         if (!user)
             return res.status(404).send();
         const { firebase_id, date_created, date_modified, ...body } = user.toJSON();

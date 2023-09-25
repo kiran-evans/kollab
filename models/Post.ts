@@ -53,12 +53,13 @@ PostModel.init({
         defaultValue: []
     },
     tools: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         allowNull: false,
         defaultValue: []
     },
     difficulty: {
-        type: DataTypes.ENUM({ values: Object.keys(Difficulty) })
+        type: DataTypes.ENUM,
+        values: Object.keys(Difficulty).filter(i => { return isNaN(Number(i)) })
     }
 }, {
     sequelize,

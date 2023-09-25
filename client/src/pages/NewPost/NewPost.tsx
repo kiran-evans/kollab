@@ -1,67 +1,45 @@
+import { Add } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Difficulty } from '../../../types/Post';
-import { Tool } from '../../../types/Tool';
 import { createPost } from '../../api/postApi';
-import { createNewTool, getToolsByName } from '../../api/toolsApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { fb } from '../../lib/firebase';
 import "./NewPost.css";
 
 export default function NewPost() {
     const { state } = useContext(AppContext);
+    const navigator = useNavigate();
 
     const initialState = {
         title: "",
         message: "",
         images: Array<File>(),
-        tools: Array<Tool>(),
+        tools: Array<string>(),
         difficulty: Difficulty.Beginner
     };
     const [post, setPost] = useState(initialState);
     
-    const [toolSearchQuery, setToolSearchQuery] = useState("");
-    const [isSearching, setIsSearching] = useState(false);
-    const [isFetching, setIsFetching] = useState(false);
-    const [foundTools, setFoundTools] = useState(Array<Tool>());
-
     const [newToolName, setNewToolName] = useState("");
+    const [isFetching, setIsFetching] = useState(false);
 
-    // Update the <datalist> for the foundTools whenever the user searches in the search box
-    useEffect(() => {
-        setIsSearching(true);
-        (async () => {
-            const res = await getToolsByName(toolSearchQuery);
-            setFoundTools(await res.json());
-            setIsSearching(false);
-        })();
-    }, [toolSearchQuery]);
-
-    const handleToolSelect = (selectedTool: Tool) => {
-        // Make sure this Tool isn't already in the array of Tools for this Post
-        if (post.tools.includes(selectedTool)) return;
-
-        // Add the selected Tool to the Post's array of Tools
-        setPost({ ...post, tools: [...post.tools, selectedTool] });
-    }
-
-    const handleRemoveTool = (removeTool: Tool) => {
-        // Remove this tool from the Post's array of Tools
-        setPost({ ...post, tools: post.tools.splice(post.tools.indexOf(removeTool), 1) });
-    }
-
-    const handleCreateNewTool = async () => {
-        // User must be logged in to do this
-        if (!fb.auth.currentUser) return;
-
-        // Create the new tool in the db
-        const res = await createNewTool(newToolName, await fb.auth.currentUser.getIdToken());
+    const handleAddTool = (e: FormEvent) => {
+        e.preventDefault();
         
-        // Add the new tool to the list
-        setPost({ ...post, tools: [...post.tools, await res.json()] });
+        // Make sure this tool isn't already in the array of tools for this Post
+        if (post.tools.includes(newToolName.toLocaleLowerCase())) return;
 
-        // Reset the input field
+        // Add the selected tool to the Post's array of tools
+        setPost({ ...post, tools: [...post.tools, newToolName] });
         setNewToolName("");
+    }
+
+    const handleRemoveTool = (removeTool: string) => {
+        // Remove this tool from the Post's array of Tools
+        const updatedToolsArray = [...post.tools];
+        updatedToolsArray.splice(post.tools.indexOf(removeTool), 1)
+        setPost({ ...post, tools: updatedToolsArray });
     }
 
     /**
@@ -91,7 +69,7 @@ export default function NewPost() {
         setPost({ ...post, images: [...post.images, ...addedImages] });
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsFetching(true);
 
@@ -100,7 +78,7 @@ export default function NewPost() {
         
         await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
         setIsFetching(false);
-        // Redirect
+        navigator(`/${state.user.username}/posts`);
     }
 
     return (
@@ -110,18 +88,18 @@ export default function NewPost() {
 
                 <label htmlFor="title">
                     Title:
-                    <input type="text" name="title" id="title" value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
+                    <input type="text" id="title" required value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
                 </label>
                 <label htmlFor="message">
                     Message:
-                    <textarea name="message" id=""></textarea>
+                    <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
                 </label>
 
                 <fieldset className="difficulty-picker">
                     <legend>Difficulty:</legend>
-                    {Object.keys(Difficulty).map(difficulty => (
+                    {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
                         <>
-                            <input className="difficulty-radio" type="radio" name="difficulty" id={`difficulty-${difficulty}`} />
+                            <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} />
                             <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
                                 {difficulty}
                             </label>
@@ -131,39 +109,27 @@ export default function NewPost() {
                 <fieldset className="tools-adder">
                     <legend>Tools</legend>
 
-                    <label htmlFor='searchTools'>Search Tools</label>
-                    <input type="search" list="foundToolsList" name="searchTools" id="searchTools" value={toolSearchQuery} onChange={e => setToolSearchQuery(e.target.value)} />
-                    {isSearching && <p><CircularProgress />&nbsp;Searching tools...</p>}
-                    <datalist id="foundToolsList">
-                        {foundTools.map(tool => (
-                            <option value={tool.name} onSelect={() => handleToolSelect(tool)} />
-                        ))}
-                    </datalist>
-
                     <div className="new-tool">
-                        <p>Can't find the tool you're looking for? Add a new tool.</p>
-                        <label htmlFor="tool-name">Name:</label>
-                        <input type="text" name="tool" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
-                        <input id="add-tool" type="button" value="+" onClick={handleCreateNewTool} />
+                        <label htmlFor="tool-name">Add tool:</label>
+                        <input type="text" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
+                        <button id="add-tool" type="button" onClick={handleAddTool}><Add /></button>
                     </div>
                     
                     <div className="tools-list">
                         {post.tools.map(tool => (
                             <div className="tool">
-                                <p>{tool.name}</p>
+                                <p>{tool}</p>
                                 <input type="button" value="X" onClick={() => handleRemoveTool(tool)} />
                             </div>
                         ))}
                     </div>
                 </fieldset>
 
-                <label htmlFor="add-images">
-                    Add Images:
-                    <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
-                    {post.images.map(file => (
-                        <img src={URL.createObjectURL(file)} alt={file.name} />
-                    ))}
-                </label>
+                <label htmlFor="add-images">Add Images:</label>
+                <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
+                {post.images.map(file => (
+                    <img width="200px" src={URL.createObjectURL(file)} alt={file.name} />
+                ))}
 
                 <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>

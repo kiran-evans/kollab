@@ -25,6 +25,11 @@ PostModel.init({
         type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     },
+    images: {
+        type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.TEXT),
+        allowNull: false,
+        defaultValue: []
+    },
     upvotes: {
         type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.UUID),
         allowNull: false,
@@ -46,7 +51,8 @@ PostModel.init({
         defaultValue: []
     },
     difficulty: {
-        type: sequelize_1.DataTypes.ENUM({ values: Object.keys(Post_1.Difficulty) })
+        type: sequelize_1.DataTypes.ENUM,
+        values: Object.keys(Post_1.Difficulty).filter(i => { return isNaN(Number(i)); })
     }
 }, {
     sequelize: pg_1.sequelize,

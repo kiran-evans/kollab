@@ -18,9 +18,6 @@ app.use('/api/comment', commentRouter);
 import postRouter from './routers/postRouter';
 app.use('/api/post', postRouter);
 
-import toolRouter from './routers/toolRouter';
-app.use('/api/tool', toolRouter);
-
 import userRouter from './routers/userRouter';
 app.use('/api/user', userRouter);
 

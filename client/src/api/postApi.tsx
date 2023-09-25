@@ -8,7 +8,6 @@
 
 import { ref, uploadBytes } from "firebase/storage";
 import { Difficulty, Post } from "../../types/Post";
-import { Tool } from "../../types/Tool";
 import { fb } from "../lib/firebase";
 
 /**
@@ -23,7 +22,7 @@ export const createPost = async (postBody: {
     title: string,
     message: string,
     images: Array<File>,
-    tools: Array<Tool>,
+    tools: Array<string>,
     difficulty: Difficulty
 }, idToken: string, userId: string): Promise<Post> => {
 
@@ -32,11 +31,11 @@ export const createPost = async (postBody: {
         title: postBody.title,
         message: postBody.message,
         images: Array<string>(),
-        tools: Array<string>(),
-        difficuly: postBody.difficulty
+        tools: postBody.tools,
+        difficulty: postBody.difficulty
     };
 
-    // Upload each image to Firebase Storage and add their URLs to the body.
+    // Upload any images to Firebase Storage and add their URLs to the body.
     if (postBody.images.length > 0) {
         for (const i of postBody.images) {
             const imgRef = ref(fb.storage, `images/users/${userId}/${i.name}`);
@@ -46,12 +45,8 @@ export const createPost = async (postBody: {
         }
     }
 
-    // Convert the array of Tool objects into an array of UUIDs for the relation database.
-    if (postBody.tools.length > 0) {
-        for (const t of postBody.tools) {
-            body.tools.push(t.id);
-        }
-    }
+    console.log(body);
+    
 
     const res = await fetch('/api/post', {
         method: 'POST',
