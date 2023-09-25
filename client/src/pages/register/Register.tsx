@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FormEvent, useContext, useState } from "react";
+import { Link } from 'react-router-dom';
 import { signUpUser } from "../../api/userApi";
 import { AppContext } from "../../lib/ContextProvider";
 import { fb } from "../../lib/firebase";
@@ -44,7 +45,7 @@ export default function Register() {
 
     return (
         <>
-        <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <fieldset>
                     <legend>Register</legend>
 
@@ -67,6 +68,7 @@ export default function Register() {
                 <input type="submit" value="Submit" />
                 </fieldset>
             </form>
+            <Link to="/login">Already have an account? Login</Link>
         </>
     )
 }
