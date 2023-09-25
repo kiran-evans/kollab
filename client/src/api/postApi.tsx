@@ -48,7 +48,7 @@ export const createPost = async (postBody: {
     console.log(body);
     
 
-    const res = await fetch('/api/post', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -90,7 +90,7 @@ export const getAllPosts = (async () => {
         }
     ])
 
-    const res = await fetch('/api/post?limit=50&offset=0')
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=50&offset=0`)
     if (!res.ok) {
         throw Error(res.statusText)
     }

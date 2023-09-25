@@ -8,7 +8,7 @@ import { User } from "../../types/User";
  * @returns A Promise containing the data for the created user in the database.
  */
 export const signUpUser = async (username: string, idToken: string): Promise<User> => {
-    const res = await fetch('/api/user', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -33,7 +33,7 @@ export const signUpUser = async (username: string, idToken: string): Promise<Use
  * @returns A Promise containing the User data in the database.
  */
 export const getUserByFirebaseId = async (firebase_id: string): Promise<User> => {
-    const res = await fetch(`/api/user?firebase_id=${firebase_id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?firebase_id=${firebase_id}`, {
         method: 'GET'
     });
 
