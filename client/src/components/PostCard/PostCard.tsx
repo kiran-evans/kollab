@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom'
-import  './Post.css'
+import { Link } from 'react-router-dom';
+import { Post } from '../../../types/Post';
+import './PostCard.css';
 
-function Post({data}) { // specify type : Post
+function PostCard(props: { data: Post }) { // specify type : Post
+    const { data } = props;
   return (
     <div className="post">
         <div className="post-head">
@@ -14,9 +16,7 @@ function Post({data}) { // specify type : Post
             {data.title}
         </h3>
         <div className="post-tools">
-            {
-                data.tools.map(tool => <p key={tool.name}>{tool.name}</p>)
-            }
+            {/* {data.tools.map(tool => <p key={tool}>{tool}</p>)} */}
         </div>
         <div className="post-contents">
             {
@@ -41,4 +41,4 @@ function Post({data}) { // specify type : Post
   )
 }
 
-export default Post
+export default PostCard

@@ -1,15 +1,16 @@
 import { useContext, useState } from 'react'
-import Post from '../../components/Post/Post'
-import ViewOptions from '../../components/ViewOptions/ViewOptions'
-import './Posts.css'
-import { AppContext } from '../../lib/ContextProvider'
+import { ViewOptions } from '../../../types/ViewOptions'
+import PostCard from '../../components/PostCard/PostCard'
+import { ViewOptionsMenu } from '../../components/ViewOptionsMenu/ViewOptionsMenu'
 import { selectPosts, selectTools } from '../../lib/ContextActions'
+import { AppContext } from '../../lib/ContextProvider'
+import './Posts.css'
 
 function Posts() {
   const { state } = useContext(AppContext);
   const tools = selectTools(state);
   
-  const [viewOptions, setViewOptions] = useState({
+  const [viewOptions, setViewOptions] = useState<ViewOptions>({
     sort: "date",
     difficulty: "",
     tools: tools, // Array of all tools used by projects
@@ -19,11 +20,11 @@ function Posts() {
   
   return (
     <>
-      <ViewOptions viewOptions={viewOptions} setViewOptions={setViewOptions} />
+      <ViewOptionsMenu viewOptions={viewOptions} setViewOptions={setViewOptions} />
       <div className="posts">
         {
           posts.length > 0 ? 
-            posts.map(iter => <Post key={iter.id} data={iter}  />): 
+            posts.map(iter => <PostCard key={iter.id} data={iter}  />): 
             <h2>No Posts</h2>
         }
       </div>
