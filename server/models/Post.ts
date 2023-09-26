@@ -13,6 +13,8 @@ export class PostModel extends Model implements Post {
     declare comments: Array<string>;
     declare tools: Array<string>;
     declare difficulty: Difficulty;
+    declare createdAt: Date;
+    declare updatedAt: Date;
 }
 PostModel.init({
     id: {

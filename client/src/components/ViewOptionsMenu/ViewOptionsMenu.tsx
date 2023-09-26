@@ -1,9 +1,13 @@
-import "./ViewOptions.css";
+import { ChangeEvent } from "react";
+import { ViewOptions } from "../../../types/ViewOptions";
 import ViewTool from "../ViewTool/ViewTool";
+import "./ViewOptionsMenu.css";
 
-function ViewOptions({viewOptions, setViewOptions}) {
-    const handleOptionsSelector = ({ target }) => {
-        setViewOptions((prev) => ({ ...prev, [target.name]: target.value }));
+export function ViewOptionsMenu(props: { viewOptions: ViewOptions, setViewOptions }) {
+    const { viewOptions, setViewOptions } = props;
+
+    const handleOptionsSelector = (e: ChangeEvent<HTMLSelectElement>) => {
+        setViewOptions((prev: ViewOptions) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleReset = () => {
@@ -14,14 +18,14 @@ function ViewOptions({viewOptions, setViewOptions}) {
         });
     };
 
-    const handleToolCheck = ({ target }) => {
+    const handleToolCheck = (e: ChangeEvent<HTMLInputElement>) => {
       // loops through tools n toggle obj with matching name
-        setViewOptions((prev) => ({
+        setViewOptions((prev: ViewOptions) => ({
             ...prev,
             tools: [
                 ...prev.tools.map((tool) => {
-                    if (tool.name == target.name) {
-                        return { name: tool.name, isChecked: target.checked };
+                    if (tool.name == e.target.name) {
+                        return { name: tool.name, isChecked: e.target.checked };
                     } else {
                         return tool;
                     }
@@ -52,11 +56,11 @@ function ViewOptions({viewOptions, setViewOptions}) {
             </label>
             <div className="tools-filter">
                 <p>Tools</p>
-                {viewOptions.tools.map((tool) => (
+                {viewOptions.tools.map((tool, i) => (
                     <ViewTool
-                        key={tool.name}
+                        key={i}
                         name={tool.name}
-                        isChecked={tool?.isChecked}
+                        isChecked={tool.isChecked}
                         handleChange={handleToolCheck}
                     />
                 ))}
@@ -66,5 +70,3 @@ function ViewOptions({viewOptions, setViewOptions}) {
         </div>
     );
 }
-
-export default ViewOptions;

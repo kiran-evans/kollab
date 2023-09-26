@@ -1,8 +1,7 @@
-import './Comments.css'
-import Comment from "../../components/Comment/Comment";
-import Post from "../../components/Post/Post";
-import NewComment from '../../components/NewComment/NewComment';
 import { useParams } from 'react-router-dom';
+import Comment from "../../components/Comment/Comment";
+import NewComment from '../../components/NewComment/NewComment';
+import './Comments.css';
 
 export default function Comments() {
   const { postId } = useParams()

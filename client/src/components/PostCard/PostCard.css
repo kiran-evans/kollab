@@ -15,13 +15,24 @@
     width: 85%;
     margin-inline: auto;
 }
-.post .image {
-    display: block;
-    width: 100%;
-    max-width: 50%;
-    background-color: var(--color-bg-secondary);
+
+.post-images {
+    display: flex;
+    gap: 1em;
 }
+
+.post-images img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
 .post .post-rating {
     display: block;
     width: min-content;
+}
+
+.post-head {
+    display: flex;
+    gap: 1em;
 }

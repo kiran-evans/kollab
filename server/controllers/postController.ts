@@ -5,10 +5,7 @@ import { UserModel } from "../models/User";
 
 export const createPost = (async (req, res) => {
     try {
-        const user = await UserModel.authenticate(req.body.idToken);
-
-        console.log(req.body);
-        
+        const user = await UserModel.authenticate(req.body.idToken);       
         
         const post = await PostModel.create({
             author_id: user.getDataValue('id'),
