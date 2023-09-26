@@ -76,9 +76,12 @@ export default function NewPost() {
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
         
-        await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
+        const res = await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id); // should return post.id
+        if (!res) {
+            throw Error("Create post failed")
+        }
         setIsFetching(false);
-        navigator(`/${state.user.username}/posts`);
+        navigator(`/${res.id}`);
     }
 
     return (
