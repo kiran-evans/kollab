@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { browserLocalPersistence, getAuth, setPersistence } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth/cordova';
 import { getStorage } from 'firebase/storage';
 
@@ -14,6 +14,7 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app);
+await setPersistence(auth, browserLocalPersistence);
 const storage = getStorage(app);
 
 const google = new GoogleAuthProvider();

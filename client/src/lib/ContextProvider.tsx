@@ -1,17 +1,35 @@
-import { Dispatch, createContext, useReducer } from 'react';
-import { AppState, ContextAction, stateReducer } from './stateReducer';
+import { Dispatch, createContext, useEffect, useReducer } from 'react';
+import { User } from '../../types/User';
 import { getAllPosts } from '../api/postApi';
+import { getUserByFirebaseId } from '../api/userApi';
+import { fb } from './firebase';
+import { AppState, ContextAction, stateReducer } from './stateReducer';
+
+const getInitialUser = async (): Promise<User | null> => {
+    // If there is a current Firebase Auth session, initialise the state with the current user
+    if (fb.auth.currentUser) {
+        return await getUserByFirebaseId(fb.auth.currentUser.uid);
+    }
+    
+    return null;
+}
 
 const initialState: AppState = {
-    user: null,
+    user: await getInitialUser(),
     posts: [...await getAllPosts()],
     comments: []
 }
 
 export const AppContext = createContext<{ state: AppState, dispatch: Dispatch<ContextAction> }>({ state: initialState, dispatch: () => {} });
 
-export const ContextProvider = ({ children }: any) => {
+export const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(stateReducer, initialState);
+
+    useEffect(() => {
+        (async () => {
+            dispatch({ type: 'SET_USER', payload: await getInitialUser() });
+        })();
+    }, []);
 
     return (
         <AppContext.Provider value={{
