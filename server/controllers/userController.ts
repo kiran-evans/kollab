@@ -38,7 +38,7 @@ export const getUser = (async (req, res) => {
         if (!user) return res.status(404).send();
 
         // Exclude sensitive and irrelevant data from the returned body
-        const { firebase_id, date_created, date_modified, ...body } = user.toJSON();
+        const { firebase_id, createdAt, updatedAt, ...body } = user.toJSON();
 
         return res.status(200).json(body);
 

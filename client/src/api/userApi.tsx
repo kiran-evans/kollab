@@ -43,3 +43,21 @@ export const getUserByFirebaseId = async (firebase_id: string): Promise<User> =>
 
     return await res.json();
 }
+
+/**
+ * Grabs the User's data from the server.
+ * 
+ * @param id - The 'uid' property of an instance of Firebase Auth User.
+ * @returns A Promise containing the User data in the database.
+ */
+export const getUserById = async (id: string): Promise<User> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?id=${id}`, {
+        method: 'GET'
+    });
+
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+
+    return await res.json();
+}

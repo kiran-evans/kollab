@@ -10,6 +10,8 @@ export type Post = {
     comments: Array<string>;
     tools: Array<string>;
     difficulty: Difficulty;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 /**
