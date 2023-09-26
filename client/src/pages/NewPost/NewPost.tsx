@@ -4,9 +4,7 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Difficulty } from '../../../types/Post';
 import { createPost } from '../../api/postApi';
-import { ErrorMsg } from '../../components/ErrorMsg/ErrorMsg';
 import { AppContext } from '../../lib/ContextProvider';
-import { getErrorMessage } from '../../lib/error';
 import { fb } from '../../lib/firebase';
 import "./NewPost.css";
 
@@ -25,7 +23,6 @@ export default function NewPost() {
     
     const [newToolName, setNewToolName] = useState("");
     const [isFetching, setIsFetching] = useState(false);
-    const [errMsg, setErrMsg] = useState("");
 
     const handleAddTool = (e: FormEvent) => {
         e.preventDefault();
@@ -79,16 +76,12 @@ export default function NewPost() {
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
         
-        try {
-            await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id);
-            navigator(`/${state.user.username}/posts`);
-
-        } catch (err) {
-            setErrMsg(getErrorMessage(err));
+        const res = await createPost(post, await fb.auth.currentUser.getIdToken(), state.user.id); // should return post.id
+        if (!res) {
+            throw Error("Create post failed")
         }
-
-        setErrMsg("");
         setIsFetching(false);
+        navigator(`/${res.id}`);
     }
 
     return (
@@ -140,7 +133,6 @@ export default function NewPost() {
 
                 <button type="submit">{isFetching ? <><CircularProgress size={20} />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>
-            {errMsg && <ErrorMsg message={errMsg} />}
         </form>
     );
 }

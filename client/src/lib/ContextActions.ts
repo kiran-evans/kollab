@@ -68,10 +68,9 @@ export const selectTools = (state: AppState) => {
 }
 
 export const selectPostById = (state : AppState, id: string) => {
-    return state.posts.find(post => post.id === id);
+    return state.posts.find(post => post.id === id) || null;
 }
 
 export const selectCommentsByPost = (state : AppState, id: string) => {
-    return state.comments.find(comment => comment.id == id);
+    return state.comments.find(comment => comment.id == id) || null;
 }
-
