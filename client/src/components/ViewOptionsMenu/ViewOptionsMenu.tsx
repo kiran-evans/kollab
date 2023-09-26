@@ -39,9 +39,10 @@ export function ViewOptionsMenu(props: { viewOptions: ViewOptions, setViewOption
                 Sort:
                 <select name="sort" id="sort-options"  value={viewOptions.sort} onChange={(e) => handleOptionsSelector(e)}>
                     <option value="date">Date</option>
-                    <option value="score">Score</option>
+                    <option value="title">Title</option>
+                    <option value="upvotes">Upvotes</option>
+                    <option value="downvotes">Downvotes</option>
                     <option value="username">Username</option>
-                    <option value="duration">Duration</option>
                 </select>
             </label>
             <label htmlFor="difficulty">
