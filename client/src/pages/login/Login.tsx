@@ -44,7 +44,7 @@ export default function Login() {
                     <label htmlFor="password">Password:</label>
                     <input type="password" name="password" id="password" value={credentials.password} onChange={e => setCredentials({ ...credentials, password: e.target.value })} />
 
-                    <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Logging in...</> : <>Login</>}</button>
+                    <button type="submit">{isFetching ? <><CircularProgress size={20} />&nbsp;Logging in...</> : <>Login</>}</button>
                 </fieldset>
             </form>
             <Link to="/register">Don't have an account? Register</Link>

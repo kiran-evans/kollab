@@ -86,17 +86,14 @@ export default function NewPost() {
             <fieldset disabled={isFetching}>
                 <legend>New Post</legend>
 
-                <label htmlFor="title">
-                    Title:
-                    <input type="text" id="title" required value={post.title} onChange={e => setPost({...post, title: e.target.value})} />
-                </label>
-                <label htmlFor="message">
-                    Message:
-                    <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
-                </label>
+                <label htmlFor="title">Title</label>
+                <input type="text" id="title" required value={post.title} onChange={e => setPost({ ...post, title: e.target.value })} />
+                
+                <label htmlFor="message">Message</label>
+                <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
 
                 <fieldset className="difficulty-picker">
-                    <legend>Difficulty:</legend>
+                    <legend>Difficulty</legend>
                     {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
                         <>
                             <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} />
@@ -131,7 +128,7 @@ export default function NewPost() {
                     <img width="200px" src={URL.createObjectURL(file)} alt={file.name} />
                 ))}
 
-                <button type="submit">{isFetching ? <><CircularProgress />&nbsp;Submitting...</> : <>Submit</>}</button>
+                <button type="submit">{isFetching ? <><CircularProgress size={20} />&nbsp;Submitting...</> : <>Submit</>}</button>
             </fieldset>
         </form>
     );
