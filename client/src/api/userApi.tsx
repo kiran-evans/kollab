@@ -20,7 +20,7 @@ export const signUpUser = async (username: string, idToken: string): Promise<Use
     });
 
     if (!res.ok) {
-        throw Error(res.statusText);
+        throw res.statusText;
     }
 
     return await res.json();
@@ -32,13 +32,14 @@ export const signUpUser = async (username: string, idToken: string): Promise<Use
  * @param firebase_id - The 'uid' property of an instance of Firebase Auth User.
  * @returns A Promise containing the User data in the database.
  */
-export const getUserByFirebaseId = async (firebase_id: string): Promise<User> => {
+export const getUserByFirebaseId = async (firebase_id: string): Promise<User | null> => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?firebase_id=${firebase_id}`, {
         method: 'GET'
     });
 
     if (!res.ok) {
-        throw Error(res.statusText);
+        if (res.status === 404) return null;
+        throw res.statusText;
     }
 
     return await res.json();
@@ -56,7 +57,7 @@ export const getUserById = async (id: string): Promise<User> => {
     });
 
     if (!res.ok) {
-        throw Error(res.statusText);
+        throw res.statusText;
     }
 
     return await res.json();

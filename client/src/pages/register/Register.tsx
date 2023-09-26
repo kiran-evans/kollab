@@ -1,8 +1,11 @@
+import { CircularProgress } from '@mui/material';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FormEvent, useContext, useState } from "react";
 import { Link } from 'react-router-dom';
 import { signUpUser } from "../../api/userApi";
+import { ErrorMsg } from '../../components/ErrorMsg/ErrorMsg';
 import { AppContext } from "../../lib/ContextProvider";
+import { getErrorMessage } from '../../lib/error';
 import { fb } from "../../lib/firebase";
 
 export default function Register() {
@@ -14,33 +17,45 @@ export default function Register() {
         confirmPassword: ""
     }
     const [formEntries, setFormEntries] = useState(initialFormEntries);
+    const [errMsg, setErrMsg] = useState("");
+    const [isFetching, setIsFetching] = useState(false);
 
     const { dispatch } = useContext(AppContext);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
         // If the passwords don't match, cancel this submission
         if (formEntries.password !== formEntries.confirmPassword) {
-            alert("Passwords must match.");
+            setErrMsg("Passwords must match.");
             return;
         }
-        
-        // Create the user in Firebase Auth
-        // This automatically updates the Firebase state with a now logged-in User
-        await createUserWithEmailAndPassword(fb.auth, formEntries.email, formEntries.password);
 
-        // If Firebase Auth failed to create or login the user, cancel this submission
-        if (!fb.auth.currentUser) {
-            throw "Firebase Auth failed to create user.";
+        setIsFetching(true);
+
+        try {
+            // Create the user in Firebase Auth
+            // This automatically updates the Firebase state with a now logged-in User
+            await createUserWithEmailAndPassword(fb.auth, formEntries.email, formEntries.password);
+
+            // If Firebase Auth failed to create or login the user, cancel this submission
+            if (!fb.auth.currentUser) {
+                setErrMsg("Firebase Auth Error: Failed to create user.");
+                return;
+            }
+            
+            const user = await signUpUser(formEntries.username, await fb.auth.currentUser.getIdToken());
+            dispatch({
+                type: 'SET_USER',
+                payload: user
+            });
+
+            setFormEntries(initialFormEntries);
+        } catch (err) {
+            setErrMsg(getErrorMessage(err));
         }
-        
-        const user = await signUpUser(formEntries.username, await fb.auth.currentUser.getIdToken());
-        dispatch({
-            type: 'SET_USER',
-            payload: user
-        });
 
-        setFormEntries(initialFormEntries);
+        setIsFetching(false);
     }
 
     return (
@@ -51,23 +66,24 @@ export default function Register() {
 
                     <label htmlFor="email">
                         Email:
-                        <input type="email" name="email" id="email" value={formEntries.email} onChange={e => setFormEntries({...formEntries, email: e.target.value})} />
+                        <input type="email" name="email" id="email" required value={formEntries.email} onChange={e => setFormEntries({...formEntries, email: e.target.value})} />
                     </label>
                     <label htmlFor="username">
                         Username:
-                        <input type="text" name="username" id="username" value={formEntries.username} onChange={e => setFormEntries({...formEntries, username: e.target.value})} />
+                        <input type="text" name="username" id="username" required value={formEntries.username} onChange={e => setFormEntries({...formEntries, username: e.target.value})} />
                     </label>
                     <label htmlFor="password">
                         Password:
-                        <input type="password" name="password" id="password" value={formEntries.password} onChange={e => setFormEntries({...formEntries, password: e.target.value})} />
+                        <input type="password" name="password" id="password" required value={formEntries.password} onChange={e => setFormEntries({...formEntries, password: e.target.value})} />
                     </label>
                     <label htmlFor="confirm-password">
                         Confirm Password:
-                        <input type="password" name="confirm-password" id="confirm-password" value={formEntries.confirmPassword} onChange={e => setFormEntries({...formEntries, confirmPassword: e.target.value})} />
+                        <input type="password" name="confirm-password" id="confirm-password" required value={formEntries.confirmPassword} onChange={e => setFormEntries({...formEntries, confirmPassword: e.target.value})} />
                     </label>
-                <input type="submit" value="Submit" />
+                    <button type="submit" disabled={isFetching}>{isFetching ? <><CircularProgress size={15} />&nbsp;Registering...</> : <>Register</>}</button>
                 </fieldset>
             </form>
+            {errMsg && <ErrorMsg message={errMsg} />}
             <Link to="/login">Already have an account? Login</Link>
         </>
     )
