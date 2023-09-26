@@ -43,10 +43,7 @@ export const createPost = async (postBody: {
             // Store the URL of each image in an array
             body.images.push(imgRef.fullPath);
         }
-    }
-
-    console.log(body);
-    
+    }    
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post`, {
         method: 'POST',

@@ -2,6 +2,7 @@
 .difficulty-picker {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
 }
 .difficulty-picker label {
     border: 0.1rem solid var(--color-fg-secondary);
