@@ -4,8 +4,15 @@ import { AppState } from "./stateReducer";
 
 // indirect access state values 
 
-export const selectPosts = (state: AppState, viewOptions: ViewOptions) => {
+export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_id=null) => {
     let posts = [...state.posts];
+    // By Author
+    if (author_id) {
+        // this will filter out post based on username
+        console.log(`in ContextActions.ts line:9  \n\tauthor_id needs to be compared with username "${author_id}"`)
+        //posts = posts.filter(post => await getUserById(post.author_id) == author_id);
+    }
+
     // Sort
     const sortPosts = (a:Post, b:Post) => {
         switch (viewOptions.sort) {

@@ -5,8 +5,11 @@ import { ViewOptionsMenu } from '../../components/ViewOptionsMenu/ViewOptionsMen
 import { selectPosts, selectTools } from '../../lib/ContextActions'
 import { AppContext } from '../../lib/ContextProvider'
 import './Posts.css'
+import { useParams } from 'react-router-dom'
 
 function Posts() {
+  const { author=null } = useParams();
+
   const { state } = useContext(AppContext);
   const tools = selectTools(state);
   
@@ -16,7 +19,7 @@ function Posts() {
     tools: tools, // Array of all tools used by projects
   });
   
-  const posts = selectPosts(state, viewOptions); // all post
+  const posts = selectPosts(state, viewOptions, author); // all post
   
   return (
     <>

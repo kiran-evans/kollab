@@ -16,7 +16,7 @@ export default function Comments() {
   
   return (
     <div className="comments">
-        <PostCard data={post} />
+        <PostCard data={post} minimize={true} />
         <NewComment />
         <div className="comment-list">
             {/* {
