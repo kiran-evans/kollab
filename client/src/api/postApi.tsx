@@ -1,9 +1,8 @@
-// getAllPosts
-// getPostsByUser
+// getAllPosts #
 // getSavePosts
 // updatePostById
 // commentOnPostById
-// deletePostById
+// deletePostById #
 // savePostById
 
 import { ref, uploadBytes } from "firebase/storage";
@@ -66,6 +65,19 @@ export const getAllPosts = (async () => {
     if (!res.ok) {
         throw Error(res.statusText)
     }
-    //console.log(res)
     return await res.json();
 })
+
+export const deletePostById = async (postId:string, idToken) => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+            idToken,
+
+        })
+    });
+    if (!res.ok) {
+        throw Error(res.statusText)
+    }
+    return true;
+}

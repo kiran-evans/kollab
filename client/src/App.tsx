@@ -21,7 +21,8 @@ function App() {
                 <Route path="/" element={<Root />}>
                     <Route path="" element={<Posts />} />
                     <Route path="new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
-                    <Route path=":postId" element={<Comments />} /> 
+                    <Route path="post/:postId" element={<Comments />} /> 
+                    <Route path="/:author" element={<Posts />} />
                     <Route path="preferences" element={state.user ? <UserPreferences /> : <Navigate to="/login" />} />
                     
                     <Route path="login" element={state.user ? <Navigate to="/" /> : <Login />} />
