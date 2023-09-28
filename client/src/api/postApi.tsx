@@ -1,6 +1,6 @@
 // getAllPosts #
 // getSavePosts
-// updatePostById
+// updatePostById #
 // commentOnPostById
 // deletePostById #
 // savePostById
@@ -53,31 +53,97 @@ export const createPost = async (postBody: {
     });
 
     if (!res.ok) {
-        throw Error(res.statusText);
+        throw res.statusText;
     }
 
     return await res.json();
 }
 
-
-export const getAllPosts = (async () => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=50&offset=0`)
+/**
+ * Gets an Array of Posts.
+ * 
+ * @param limit - The maximum number of Posts to be fetched.
+ * @param offset - Where to start the limit count from.
+ * @returns - A Promise containing an Array of zero or more Posts.
+ */
+export const getAllPosts = async (limit: number, offset: number): Promise<Array<Post>> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=${limit}&offset=${offset}`);
     if (!res.ok) {
-        throw Error(res.statusText)
+        throw res.statusText;
     }
     return await res.json();
-})
+}
 
-export const deletePostById = async (postId:string, idToken) => {
+/**
+ * Gets a Post by its id.
+ * 
+ * @param postId - The id of the Post to be fetched.
+ * @returns A Promise containing a Post.
+ */
+export const getPostById= async (postId: string): Promise<Post> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`);
+    if (!res.ok) {
+        throw res.statusText;
+    }
+    return await res.json();
+}
+
+/**
+ * Deletes a Post by its id. Will throw an error if the User is not authorised to delete this Post.
+ * 
+ * @param postId - The id of the Post to be deleted.
+ * @param idToken - The idToken of the logged in Firebase Auth User.
+ * @returns A Promise. This Promise does not contain any data.
+ */
+export const deletePostById = async (postId: string, idToken: string): Promise<void> => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
         method: "DELETE",
+        headers: {
+            'content-type': 'application/json'
+        },
         body: JSON.stringify({
-            idToken,
-
+            idToken
         })
     });
+
     if (!res.ok) {
-        throw Error(res.statusText)
+        throw res.statusText;
     }
-    return true;
+
+    return;
+}
+
+/**
+ * Updates a Post and returns the updated version.
+ * 
+ * @param postId - The id of the Post to be updated.
+ * @param toBeUpdated - The property(ies)/key(s) of the Post to be updated.
+ * @param idToken - The idToken of the logged in Firebase Auth User.
+ * @returns A Promise containing the updated Post
+ */
+export const updatePostById = async (postId: string, toBeUpdated: {
+    title?: string;
+    message?: string;
+    images?: Array<string>;
+    upvotes?: Array<string>;
+    downvotes?: Array<string>;
+    tools?: Array<string>;
+    difficulty?: Difficulty;
+}, idToken: string): Promise<Post> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
+        method: "PUT",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            idToken,
+            toBeUpdated
+        })
+    });
+
+    if (!res.ok) {
+        throw res.statusText;
+    }
+
+    return await res.json();
 }

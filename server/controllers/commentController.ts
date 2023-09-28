@@ -13,11 +13,11 @@ export const createComment = (async (req, res) => {
 
         const comment = await CommentModel.create({
             author_id: user.id,
-            body: req.body.body
+            message: req.body.message
         });
 
-        const post = await PostModel.findByPk(req.body.post_id);
-        if (!post) throw `No Post exists with id=${req.body.post_id}.`;
+        const post = await PostModel.findByPk(req.body.postId);
+        if (!post) throw `No Post exists with id=${req.body.postId}.`;
 
         // Add the new comment to the Post's 'comments' array and save it
         post.comments.push(comment.id);
@@ -33,7 +33,7 @@ export const createComment = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const getComment = (async (req, res) => {
+export const getCommentById = (async (req, res) => {
     try {
         // Anyone can get a Comment by its id
         const comment = await CommentModel.findByPk(req.params.id);
@@ -51,13 +51,13 @@ export const getComment = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const updateComment = (async (req, res) => {
+export const updateCommentById = (async (req, res) => {
     try {
         const user = await UserModel.authenticate(req.body.idToken);
 
         // Update the Comment's body if the User who sent the request is the author of the Comment
         const [affectedCount, affectedRows] = await CommentModel.update({
-            ...req.body
+            message: req.body.message
         }, {
             where: {
                 id: req.params.id,
@@ -76,7 +76,7 @@ export const updateComment = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
-export const deleteComment = (async (req, res) => {
+export const deleteCommentById = (async (req, res) => {
     try {
         const user = await UserModel.authenticate(req.body.idToken);
 
