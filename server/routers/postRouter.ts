@@ -22,9 +22,6 @@ router.route('/')
     );
 
 router.route('/:id')
-    .all(
-        param('id').notEmpty().isUUID(),
-    )
     .get(
         param('id').notEmpty().isUUID(),
         getPostById

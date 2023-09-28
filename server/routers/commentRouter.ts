@@ -1,35 +1,32 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createComment, deleteComment, getComment, updateComment } from "../controllers/commentController";
+import { createComment, deleteCommentById, getCommentById, updateCommentById } from "../controllers/commentController";
 
 const router = Router();
 
 router.route('/')
     .post(
         body('idToken').notEmpty().isJWT(),
-        body('post_id').notEmpty().isUUID(),
-        body('body').notEmpty().isString(),
+        body('message').notEmpty().isString(),
+        body('postId').notEmpty().isUUID(),
         createComment
     );
 
 router.route('/:id')
-    .all(
-        param('id').notEmpty().isUUID()
-    )
     .get(
         param('id').notEmpty().isUUID(),
-        getComment
+        getCommentById
     )
     .put(
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
-        body('body').notEmpty().isString(),
-        updateComment
+        body('message').notEmpty().isString(),
+        updateCommentById
     )
     .delete(
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
-        deleteComment
+        deleteCommentById
     );
 
 export default router;
