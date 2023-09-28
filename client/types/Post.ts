@@ -1,3 +1,4 @@
+import { Comment } from "./Comment";
 
 export type Post = {
     id: string;
@@ -7,7 +8,7 @@ export type Post = {
     images: Array<string>;
     upvotes: Array<string>;
     downvotes: Array<string>;
-    comments: Array<string>;
+    comments: Array<Comment>;
     tools: Array<string>;
     difficulty: Difficulty;
     createdAt: Date;
