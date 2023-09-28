@@ -75,6 +75,9 @@ export const getAllPosts = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
+/**
+ * Takes in an object of partial Post data and uses that data to update Post with the provided id.
+ */
 export const updatePostById = (async (req, res) => {
     try {
         // Authenticate the request
@@ -82,7 +85,7 @@ export const updatePostById = (async (req, res) => {
 
         // Update the Post body only if the User sending the request is the author of the Post
         const [affectedCount, affectedRows] = await PostModel.update({
-            ...req.body
+            ...req.body.toBeUpdated
         }, {
             where: {
                 id: req.params.id,
@@ -114,64 +117,6 @@ export const deletePostById = (async (req, res) => {
         });
 
         return res.status(204).send();
-
-    } catch (err: any) {
-        res.statusMessage = err;
-        res.status(500).send();
-        console.error(err);
-    }
-}) satisfies RequestHandler;
-
-export const upvotePost = (async (req, res) => {
-    try {
-        // Authenticate the user
-        const user = await UserModel.authenticate(req.body.idToken);
-
-        // Find the post
-        const post = await PostModel.findByPk(req.params.id);
-
-        // If there is no Post with that id, respond with status 404
-        if (!post) return res.status(404).send();
-
-        // Add or remove the User's id to the Post's 'upvotes' column
-        if (post.upvotes.includes(user.id)) {
-            // If the user has already upvoted this post, remove the upvote
-            const index = post.upvotes.indexOf(user.id);
-            post.upvotes.splice(index, 1);
-        } else {
-            // Else, add them to the list of upvotes
-            post.upvotes.push(user.id);
-        }
-
-        await post.save();
-
-        return res.status(200).send(post.toJSON());
-
-    } catch (err: any) {
-        res.statusMessage = err;
-        res.status(500).send();
-        console.error(err);
-    }
-}) satisfies RequestHandler;
-
-export const downvotePost = (async (req, res) => {
-    try {
-        const user = await UserModel.authenticate(req.body.idToken);
-        const post = await PostModel.findByPk(req.params.id);
-        if (!post) return res.status(404).send();
-
-        if (post.downvotes.includes(user.id)) {
-            // If the user has already downvoted this post, remove the downvote
-            const index = post.downvotes.indexOf(user.id);
-            post.downvotes.splice(index, 1);
-        } else {
-            // Else, add them to the list of downvotes
-            post.downvotes.push(user.id);
-        }
-
-        await post.save();
-
-        return res.status(200).send(post.toJSON());
 
     } catch (err: any) {
         res.statusMessage = err;

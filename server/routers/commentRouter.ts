@@ -17,14 +17,17 @@ router.route('/:id')
         param('id').notEmpty().isUUID()
     )
     .get(
+        param('id').notEmpty().isUUID(),
         getComment
     )
     .put(
+        param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         body('body').notEmpty().isString(),
         updateComment
     )
     .delete(
+        param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         deleteComment
     );
