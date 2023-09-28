@@ -5,12 +5,21 @@ import { AppState } from "./stateReducer";
 // indirect access state values 
 
 export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_id=null) => {
-    let posts = [...state.posts];
+    let posts:Post[] = [...state.posts];
     // By Author
     if (author_id) {
         // this will filter out post based on username
-        console.log(`in ContextActions.ts line:9  \n\tauthor_id needs to be compared with username "${author_id}"`)
-        //posts = posts.filter(post => await getUserById(post.author_id) == author_id);
+        
+        // posts = posts.reduce(async (newPosts:Post[], currentPost:Post) => {
+        //     // it should fetch { username } with post.author_id
+        //     // compare the username with currentPost.auth
+        //     // # problems ".filter() doesn't work with async", "server request will be sent on every iteration comparison"
+        //     const { username } = await getUserById(currentPost.author_id);
+        //     if (author_id === username) {
+        //         newPosts.push(currentPost)
+        //     }
+        //     return newPosts
+        // }, []);
     }
 
     // Sort
