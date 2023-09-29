@@ -1,8 +1,9 @@
+import { FormEvent, useContext, useState } from "react";
+import { Link } from 'react-router-dom';
 import { createComment } from '../../api/commentApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { fb } from '../../lib/firebase';
-import './NewComment.css'
-import { FormEvent, useContext, useState } from "react"
+import './NewComment.css';
 
 export default function NewComment({postId}) {
     const { state } = useContext(AppContext);
@@ -24,17 +25,23 @@ export default function NewComment({postId}) {
     }
     return (
         <div className="new-comment">
-            <input type="button" value={showCommentSection?"Cancel":"New comment"} onClick={() => setShowCommentSection((prev) => !prev)} />
-            {showCommentSection && (
-                <form id="new-comment-form" onSubmit={handleSubmit}>
-                    <fieldset>
-                        <legend>New Comment</legend>
-                        <label htmlFor="new-comment">Comment Message:</label>
-                        <textarea name="new-comment" id="new-comment" value={commentMessage} onChange={e => setCommentMessage(e.target.value)}></textarea>
-                        <input type="submit" value="submit" />
-                    </fieldset>
-                </form>
-            )}
+            {state.user ? 
+                <>
+                <input type="button" value={showCommentSection?"Cancel":"New comment"} onClick={() => setShowCommentSection((prev) => !prev)} />
+                {showCommentSection && (
+                    <form id="new-comment-form" onSubmit={handleSubmit}>
+                        <fieldset>
+                            <legend>New Comment</legend>
+                            <label htmlFor="new-comment">Comment Message:</label>
+                            <textarea name="new-comment" id="new-comment" value={commentMessage} onChange={e => setCommentMessage(e.target.value)}></textarea>
+                            <input type="submit" value="submit" />
+                        </fieldset>
+                    </form>
+                )}
+                </>
+                :
+                <p>You must be logged in to comment. <Link to="/login">Login</Link></p>
+            }
         </div>
     );
 }

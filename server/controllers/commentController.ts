@@ -24,7 +24,7 @@ export const createComment = (async (req, res) => {
         await post.save();
 
         // Respond with the Comment's body as JSON
-        return res.status(201).json(post.toJSON());
+        return res.status(201).json(comment.toJSON());
 
     } catch (err: any) {
         res.statusMessage = err;
