@@ -23,5 +23,5 @@ CommentModel.init({
     }
 }, {
     sequelize,
-    tableName: 'posts'
+    tableName: 'comments'
 });
