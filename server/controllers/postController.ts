@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { Op } from "sequelize";
 import { PostModel } from "../models/Post";
 import { UserModel } from "../models/User";
+import { RichPost } from "../types/Post";
 
 export const createPost = (async (req, res) => {
     try {
@@ -17,7 +18,7 @@ export const createPost = (async (req, res) => {
         });
 
         // Send the Post body back in the response
-        return res.status(201).json(post.toJSON());
+        return res.status(201).json(await post.getRichBody());
 
     } catch (err: any) {
         res.statusMessage = err;
@@ -35,7 +36,7 @@ export const getPostById = (async (req, res) => {
         if (!post) return res.status(404).send();
 
         // Respond with the Post body as JSON
-        return res.status(200).json(post.toJSON());
+        return res.status(200).json(post.getRichBody());
 
     } catch (err: any) {
         res.statusMessage = err;
@@ -65,8 +66,14 @@ export const getAllPosts = (async (req, res) => {
             }
         });
 
+        const returnedPosts = Array<RichPost>();
+
+        for (const p of posts) {
+            returnedPosts.push(await p.getRichBody());
+        }
+
         // Respond with the Post body as JSON
-        return res.status(200).json(posts);
+        return res.status(200).json(returnedPosts);
 
     } catch (err: any) {
         res.statusMessage = err;
@@ -95,7 +102,7 @@ export const updatePostById = (async (req, res) => {
         });
 
         // Respond with the result of the update() query
-        return res.status(200).send(affectedRows[0].toJSON());
+        return res.status(200).send(affectedRows[0].getRichBody());
 
     } catch (err: any) {
         res.statusMessage = err;
