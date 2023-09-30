@@ -84,6 +84,11 @@ export default function NewPost() {
         navigator(`/${res.id}`);
     }
 
+    const handleDifficultyCheck = (e) => {
+        const checkedDifficulty = e.target.id.split("-")[1];
+        setPost(prev => ({...prev, difficulty: checkedDifficulty}));
+    }
+
     return (
         <form onSubmit={e => handleSubmit(e)}>
             <fieldset disabled={isFetching}>
@@ -98,12 +103,12 @@ export default function NewPost() {
                 <fieldset className="difficulty-picker">
                     <legend>Difficulty</legend>
                     {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
-                        <>
-                            <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} />
+                        <div key={difficulty}>
+                            <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} name="difficulty" onClick={handleDifficultyCheck} />
                             <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
                                 {difficulty}
                             </label>
-                        </>
+                        </div>
                     ))}
                 </fieldset>
                 <fieldset className="tools-adder">
@@ -117,7 +122,7 @@ export default function NewPost() {
                     
                     <div className="tools-list">
                         {post.tools.map(tool => (
-                            <div className="tool">
+                            <div key={tool} className="tool">
                                 <p>{tool}</p>
                                 <input type="button" value="X" onClick={() => handleRemoveTool(tool)} />
                             </div>
