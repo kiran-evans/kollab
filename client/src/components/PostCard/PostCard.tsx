@@ -1,37 +1,46 @@
 import { getDownloadURL, ref } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Post } from '../../../types/Post';
-import { User } from '../../../types/User';
-import { getUserById } from '../../api/userApi';
-import { fb } from '../../lib/firebase';
-import './PostCard.css';
 import { deletePostById } from '../../api/postApi';
+import { AppContext } from '../../lib/ContextProvider';
+import { getErrorMessage } from '../../lib/error';
+import { fb } from '../../lib/firebase';
+import { ErrorMsg } from '../ErrorMsg/ErrorMsg';
+import './PostCard.css';
 
-function PostCard(props: { data: Post, minimize: boolean| undefined }) { // specify type : Post
+function PostCard(props: { data: Post, minimize?: boolean }) { // specify type : Post
     // minimize should be true to render less elements ""
-    const [confirmDelete, setConfirmDelete] = useState(false);
-    const { data, minimize=false } = props;
-
-    const [author, setAuthor] = useState<User>();
+    
+    const { data, minimize = false } = props;
+    const { state } = useContext(AppContext);
+    
     const [images, setImages] = useState(Array<string>());
+    const [isFetching, setIsFetching] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+    const dialogElement = useRef<HTMLDialogElement>(null);
 
     const handlePostDelete = async () => {
-        setTimeout(() => setConfirmDelete(true), 500); // prevent misfire if double clicked by delaying state switch
-        const cancelTimeout = setTimeout(() => setConfirmDelete(false), 3000); // resets confirmDelete after 3s if not clicked for the second time
-        if (confirmDelete) {
-            clearTimeout(cancelTimeout); // cancel the timeout of delete is clicked again
-            setConfirmDelete(false)
+        dialogElement.current?.close();
 
-            const res = await deletePostById(data.id, await fb.auth.currentUser?.getIdToken())
-            if (!res) throw new Error("Failed to delete post")
+        // If user is not logged in, cancel this operation
+        if (!fb.auth.currentUser) return;
+
+        setIsFetching(true);
+        
+        try {
+            await deletePostById(data.id, await fb.auth.currentUser?.getIdToken());
+        } catch (err) {
+            setErrorMsg(getErrorMessage(err));
         }
+
+        setIsFetching(false);
     }
 
     useEffect(() => {
         (async () => {
-            setAuthor(await getUserById(data.author_id));
-
+            setIsFetching(true);
+            // Load the images from the array of urls
             const tempImages = Array<string>();
             for (const i of data.images) {
                 const storageRef = ref(fb.storage, i);
@@ -39,14 +48,14 @@ function PostCard(props: { data: Post, minimize: boolean| undefined }) { // spec
                 tempImages.push(url);
             }
             setImages(tempImages);
-        })();
-        
+            setIsFetching(false);
+        })();        
     }, []);
 
     return (
         <div className="post">
             <div className="post-head">
-                <Link to={`/${author?.username}`}>@{author?.username}</Link>
+                <Link to={`/${data.author?.username}`}>@{data.author?.username}</Link>
                 <p>Date: {new Date(data.createdAt).toUTCString()}</p>
                 <p>Difficulty: {data.difficulty}</p>
             </div>
@@ -64,17 +73,30 @@ function PostCard(props: { data: Post, minimize: boolean| undefined }) { // spec
                 </div>
                 <p>{data.message}</p>
                 <div className="post-rating">
-                    <p>Score: {data.upvotes.length - data.downvotes.length}</p>
+                    <p>Score: {data.upvotes - data.downvotes}</p>
                     <input type="button" value="👍" />
                     <input type="button" value="👎" />
                 </div>
             </div>
             <div className="post-buttons">
                 {minimize || <Link className='button' to={`/post/${data.id}`}>Comments</Link>}
-                <input type="button" value="Update" />
-                <input type="button" value={!confirmDelete?"Delete":"Click Again to delete"} onClick={() => handlePostDelete()} />
-                <input type="button" value="Save" />
+                {(state.user?.id === data.author?.id) &&
+                    <>
+                    <input type="button" disabled={isFetching} value="Update" />
+                    <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />
+                    <input type="button" disabled={isFetching} value="Save" />
+                    </>
+                }
             </div>
+
+            {errorMsg && <ErrorMsg message={errorMsg} />}
+
+            <dialog ref={dialogElement}>
+                <h2>Confirm delete</h2>
+                <p>Are you sure you want to delete this post? You cannot undo this action.</p>
+                <button className='cancelButton' onClick={() => dialogElement.current?.close()}>Cancel</button>
+                <button className='confirmButton' onClick={handlePostDelete}>Delete</button>
+            </dialog>
         </div>
     )
 }
