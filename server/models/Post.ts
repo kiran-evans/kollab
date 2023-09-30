@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
 import { Comment } from "../types/Comment";
-import { Difficulty, Post } from "../types/Post";
+import { Difficulty, Post, RichPost } from "../types/Post";
 import { User } from "../types/User";
 import { CommentModel } from "./Comment";
 import { UserModel } from "./User";
@@ -24,20 +24,7 @@ export class PostModel extends Model implements Post {
      * Gets all the additional data associated with this Post
      * and combines it into a single object.
      */
-    public getRichBody = async (): Promise<{
-        id: string;
-        author: User | null;
-        title: string;
-        message: string;
-        images: Array<string>;
-        upvotes: number;
-        downvotes: number;
-        comments: Array<Comment>;
-        tools: Array<string>;
-        difficulty: Difficulty;
-        createdAt: Date;
-        updatedAt: Date;
-    }> => {
+    public getRichBody = async (): Promise<RichPost> => {
         const richBody = {
             id: this.id,
             author: null as User | null,
