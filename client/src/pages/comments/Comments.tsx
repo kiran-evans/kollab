@@ -19,11 +19,11 @@ export default function Comments() {
   return (
     <div className="comments">
         <PostCard data={post} minimize={true} />
-        <NewComment postId={postId} />
+        {state.user?.id && <NewComment postId={postId} />}
         <div className="comment-list">
             {
               post.comments.length > 0 ? 
-                post?.comments.map(commentObject => <Comment key={commentObject.id} data={commentObject} />) :
+                post?.comments.map(commendId => <Comment key={commendId.id} commentId={commendId} />) :
                 <h2>No comments</h2>
             }
         </div>

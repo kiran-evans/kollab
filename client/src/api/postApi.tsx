@@ -95,7 +95,7 @@ export const getPostById= async (postId: string): Promise<Post> => {
  * @param idToken - The idToken of the logged in Firebase Auth User.
  * @returns A Promise. This Promise does not contain any data.
  */
-export const deletePostById = async (postId: string, idToken: string): Promise<void> => {
+export const deletePostById = async (postId: string, idToken: string): Promise<boolean> => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
         method: "DELETE",
         headers: {
@@ -110,7 +110,7 @@ export const deletePostById = async (postId: string, idToken: string): Promise<v
         throw res.statusText;
     }
 
-    return;
+    return true; 
 }
 
 /**

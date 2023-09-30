@@ -27,8 +27,8 @@ function Posts() {
       <div className="posts">
         {
           posts.length > 0 ? 
-            posts.map(iter => <PostCard key={iter.id} data={iter}  />): 
-            <h2>No Posts</h2>
+            posts.map(iter => <PostCard key={iter.id} data={iter} />): 
+            <h2>No Posts {author && `by ${author}`}</h2>
         }
       </div>
     </>
