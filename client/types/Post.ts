@@ -1,13 +1,14 @@
 import { Comment } from "./Comment";
+import { User } from "./User";
 
 export type Post = {
     id: string;
-    author_id: string;
+    author: User | null;
     title: string;
     message: string;
     images: Array<string>;
-    upvotes: Array<string>;
-    downvotes: Array<string>;
+    upvotes: number;
+    downvotes: number;
     comments: Array<Comment>;
     tools: Array<string>;
     difficulty: Difficulty;
