@@ -4,8 +4,11 @@ import Search from './Search/Search';
 import { UserProfileMenu } from './UserProfileMenu/UserProfileMenu';
 
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AppContext } from '../../lib/ContextProvider';
 
 export const Header = () => {
+    const { state } = useContext(AppContext);
     return (
         <header>
             <h1>
@@ -14,7 +17,8 @@ export const Header = () => {
                 </Link>
             </h1>
             <Search />
-            <Link to="/new-post"><button id="new-post-button"><Add />&nbsp;Create Post</button></Link>
+            {/* only if user logged in */}
+            { state?.user?.id && <Link to="/new-post"><button id="new-post-button"><Add />&nbsp;Create Post</button></Link>}
             <UserProfileMenu />
         </header>
     )

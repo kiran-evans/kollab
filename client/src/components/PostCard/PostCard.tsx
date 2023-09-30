@@ -79,14 +79,14 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                 </div>
             </div>
             <div className="post-buttons">
-                {minimize || <Link className='button' to={`/post/${data.id}`}>Comments</Link>}
-                {(state.user?.id === data.author?.id) &&
+                {minimize || <Link className='button' to={`/post/${data.id}`}>Comments {data.comments.length}</Link>}
+                {(state.user?.id && state.user?.id === data.author?.id) &&
                     <>
                     <input type="button" disabled={isFetching} value="Update" />
                     <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />
-                    <input type="button" disabled={isFetching} value="Save" />
                     </>
                 }
+                {state.user?.id && <input type="button" disabled={isFetching} value="Save" />}
             </div>
 
             {errorMsg && <ErrorMsg message={errorMsg} />}
