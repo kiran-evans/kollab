@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
-import { Comment } from "../types/Comment";
+import { RichComment } from "../types/Comment";
 import { Difficulty, Post, RichPost } from "../types/Post";
 import { User } from "../types/User";
 import { CommentModel } from "./Comment";
@@ -33,7 +33,7 @@ export class PostModel extends Model implements Post {
             images: this.images,
             upvotes: this.upvotes.length,
             downvotes: this.downvotes.length,
-            comments: Array<Comment>(),
+            comments: Array<RichComment>(),
             tools: this.tools,
             difficulty: this.difficulty,
             createdAt: this.createdAt,
@@ -43,9 +43,18 @@ export class PostModel extends Model implements Post {
         const user = await UserModel.findByPk(this.author_id);
         richBody.author = user;
 
+        // Construct the RichComments
         for (const c of this.comments) {
             const comment = await CommentModel.findByPk(c);
-            if (comment) richBody.comments.push(comment);
+            if (comment) {
+                // Get the User object for the author and push it to the comments array
+                const user = await UserModel.findByPk(comment.author_id);
+                richBody.comments.push({
+                    id: c,
+                    author: user ?? null,
+                    message: comment.message
+                });
+            }
         }
 
         return richBody;

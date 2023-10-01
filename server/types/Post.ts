@@ -1,4 +1,4 @@
-import { Comment } from "./Comment";
+import { RichComment } from "./Comment";
 import { User } from "./User";
 
 export type Post = {
@@ -24,7 +24,7 @@ export type RichPost = {
     images: Array<string>;
     upvotes: number;
     downvotes: number;
-    comments: Array<Comment>;
+    comments: Array<RichComment>;
     tools: Array<string>;
     difficulty: Difficulty;
     createdAt: Date;
