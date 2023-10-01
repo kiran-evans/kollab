@@ -15,7 +15,7 @@ export default function Comment({commentObject}) {
   
   return (
     <div className='comment'>
-        <Link className='comment-author' to='/posts/username'>@{commentObject.author_id}</Link>
+        <Link className='comment-author' to={`/posts/${commentObject.author.username}`}>@{commentObject.author.username}</Link>
         <input type="button" value="Edit" />
         <input type="button" value="Delete" onClick={() => handleDeleteComment()} />
         <p className='comment-message'>{commentObject.message}</p>

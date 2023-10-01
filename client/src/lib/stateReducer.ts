@@ -1,5 +1,4 @@
 import { Reducer } from 'react';
-import { Comment } from '../../types/Comment';
 import { Post } from '../../types/Post';
 import { User } from '../../types/User';
 /**
@@ -8,8 +7,7 @@ import { User } from '../../types/User';
  */
 export type AppState = {
     user: User | null,
-    posts: Post[],
-    comments: Comment[]
+    posts: Post[]
 }
 
 /**
@@ -19,7 +17,7 @@ export type AppState = {
  */
 export type ContextAction = {
     type: string;
-    payload: User | null | Post[] | Comment[];
+    payload: User | null | Post[];
 }
 
 /**
@@ -38,9 +36,6 @@ export const stateReducer = ((state, action) => {
             break;
         case 'LOAD_POSTS':
             newState.posts = action.payload as Post[];
-            break;
-        case 'LOAD_COMMENTS':
-            newState.comments = action.payload as Comment[];
             break;
         default:
             return state;
