@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { createComment, deleteCommentById, getCommentById, updateCommentById } from "../controllers/commentController";
+import { createComment, deleteCommentById, updateCommentById } from "../controllers/commentController";
 
 const router = Router();
 
@@ -13,10 +13,6 @@ router.route('/')
     );
 
 router.route('/:id')
-    .get(
-        param('id').notEmpty().isUUID(),
-        getCommentById
-    )
     .put(
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),

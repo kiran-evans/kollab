@@ -1,5 +1,7 @@
+import { User } from "./User";
+
 export type Comment = {
     id: string;
-    author_id: string;
+    author: User;
     message: string;
 }

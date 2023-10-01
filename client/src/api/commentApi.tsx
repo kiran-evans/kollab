@@ -30,16 +30,29 @@ export const createComment = async (message: string, postId: string, idToken: st
 }
 
 /**
- * Gets a Comment by its id.
+ * Updates a Comment and returns the updated version.
  * 
- * @param commentId - The id of the Comment to be fetched.
- * @returns A Promise containing a Comment.
+ * @param commentId - The id of the Comment to be updated.
+ * @param message - The message of the Comment to be updated.
+ * @param idToken - The idToken of the logged in Firebase Auth User.
+ * @returns A Promise containing the updated Comment
  */
-export const getCommentById= async (commentId: string): Promise<Comment> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`);
+export const updateCommentById = async (commentId: string, message: string, idToken: string): Promise<Comment> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
+        method: "PUT",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            idToken,
+            message
+        })
+    });
+
     if (!res.ok) {
         throw res.statusText;
     }
+
     return await res.json();
 }
 
@@ -66,31 +79,4 @@ export const deleteCommentById = async (commentId: string, idToken: string): Pro
     }
 
     return;
-}
-
-/**
- * Updates a Comment and returns the updated version.
- * 
- * @param commentId - The id of the Comment to be updated.
- * @param message - The message of the Comment to be updated.
- * @param idToken - The idToken of the logged in Firebase Auth User.
- * @returns A Promise containing the updated Comment
- */
-export const updateCommentById = async (commentId: string, message: string, idToken: string): Promise<Comment> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
-        method: "PUT",
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            idToken,
-            message
-        })
-    });
-
-    if (!res.ok) {
-        throw res.statusText;
-    }
-
-    return await res.json();
 }
