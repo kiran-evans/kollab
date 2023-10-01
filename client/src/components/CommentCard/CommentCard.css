@@ -1,8 +1,11 @@
 .comment {
-    text-align: left;
     padding: 0 1rem;
     margin: 1rem 0;
     background-color: var(--color-bg-secondary);
+}
+.comment .comment-head {
+    display: flex;
+    justify-content: space-between;
 }
 .comment .comment-author {
     font-style: italic;

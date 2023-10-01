@@ -6,11 +6,8 @@ import { AppState } from "./stateReducer";
 
 export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_name=null) => {
     let posts:Post[] = [...state.posts];
-    // By Author
+    // only post By Author
     if (author_name) {
-        // this will filter out post based on username
-        //  should convert username to idToken 
-        
         posts = posts.filter(post => post.author?.username === author_name);
     }
 
@@ -24,13 +21,15 @@ export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_na
                 return a.title > b.title ? 1: 0
                 break;
             case "upvotes":
-                return a.upvotes.length > b.upvotes.length ? 1: 0
+                return a.upvotes > b.upvotes ? 1: 0
                 break;
             case "downvotes":
-                return a.downvotes.length > b.downvotes.length ? 1: 0
+                return a.downvotes > b.downvotes ? 1: 0
                 break;
             case "username":
-                return a.author?.username > b.author?.username? 1: 0
+                if (a.author && b.author) {
+                    return a?.author?.username > b.author?.username? 1: 0
+                }
                 break;
             default:
                 return a.id > b.id? 1: 0
@@ -76,9 +75,5 @@ export const selectTools = (state: AppState) => {
 }
 
 export const selectPostById = (state : AppState, id: string) => {
-    return state.posts.find(post => post.id === id) || null;
-}
-
-export const selectCommentsByPost = (state : AppState, id: string) => {
-    return state.comments.find(comment => comment.id == id) || null;
+    return state.posts.find(post => post.id === id);
 }

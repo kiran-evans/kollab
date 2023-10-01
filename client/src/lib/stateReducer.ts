@@ -35,6 +35,7 @@ export const stateReducer = ((state, action) => {
             newState.user = action.payload as User | null;
             break;
         case 'LOAD_POSTS':
+            console.log("stateReducer.tsx fetching posts")
             newState.posts = action.payload as Post[];
             break;
         default:
