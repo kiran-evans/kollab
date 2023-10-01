@@ -5,7 +5,7 @@ import { UserModel } from "../models/User";
 
 /**
  * Creates a Comment and then adds the Comment's UUID to the related Post's 'comments' column.
- * @returns The updated Post.
+ * @returns The created Comment.
  */
 export const createComment = (async (req, res) => {
     try {
@@ -20,8 +20,13 @@ export const createComment = (async (req, res) => {
         if (!post) throw `No Post exists with id=${req.body.postId}.`;
 
         // Add the new comment to the Post's 'comments' array and save it
-        post.comments.push(comment.id);
-        await post.save();
+        await PostModel.update({
+            comments: new Array<string>(...post.comments, comment.id)
+        }, {
+            where: {
+                id: post.id
+            }
+        });
 
         // Respond with the Comment's body as JSON
         return res.status(201).json(comment.toJSON());

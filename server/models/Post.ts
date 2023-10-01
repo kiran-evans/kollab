@@ -62,37 +62,37 @@ PostModel.init({
         allowNull: false
     },
     title: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     message: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     images: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
-        defaultValue: []
+        defaultValue: new Array<string>()
     },
     upvotes: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
-        defaultValue: []
+        defaultValue: new Array<string>()
     },
     downvotes: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
-        defaultValue: []
+        defaultValue: new Array<string>()
     },
     comments: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
-        defaultValue: []
+        defaultValue: new Array<string>()
     },
     tools: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
-        defaultValue: []
+        defaultValue: new Array<string>()
     },
     difficulty: {
         type: DataTypes.ENUM,

@@ -1,27 +1,38 @@
+import { CircularProgress } from "@mui/material";
 import { FormEvent, useContext, useState } from "react";
 import { Link } from 'react-router-dom';
 import { createComment } from '../../api/commentApi';
 import { AppContext } from '../../lib/ContextProvider';
+import { getErrorMessage } from "../../lib/error";
 import { fb } from '../../lib/firebase';
+import { ErrorMsg } from "../ErrorMsg/ErrorMsg";
 import './NewComment.css';
 
 export default function NewComment({postId}) {
     const { state } = useContext(AppContext);
     const [showCommentSection, setShowCommentSection] = useState(false);
-    const [commentMessage, setCommentMessage] = useState("")
+    const [commentMessage, setCommentMessage] = useState("");
+    const [isFetching, setIsFetching] = useState(false);
+    const [errMsg, setErrMsg] = useState("");
     
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
         
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
-        
-        const res = await createComment(commentMessage, postId, await fb.auth.currentUser.getIdToken())
-        if (!res) {
-            throw Error("Create Comment failed")
+
+        setIsFetching(true);
+
+        try {
+            await createComment(commentMessage, postId, await fb.auth.currentUser.getIdToken());
+
+        } catch (err) {
+            setErrMsg(getErrorMessage(err));
         }
+
         setShowCommentSection(false)
         setCommentMessage("")
+        setIsFetching(false);
     }
     return (
         <div className="new-comment">
@@ -34,8 +45,9 @@ export default function NewComment({postId}) {
                             <legend>New Comment</legend>
                             <label htmlFor="new-comment">Comment Message:</label>
                             <textarea name="new-comment" id="new-comment" value={commentMessage} onChange={e => setCommentMessage(e.target.value)}></textarea>
-                            <input type="submit" value="submit" />
+                                <button type="submit" disabled={isFetching}>{isFetching ? <><CircularProgress size={15} />&nbsp;Submitting...</> : <>Submit</>}</button>
                         </fieldset>
+                        {errMsg && <ErrorMsg message={errMsg} />}
                     </form>
                 )}
                 </>
