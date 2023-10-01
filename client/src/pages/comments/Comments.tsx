@@ -23,7 +23,7 @@ export default function Comments() {
         <div className="comment-list">
             {
               post.comments.length > 0 ? 
-                post?.comments.map(commendId => <Comment key={commendId.id} commentId={commendId} />) :
+                post?.comments.map(commendObject => <Comment key={commendObject.id} commentObject={commendObject} />) :
                 <h2>No comments</h2>
             }
         </div>
