@@ -2,10 +2,10 @@ import { RequestHandler } from "express";
 import { CommentModel } from "../models/Comment";
 import { PostModel } from "../models/Post";
 import { UserModel } from "../models/User";
+import { RichComment } from "../types/Comment";
 
 /**
  * Creates a Comment and then adds the Comment's UUID to the related Post's 'comments' column.
- * @returns The created Comment.
  */
 export const createComment = (async (req, res) => {
     try {
@@ -27,27 +27,8 @@ export const createComment = (async (req, res) => {
                 id: post.id
             }
         });
-
-        // Respond with the Comment's body as JSON
-        return res.status(201).json(comment.toJSON());
-
-    } catch (err: any) {
-        res.statusMessage = err;
-        res.status(500).send();
-        console.error(err);
-    }
-}) satisfies RequestHandler;
-
-export const getCommentById = (async (req, res) => {
-    try {
-        // Anyone can get a Comment by its id
-        const comment = await CommentModel.findByPk(req.params.id);
-
-        // If not Comment found with that id, respond with status 404
-        if (!comment) return res.status(404).send();
-
-        // Respond with Comment body as JSON
-        return res.status(200).json(comment.toJSON());
+        
+        return res.status(201).send();
 
     } catch (err: any) {
         res.statusMessage = err;
@@ -72,7 +53,11 @@ export const updateCommentById = (async (req, res) => {
         });
 
         // Respond with the result of the update() query
-        return res.status(200).send(affectedRows[0].toJSON());
+        return res.status(200).send({
+            id: affectedRows[0].id,
+            author: user,
+            message: affectedRows[0].message
+        } as RichComment);
 
     } catch (err: any) {
         res.statusMessage = err;
