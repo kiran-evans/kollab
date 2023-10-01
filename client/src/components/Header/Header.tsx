@@ -18,8 +18,10 @@ export const Header = () => {
             </h1>
             <Search />
             {/* only if user logged in */}
+            <div className="user-actions">
             { state?.user?.id && <Link to="/new-post"><button id="new-post-button"><Add />&nbsp;Create Post</button></Link>}
             <UserProfileMenu />
+            </div>
         </header>
     )
 }

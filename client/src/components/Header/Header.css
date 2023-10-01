@@ -16,7 +16,11 @@ header a {
     text-decoration: none;
     color: var(--color-fg-main);
 }
-
+.user-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 3.5rem;
+}
 #new-post-button {
     display: flex;
     align-items: center;

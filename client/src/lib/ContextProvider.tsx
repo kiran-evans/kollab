@@ -6,7 +6,7 @@ import { fb } from './firebase';
 import { AppState, ContextAction, stateReducer } from './stateReducer';
 
 const getInitialUser = async (): Promise<User | null> => {
-    // If there is a current Firebase Auth session, initialise the state with the current user
+    // If there is a current Firebase Auth session, initialize the state with the current user
     if (fb.auth.currentUser) {
         return await getUserByFirebaseId(fb.auth.currentUser.uid);
     }
@@ -16,8 +16,7 @@ const getInitialUser = async (): Promise<User | null> => {
 
 const initialState: AppState = {
     user: await getInitialUser(),
-    posts: [...await getAllPosts()],
-    comments: []
+    posts: []
 }
 
 export const AppContext = createContext<{ state: AppState, dispatch: Dispatch<ContextAction> }>({ state: initialState, dispatch: () => {} });
@@ -28,6 +27,13 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             dispatch({ type: 'SET_USER', payload: await getInitialUser() });
+        })();
+
+        (async ()=> {
+            dispatch({
+                type: "LOAD_POSTS",
+                payload: await getAllPosts()
+            })
         })();
     }, []);
 

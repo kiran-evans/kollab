@@ -4,4 +4,5 @@ export type Comment = {
     id: string;
     author: User;
     message: string;
+    createdAt: Date;
 }

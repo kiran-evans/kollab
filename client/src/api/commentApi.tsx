@@ -8,7 +8,7 @@ import { Comment } from "../../types/Comment";
  * @param idToken - The idToken of the logged in Firebase Auth User.
  * @returns A Promise containing the data for the created Comment.
  */
-export const createComment = async (message: string, postId: string, idToken: string): Promise<Comment> => {
+export const createComment = async (message: string, postId: string, idToken: string): Promise<void> => {
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment`, {
         method: 'POST',
@@ -25,8 +25,8 @@ export const createComment = async (message: string, postId: string, idToken: st
     if (!res.ok) {
         throw res.statusText;
     }
-
-    return await res.json();
+    
+    return;
 }
 
 /**
