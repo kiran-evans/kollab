@@ -18,7 +18,7 @@ CommentModel.init({
         allowNull: false
     },
     message: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {

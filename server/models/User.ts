@@ -52,7 +52,7 @@ UserModel.init({
         unique: true
     },
     username: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
     }
