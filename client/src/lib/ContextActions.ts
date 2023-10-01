@@ -11,7 +11,7 @@ export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_na
         // this will filter out post based on username
         //  should convert username to idToken 
         
-        //posts = posts.filter(post => post.author_id === author_name);
+        posts = posts.filter(post => post.author?.username === author_name);
     }
 
     // Sort
@@ -30,7 +30,7 @@ export const selectPosts = (state: AppState, viewOptions: ViewOptions, author_na
                 return a.downvotes.length > b.downvotes.length ? 1: 0
                 break;
             case "username":
-                return a.author_id > b.author_id? 1: 0
+                return a.author?.username > b.author?.username? 1: 0
                 break;
             default:
                 return a.id > b.id? 1: 0
