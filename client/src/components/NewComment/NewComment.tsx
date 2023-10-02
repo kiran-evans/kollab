@@ -1,5 +1,6 @@
 import { CircularProgress } from "@mui/material";
-import { FormEvent, useContext, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useContext, useState } from "react";
+import { Post } from "../../../types/Post";
 import { createComment } from '../../api/commentApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { getErrorMessage } from "../../lib/error";
@@ -7,7 +8,8 @@ import { fb } from '../../lib/firebase';
 import { ErrorMsg } from "../ErrorMsg/ErrorMsg";
 import './NewComment.css';
 
-export default function NewComment({postId}) {
+export default function NewComment(props: { post: Post, setPost: Dispatch<SetStateAction<Post>> }) {
+    const { post, setPost } = props;
     const { state } = useContext(AppContext);
     const [showCommentSection, setShowCommentSection] = useState(false);
     const [commentMessage, setCommentMessage] = useState("");
@@ -16,14 +18,16 @@ export default function NewComment({postId}) {
     
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
-        
+
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
 
         setIsFetching(true);
 
         try {
-            await createComment(commentMessage, postId, await fb.auth.currentUser.getIdToken());
+            const createdComment = await createComment(commentMessage, post.id, await fb.auth.currentUser.getIdToken());
+            // Update the parent post with the new comment
+            setPost({ ...post, comments: [...post.comments, createdComment.id] });
         } catch (err) {
             setErrMsg(getErrorMessage(err));
         }

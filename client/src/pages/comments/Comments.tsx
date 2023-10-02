@@ -54,7 +54,7 @@ export const Comments = () => {
                 :
                 <>
                     <PostCard data={post} minimize={true} />
-                    {state.user && <NewComment postId={postId} />}
+                    {state.user && <NewComment post={post} setPost={setPost} />}
                     <div className="comment-list">
                         {displayedComments.length ? 
                             displayedComments.map(commentId => (

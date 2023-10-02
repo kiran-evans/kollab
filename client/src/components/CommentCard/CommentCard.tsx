@@ -16,29 +16,33 @@ export const CommentCard = (props: { id: string }) => {
     const { state } = useContext(AppContext);
     const [isFetching, setIsFetching] = useState(true);
     const [errMsg, setErrMsg] = useState("");
-    const [data, setData] = useState(null as Comment | null);
+    const [comment, setComment] = useState(null as Comment | null);
     const [author, setAuthor] = useState(null as User | null);
 
     useEffect(() => {
         // Get comment data on load
         (async () => {
-            const comment = await getCommentById(id);            
-            if (comment) {
-                setData(comment);
-                const foundAuthor = await getUserById(comment.author_id);
-                if (foundAuthor) setAuthor(foundAuthor);
-            }
-            setIsFetching(false);
+            await getCommentData();
         })();
     }, []);
+
+    const getCommentData = async () => {
+        const foundComment = await getCommentById(id);            
+        if (foundComment) {
+            setComment(foundComment);
+            const foundAuthor = await getUserById(foundComment.author_id);
+            if (foundAuthor) setAuthor(foundAuthor);
+        }
+        setIsFetching(false);
+    }
     
     // Edit Comment
     const [showEditForm, setShowEditForm] = useState(false);
-    const [editedCommentMessage, setEditedCommentMessage] = useState(data ? data.message : "");
+    const [editedCommentMessage, setEditedCommentMessage] = useState(comment ? comment.message : "");
 
     const handleEditCommentSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!data) return;
+        if (!comment) return;
         if (!editedCommentMessage) return;
         // If the user is not logged in, cancel this operation.
         if (!fb.auth.currentUser || !state.user) return;
@@ -46,7 +50,8 @@ export const CommentCard = (props: { id: string }) => {
         setIsFetching(true);
         
         try {
-            await updateCommentById(data.id, editedCommentMessage, await fb.auth.currentUser.getIdToken());
+            const updatedComment = await updateCommentById(comment.id, editedCommentMessage, await fb.auth.currentUser.getIdToken());
+            setComment(updatedComment);
         } catch (err) {
             setErrMsg(getErrorMessage(err));
         }
@@ -60,8 +65,8 @@ export const CommentCard = (props: { id: string }) => {
     const handleDeleteComment = async () => {
         dialogElement.current?.close();
         if (!fb.auth.currentUser || !state.user) return;
-        if (!data) return;
-        await deleteCommentById(data.id, await fb.auth.currentUser?.getIdToken())
+        if (!comment) return;
+        await deleteCommentById(comment.id, await fb.auth.currentUser?.getIdToken())
     }
     
     return (
@@ -69,11 +74,11 @@ export const CommentCard = (props: { id: string }) => {
             {isFetching ?
                 <CircularProgress />
                 :
-                data ?
+                comment ?
                     <>
                         <div className="comment-head">
                             {author ? <Link className='comment-author' to={`/user/${author.username}`}>@{author.username}</Link> : <p>User deleted</p>}
-                            {data.createdAt && <p>{new Date(data.createdAt).toUTCString()}</p>}
+                            {comment.createdAt && <p>{new Date(comment.createdAt).toUTCString()}</p>}
                             <div>
                                 {/* if not the comment creator this will render an empty div */}
                                 {/* is it good to hav an empty div, if no empty div date will be shifted to the right side */}
@@ -94,7 +99,7 @@ export const CommentCard = (props: { id: string }) => {
                                 {errMsg && <ErrorMsg message={errMsg} />}
                             </form>
                             :
-                            <p className='comment-message'>{data.message}</p>
+                            <p className='comment-message'>{comment.message}</p>
                         }
                     </>
                     :

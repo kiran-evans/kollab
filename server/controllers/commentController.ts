@@ -26,7 +26,7 @@ export const createComment = (async (req, res) => {
             }
         });
         
-        return res.status(201).send();
+        return res.status(201).json(comment.toJSON());
 
     } catch (err: any) {
         res.statusMessage = err;
