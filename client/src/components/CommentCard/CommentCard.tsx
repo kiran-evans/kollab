@@ -17,15 +17,16 @@ export const CommentCard = (props: { id: string }) => {
     const [isFetching, setIsFetching] = useState(true);
     const [errMsg, setErrMsg] = useState("");
     const [data, setData] = useState(null as Comment | null);
-    const [author, setAuthor] = useState({} as User);
+    const [author, setAuthor] = useState(null as User | null);
 
     useEffect(() => {
         // Get comment data on load
         (async () => {
-            const comment = await getCommentById(id);
+            const comment = await getCommentById(id);            
             if (comment) {
                 setData(comment);
-                setAuthor(await getUserById(comment.author_id));
+                const foundAuthor = await getUserById(comment.author_id);
+                if (foundAuthor) setAuthor(foundAuthor);
             }
             setIsFetching(false);
         })();
@@ -71,13 +72,13 @@ export const CommentCard = (props: { id: string }) => {
                 data ?
                     <>
                         <div className="comment-head">
-                            <Link className='comment-author' to={`/user/${author.username}`}>@{author.username}</Link>
-                            {data.createdAt && <p>{data.createdAt.toUTCString()}</p>}
+                            {author ? <Link className='comment-author' to={`/user/${author.username}`}>@{author.username}</Link> : <p>User deleted</p>}
+                            {data.createdAt && <p>{new Date(data.createdAt).toUTCString()}</p>}
                             <div>
                                 {/* if not the comment creator this will render an empty div */}
                                 {/* is it good to hav an empty div, if no empty div date will be shifted to the right side */}
                                 {
-                                    (state.user && state.user.id === author.id) &&
+                                    ((state.user && author) && (state.user.id === author.id)) &&
                                     <>
                                         <input type="button" value={showEditForm?"Cancel Edit":"Edit"} onClick={() => setShowEditForm(prev => !prev) } />
                                         <input type="button" value="Delete"disabled={isFetching} onClick={() => dialogElement.current?.showModal()} />

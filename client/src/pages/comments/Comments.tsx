@@ -23,17 +23,22 @@ export const Comments = () => {
             if (!postId) throw Error("Error loading comments. Post ID is undefined.");
             const foundPost = await getPostById(postId);
             setPost(foundPost);
-            displayMoreComments(10);
-
             setIsFetching(false);
         })();
     }, []);
+
+    useEffect(() => {
+        // If there are no comments, try to load the first few
+        if (post.comments) {
+            displayMoreComments(10);
+        }
+    }, [post]);    
 
     const displayMoreComments = (numToDisplay: number) => {
         const tempDisplayedComments = [...displayedComments];
         // Push more comments into the displayedComments array
         // Start counting from the number of comments already in the array
-        for (let i = displayedComments.length-1; i < numToDisplay; i++) {
+        for (let i = displayedComments.length; i < numToDisplay; i++) {
             // Stop trying to push more comments if there are no more in the Post's data
             if (i === post.comments.length) break;
             

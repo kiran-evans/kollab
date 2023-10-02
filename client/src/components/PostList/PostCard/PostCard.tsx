@@ -2,7 +2,9 @@ import { getDownloadURL, ref } from 'firebase/storage';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Post } from '../../../../types/Post';
+import { User } from '../../../../types/User';
 import { deletePostById } from '../../../api/postApi';
+import { getUserById } from '../../../api/userApi';
 import { AppContext } from '../../../lib/ContextProvider';
 import { getErrorMessage } from '../../../lib/error';
 import { fb } from '../../../lib/firebase';
@@ -16,9 +18,29 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
     const { state } = useContext(AppContext);
     
     const [images, setImages] = useState(Array<string>());
+    const [author, setAuthor] = useState(null as User | null);
     const [isFetching, setIsFetching] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const dialogElement = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        (async () => {
+            setIsFetching(true);
+            // Load the images from the array of urls
+            const tempImages = Array<string>();
+            for (const i of data.images) {
+                const storageRef = ref(fb.storage, i);
+                const url = await getDownloadURL(storageRef);
+                tempImages.push(url);
+            }
+            setImages(tempImages);
+
+            const foundAuthor = await getUserById(data.author_id);
+            if (foundAuthor) setAuthor(foundAuthor);
+
+            setIsFetching(false);
+        })();        
+    }, []);
 
     const handlePostDelete = async () => {
         dialogElement.current?.close();
@@ -37,25 +59,10 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
         setIsFetching(false);
     }
 
-    useEffect(() => {
-        (async () => {
-            setIsFetching(true);
-            // Load the images from the array of urls
-            const tempImages = Array<string>();
-            for (const i of data.images) {
-                const storageRef = ref(fb.storage, i);
-                const url = await getDownloadURL(storageRef);
-                tempImages.push(url);
-            }
-            setImages(tempImages);
-            setIsFetching(false);
-        })();        
-    }, []);
-
     return (
         <div className="post">
             <div className="post-head">
-                <Link to={`/${data.author?.username}`}>@{data.author?.username}</Link>
+                {author ? <Link to={`/user/${author.username}`}>@{author.username}</Link> : <>User deleted</>}
                 <p>Date: {new Date(data.createdAt).toUTCString()}</p>
                 <p>Difficulty: {data.difficulty}</p>
             </div>
@@ -80,7 +87,7 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
             </div>
             <div className="post-buttons">
                 {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments {data.comments.length}</Link>}
-                {(state.user?.id && state.user?.id === data.author?.id) &&
+                {((state.user && author) && (state.user.id === author.id)) &&
                     <>
                     <input type="button" disabled={isFetching} value="Update" />
                     <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />

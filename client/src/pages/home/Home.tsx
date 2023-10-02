@@ -10,7 +10,7 @@ export const Home = () => {
     const [viewOptions, setViewOptions] = useState<ViewOptions>({
         sort: "date",
         difficulty: Difficulty.Beginner,
-        tools: tools, // Array of all tools used by projects
+        tools: [], // Array of all tools used by projects
     });
 
     return (
