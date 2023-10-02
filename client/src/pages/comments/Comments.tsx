@@ -42,7 +42,7 @@ export const Comments = () => {
             // Stop trying to push more comments if there are no more in the Post's data
             if (i >= post.comments.length) break;
             
-            tempDisplayedComments.unshift(post.comments[i]);
+            tempDisplayedComments.push(post.comments[i]);
         }
         setDisplayedComments(tempDisplayedComments);
     }
