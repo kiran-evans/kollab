@@ -29,20 +29,20 @@ export const Comments = () => {
 
     useEffect(() => {
         // If there are no comments, try to load the first few
-        if (post.comments) {
-            displayMoreComments(10);
+        if (displayedComments.length === 0 && post.comments) {
+            displayMoreComments(5);
         }
     }, [post]);    
 
-    const displayMoreComments = (numToDisplay: number) => {
+    const displayMoreComments = (numToDisplay: number) => {        
         const tempDisplayedComments = [...displayedComments];
         // Push more comments into the displayedComments array
         // Start counting from the number of comments already in the array
-        for (let i = displayedComments.length; i < numToDisplay; i++) {
+        for (let i = displayedComments.length; i < displayedComments.length + numToDisplay; i++) {            
             // Stop trying to push more comments if there are no more in the Post's data
-            if (i === post.comments.length) break;
+            if (i >= post.comments.length) break;
             
-            tempDisplayedComments.push(post.comments[i]);
+            tempDisplayedComments.unshift(post.comments[i]);
         }
         setDisplayedComments(tempDisplayedComments);
     }
@@ -63,7 +63,7 @@ export const Comments = () => {
                             :
                             <h2>No comments</h2>
                         }
-                        <div id="commentListEnd">
+                        <div id="comment-list-end">
                             {isFetching ? <CircularProgress /> : <button onClick={() => displayMoreComments(5)}>Load more comments</button>}
                         </div>
                     </div>

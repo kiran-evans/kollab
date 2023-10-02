@@ -16,6 +16,7 @@ export const Profile = () => {
 
     useEffect(() => {
         // Load the user data on page load
+        setIsFetching(true);
         (async () => {
             if (!username) throw Error("Error loading comments. Username is undefined.");
             const foundUser = await getUserByUsername(username);
@@ -23,7 +24,7 @@ export const Profile = () => {
             setUser(foundUser);
             setIsFetching(false);
         })();
-    }, []);
+    }, [username]);
 
     return (
         <div id="profile">
