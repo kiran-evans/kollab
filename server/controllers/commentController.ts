@@ -56,7 +56,8 @@ export const updateCommentById = (async (req, res) => {
         return res.status(200).send({
             id: affectedRows[0].id,
             author: user,
-            message: affectedRows[0].message
+            message: affectedRows[0].message,
+            createdAt: affectedRows[0].createdAt
         } as RichComment);
 
     } catch (err: any) {
