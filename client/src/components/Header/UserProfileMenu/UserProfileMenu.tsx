@@ -1,4 +1,4 @@
-import { AccountCircle, LibraryBooks, Login, Logout, Tune } from '@mui/icons-material'
+import { AccountCircle, Login, Logout, Tune } from '@mui/icons-material'
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../../../lib/ContextProvider'
@@ -24,8 +24,7 @@ export const UserProfileMenu = () => {
                     <div id="profile-icon" onClick={() => setMenuIsOpen(!menuIsOpen)}>@{state.user.username}&nbsp;<AccountCircle /></div>
                     {menuIsOpen && 
                         <ul id="user-profile-menu" onClick={() => setMenuIsOpen(false)}>
-                            <Link to={`/${state.user.username}`}><li><AccountCircle />&nbsp;My Profile</li></Link>
-                            <Link to={`/${state.user.username}/posts`}><li><LibraryBooks />&nbsp;My Posts</li></Link>
+                            <Link to={`/user/${state.user.username}`}><li><AccountCircle />&nbsp;My Profile</li></Link>
                             <Link to='/preferences'><li><Tune />&nbsp;Preferences</li></Link>
                             <Link to='/' onClick={handleLogout}><li><Logout />&nbsp;Logout</li></Link>
                         </ul>

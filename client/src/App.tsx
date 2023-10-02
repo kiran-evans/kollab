@@ -28,6 +28,7 @@ function App() {
                     <Route path="/preferences" element={state.user ? <Preferences /> : <Navigate to="/login" />} />
                     <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />
                     <Route path="/register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="/not-found" element={<h1>Page Not Found</h1>} />
                     <Route path="*" element={<h1>Page Not Found</h1>} />
                 </Route>
 

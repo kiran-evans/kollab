@@ -36,11 +36,9 @@ export const getUserByFirebaseId = async (firebase_id: string): Promise<User | n
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?firebase_id=${firebase_id}`, {
         method: 'GET'
     });
-
-    if (!res.ok) {
-        if (res.status === 404) return null;
-        throw res.statusText;
-    }
+    
+    if (res.status === 404) return null;
+    if (!res.ok) throw res.statusText;
 
     return await res.json();
 }
@@ -51,14 +49,30 @@ export const getUserByFirebaseId = async (firebase_id: string): Promise<User | n
  * @param id - The 'uid' property of an instance of Firebase Auth User.
  * @returns A Promise containing the User data in the database.
  */
-export const getUserById = async (id: string): Promise<User> => {
+export const getUserById = async (id: string): Promise<User | null> => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?id=${id}`, {
         method: 'GET'
     });
+    
+    if (res.status === 404) return null;
+    if (!res.ok) throw res.statusText;
 
-    if (!res.ok) {
-        throw res.statusText;
-    }
+    return await res.json();
+}
+
+/**
+ * Grabs the User's data from the server.
+ * 
+ * @param username - The 'username' property of the user.
+ * @returns A Promise containing the User data in the database.
+ */
+export const getUserByUsername = async (username: string): Promise<User | null> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?username=${username}`, {
+        method: 'GET'
+    });
+    
+    if (res.status === 404) return null;
+    if (!res.ok) throw res.statusText;
 
     return await res.json();
 }

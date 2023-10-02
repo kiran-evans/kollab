@@ -5,7 +5,8 @@ import { getAllPosts } from '../../api/postApi'
 import PostCard from './PostCard/PostCard'
 import './PostList.css'
 
-export const PostList = () => {
+export const PostList = (props: { author_id?: string }) => {
+    const { author_id } = props;
     const [postList, setPostList] = useState(new Array<Post>());
     const [isFetching, setIsFetching] = useState(true);
     
@@ -18,7 +19,7 @@ export const PostList = () => {
 
     const loadMorePosts = async (numPostsToLoad: number) => {
         setIsFetching(true);
-        setPostList([...postList, ...await getAllPosts(numPostsToLoad, postList.length)]);
+        setPostList([...postList, ...await getAllPosts(numPostsToLoad, postList.length, author_id)]);
         setIsFetching(false);
     }
 

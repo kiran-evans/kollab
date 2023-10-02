@@ -24,6 +24,7 @@ router.route('/')
     .get(
         query('id').isUUID(),
         query('firebase_id').isAlphanumeric(),
+        query('username').isAlphanumeric(),
         getUser
     );
 
