@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Post } from '../../../types/Post';
 import { getPostById } from '../../api/postApi';
-import CommentCard from '../../components/CommentCard/CommentCard';
+import { CommentCard } from '../../components/CommentCard/CommentCard';
 import NewComment from '../../components/NewComment/NewComment';
 import PostCard from '../../components/PostList/PostCard/PostCard';
 import { AppContext } from '../../lib/ContextProvider';

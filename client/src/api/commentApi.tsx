@@ -29,6 +29,17 @@ export const createComment = async (message: string, postId: string, idToken: st
     return;
 }
 
+export const getCommentById = async (commentId: string): Promise<Comment | null> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
+        method: 'GET'
+    });
+
+    if (res.status === 404) return null;
+    if (!res.ok) throw res.statusText;
+
+    return await res.json();
+}
+
 /**
  * Updates a Comment and returns the updated version.
  * 

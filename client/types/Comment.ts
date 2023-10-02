@@ -1,8 +1,6 @@
-import { User } from "./User";
-
 export type Comment = {
     id: string;
-    author: User;
+    author_id: string;
     message: string;
     createdAt: Date;
 }
