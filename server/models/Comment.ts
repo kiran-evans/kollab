@@ -6,6 +6,7 @@ export class CommentModel extends Model implements Comment {
     declare id: string;
     declare author_id: string;
     declare message: string;
+    declare createdAt: Date;
 }
 CommentModel.init({
     id: {
