@@ -1,12 +1,12 @@
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Post } from '../../../types/Post';
-import { deletePostById } from '../../api/postApi';
-import { AppContext } from '../../lib/ContextProvider';
-import { getErrorMessage } from '../../lib/error';
-import { fb } from '../../lib/firebase';
-import { ErrorMsg } from '../ErrorMsg/ErrorMsg';
+import { Post } from '../../../../types/Post';
+import { deletePostById } from '../../../api/postApi';
+import { AppContext } from '../../../lib/ContextProvider';
+import { getErrorMessage } from '../../../lib/error';
+import { fb } from '../../../lib/firebase';
+import { ErrorMsg } from '../../ErrorMsg/ErrorMsg';
 import './PostCard.css';
 
 function PostCard(props: { data: Post, minimize?: boolean }) { // specify type : Post
@@ -79,7 +79,7 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                 </div>
             </div>
             <div className="post-buttons">
-                {minimize || <Link className='button' to={`/post/${data.id}`}>Comments {data.comments.length}</Link>}
+                {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments {data.comments.length}</Link>}
                 {(state.user?.id && state.user?.id === data.author?.id) &&
                     <>
                     <input type="button" disabled={isFetching} value="Update" />

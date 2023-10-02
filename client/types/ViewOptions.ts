@@ -1,6 +1,8 @@
+import { Difficulty } from "./Post";
+
 export type ViewOptions = {
     sort: string;
-    difficulty: string;
+    difficulty: Difficulty;
     tools: Array<ViewOptionsTool>;
 }
 
