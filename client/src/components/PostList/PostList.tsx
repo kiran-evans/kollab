@@ -24,7 +24,7 @@ export const PostList = (props: { author_id?: string }) => {
     }
 
     return (
-        <div className="postList">
+        <div className="post-list">
             {postList.length ?
                 postList.map(post => (
                     <PostCard key={post.id} data={post} />
@@ -32,7 +32,7 @@ export const PostList = (props: { author_id?: string }) => {
                 :
                 !isFetching && <p>No posts</p>
             }
-            {isFetching ? <CircularProgress /> : <button onClick={() => loadMorePosts(10)}>Load more posts</button>}
+            {isFetching ? <CircularProgress /> : <button className='endListButton' onClick={() => loadMorePosts(10)}>Load more posts</button>}
         </div>
     )
 }

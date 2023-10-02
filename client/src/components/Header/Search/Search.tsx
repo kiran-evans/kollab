@@ -1,11 +1,9 @@
-function Search() {
-  return (
-    <>
-    <div className="search">
-            <input type="text" name='search' placeholder='search' />
-        </div>
-    </>
-  )
-}
+import './Search.css'
 
-export default Search
+export const SearchBox = () => {
+    return (
+        <div className="searchBox">
+            <input id="searchBoxInput" type="text" name='search' placeholder='search' />
+        </div>
+    )
+}
