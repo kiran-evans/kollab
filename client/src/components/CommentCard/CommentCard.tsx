@@ -1,20 +1,19 @@
-import { Link } from 'react-router-dom'
-import './CommentCard.css'
-import { FormEvent, useContext, useRef, useState } from 'react'
-import { deleteCommentById, updateCommentById } from '../../api/commentApi';
-import { fb } from '../../lib/firebase';
-import { AppContext } from '../../lib/ContextProvider';
-import { Comment } from '../../../types/Comment';
 import { CircularProgress } from '@mui/material';
+import { FormEvent, useContext, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { deleteCommentById, updateCommentById } from '../../api/commentApi';
+import { AppContext } from '../../lib/ContextProvider';
+import { fb } from '../../lib/firebase';
+import './CommentCard.css';
 
-export default function CommentCard(props: { commentData: Comment }) {
-  const { commentData } = props;
+export default function CommentCard(props: { id: string }) {
+  const { id } = props;
   const { state } = useContext(AppContext);
   const [isFetching, setIsFetching] = useState(false)
   
   // Edit Comment
   const [showEditForm, setShowEditForm] = useState(false);
-  const [editedCommentMessage, setEditedCommentMessage] = useState(commentData.message);
+  const [editedCommentMessage, setEditedCommentMessage] = useState(data.message);
 
   const handleEditCommentSubmit = async (e:FormEvent) => {
     e.preventDefault()
@@ -27,7 +26,7 @@ export default function CommentCard(props: { commentData: Comment }) {
     if (!fb.auth.currentUser || !state.user) return;
     
     try {
-      await updateCommentById(commentData.id, editedCommentMessage, await fb.auth.currentUser.getIdToken());
+      await updateCommentById(data.id, editedCommentMessage, await fb.auth.currentUser.getIdToken());
     } catch (err) {
       console.log(err)
     }
@@ -41,19 +40,19 @@ export default function CommentCard(props: { commentData: Comment }) {
   const handleDeleteComment = async () => {
     dialogElement.current?.close()
     if (!fb.auth.currentUser || !state.user) return;
-    await deleteCommentById(commentData.id, await fb.auth.currentUser?.getIdToken())
+    await deleteCommentById(data.id, await fb.auth.currentUser?.getIdToken())
   }
   
   return (
     <div className='comment'>
       <div className="comment-head">
-        <Link className='comment-author' to={`/${commentData.author.username}`}>@{commentData.author.username}</Link>
-        {commentData?.createdAt && <p>{commentData?.createdAt}</p>}
+        <Link className='comment-author' to={`/${data.author.username}`}>@{data.author.username}</Link>
+        {data.createdAt && <p>{data.createdAt.toUTCString()}</p>}
         <div>
           {/* if not the comment creator this will render an empty div */}
           {/* is it good to hav an empty div, if no empty div date will be shifted to the right side */}
           {
-            (state.user && state.user.username === commentData.author.username) &&
+            (state.user && state.user.username === data.author.username) &&
             <>
                 <input type="button" value={showEditForm?"Cancel Edit":"Edit"} onClick={() => setShowEditForm(prev => !prev) } />
                 <input type="button" value="Delete"disabled={isFetching} onClick={() => dialogElement.current?.showModal()} />
@@ -64,7 +63,7 @@ export default function CommentCard(props: { commentData: Comment }) {
         {
           /* Comment.message and edit message */
           !showEditForm?
-          <p className='comment-message'>{commentData.message}</p>:
+          <p className='comment-message'>{data.message}</p>:
           <form onSubmit={e => handleEditCommentSubmit(e)}>
             <textarea name="editComment" value={editedCommentMessage} onChange={e => setEditedCommentMessage(e.target.value)}></textarea>
             <button type="submit" disabled={isFetching}>{isFetching ? <><CircularProgress size={15} />&nbsp;Submitting...</> : <>Submit</>}</button>

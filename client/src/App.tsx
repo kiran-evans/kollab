@@ -9,6 +9,7 @@ import { Home } from './pages/home/Home'
 import Login from './pages/login/Login'
 import NewPost from './pages/new-post/NewPost'
 import { Preferences } from './pages/preferences/Preferences'
+import { Profile } from './pages/profile/Profile'
 import Register from './pages/register/Register'
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
                     <Route path="/comments/:postId" element={<Comments />} />
-                    <Route path="/user/:userId" element={<UserProfile />} />
+                    <Route path="/user/:userId" element={<Profile />} />
                     
                     <Route path="/preferences" element={state.user ? <Preferences /> : <Navigate to="/login" />} />
                     <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />

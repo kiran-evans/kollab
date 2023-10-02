@@ -37,6 +37,20 @@ export const createComment = (async (req, res) => {
     }
 }) satisfies RequestHandler;
 
+export const getCommentById = (async (req, res) => {
+    try {
+        const comment = await CommentModel.findByPk(req.params.id);
+        if (!comment) return res.status(404).send();
+        
+        return res.status(200).json(comment.toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
+
 export const updateCommentById = (async (req, res) => {
     try {
         const user = await UserModel.authenticate(req.body.idToken);

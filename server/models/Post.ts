@@ -1,10 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../lib/pg";
-import { RichComment } from "../types/Comment";
-import { Difficulty, Post, RichPost } from "../types/Post";
-import { User } from "../types/User";
-import { CommentModel } from "./Comment";
-import { UserModel } from "./User";
+import { Difficulty, Post } from "../types/Post";
 
 export class PostModel extends Model implements Post {
     declare id: string;
@@ -19,46 +15,6 @@ export class PostModel extends Model implements Post {
     declare difficulty: Difficulty;
     declare createdAt: Date;
     declare updatedAt: Date;
-
-    /**
-     * Gets all the additional data associated with this Post
-     * and combines it into a single object.
-     */
-    public getRichBody = async (): Promise<RichPost> => {
-        const richBody = {
-            id: this.id,
-            author: null as User | null,
-            title: this.title,
-            message: this.message,
-            images: this.images,
-            upvotes: this.upvotes.length,
-            downvotes: this.downvotes.length,
-            comments: Array<RichComment>(),
-            tools: this.tools,
-            difficulty: this.difficulty,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt
-        }
-
-        const user = await UserModel.findByPk(this.author_id);
-        richBody.author = user;
-
-        // Construct the RichComments
-        for (const c of this.comments) {
-            const comment = await CommentModel.findByPk(c);
-            if (comment) {
-                // Get the User object for the author and push it to the comments array
-                const user = await UserModel.findByPk(comment.author_id);
-                richBody.comments.push({
-                    id: c,
-                    author: user ?? null,
-                    message: comment.message
-                });
-            }
-        }
-
-        return richBody;
-    }
 }
 PostModel.init({
     id: {

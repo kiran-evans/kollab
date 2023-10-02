@@ -14,16 +14,33 @@ export const Comments = () => {
     const { postId } = useParams();
     
     const [post, setPost] = useState({} as Post);
+    const [displayedComments, setDisplayedComments] = useState(new Array<string>());
     const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
         // Fetch post data on page load
         (async () => {
             if (!postId) throw Error("Error loading comments. Post ID is undefined.");
-            setPost(await getPostById(postId));
+            const foundPost = await getPostById(postId);
+            setPost(foundPost);
+            displayMoreComments(10);
+
             setIsFetching(false);
         })();
     }, []);
+
+    const displayMoreComments = (numToDisplay: number) => {
+        const tempDisplayedComments = [...displayedComments];
+        // Push more comments into the displayedComments array
+        // Start counting from the number of comments already in the array
+        for (let i = displayedComments.length-1; i < numToDisplay; i++) {
+            // Stop trying to push more comments if there are no more in the Post's data
+            if (i === post.comments.length) break;
+            
+            tempDisplayedComments.push(post.comments[i]);
+        }
+        setDisplayedComments(tempDisplayedComments);
+    }
     
     return (
         <div className="comments">
@@ -31,15 +48,20 @@ export const Comments = () => {
                 <p><CircularProgress size={15} />&nbsp;Loading...</p>
                 :
                 <>
-                <PostCard data={post} minimize={true} />
-                {state.user?.id && <NewComment postId={postId} />}
-                <div className="comment-list">
-                    {
-                    post.comments.length > 0 ? 
-                        post?.comments.map(commendObject => <CommentCard key={commendObject.id} commentData={commendObject} />) :
-                        <h2>No comments</h2>
-                    }
-                </div>
+                    <PostCard data={post} minimize={true} />
+                    {state.user && <NewComment postId={postId} />}
+                    <div className="comment-list">
+                        {displayedComments.length ? 
+                            displayedComments.map(commentId => (
+                                <CommentCard key={commentId} id={commentId} />
+                            ))
+                            :
+                            <h2>No comments</h2>
+                        }
+                        <div id="commentListEnd">
+                            {isFetching ? <CircularProgress /> : <button onClick={() => displayMoreComments(5)}>Load more comments</button>}
+                        </div>
+                    </div>
                 </>
             }
         </div>
