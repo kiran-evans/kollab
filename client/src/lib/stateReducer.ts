@@ -1,13 +1,11 @@
 import { Reducer } from 'react';
-import { Post } from '../../types/Post';
 import { User } from '../../types/User';
 /**
  * @type AppState
  * @property {User | null} user - This part of the AppState stores whether or not there is a User logged in.
  */
 export type AppState = {
-    user: User | null,
-    posts: Post[]
+    user: User | null
 }
 
 /**
@@ -17,7 +15,7 @@ export type AppState = {
  */
 export type ContextAction = {
     type: string;
-    payload: User | null | Post[];
+    payload: User | null;
 }
 
 /**
@@ -33,10 +31,6 @@ export const stateReducer = ((state, action) => {
     switch (action.type) {
         case 'SET_USER':
             newState.user = action.payload as User | null;
-            break;
-        case 'LOAD_POSTS':
-            console.log("stateReducer.tsx fetching posts")
-            newState.posts = action.payload as Post[];
             break;
         default:
             return state;

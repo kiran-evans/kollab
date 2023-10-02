@@ -31,6 +31,7 @@ export const getUser = (async (req, res) => {
         const user = await UserModel.findOne({
             where: {
                 id: req.query.id ?? { [Op.not]: null },
+                username: req.query.username ?? { [Op.not]: null },
                 firebase_id: req.query.firebase_id ?? { [Op.not]: null }
             }
         })

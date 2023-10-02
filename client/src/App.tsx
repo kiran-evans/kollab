@@ -4,12 +4,13 @@ import { useContext } from 'react'
 import './App.css'
 import Root from './components/Root/Root'
 import { AppContext } from './lib/ContextProvider'
-import NewPost from './pages/NewPost/NewPost'
-import Comments from './pages/comments/Comments'
+import { Comments } from './pages/comments/Comments'
+import { Home } from './pages/home/Home'
 import Login from './pages/login/Login'
-import Posts from './pages/posts/Posts'
+import NewPost from './pages/new-post/NewPost'
+import { Preferences } from './pages/preferences/Preferences'
+import { Profile } from './pages/profile/Profile'
 import Register from './pages/register/Register'
-import UserPreferences from './pages/userPreferences/UserPreferences'
 
 function App() {
 
@@ -18,15 +19,16 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Root />}>
-                    <Route path="" element={<Posts />} />
-                    <Route path="new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
-                    <Route path="post/:postId" element={<Comments />} /> 
-                    <Route path="/:author" element={<Posts />} />
-                    <Route path="preferences" element={state.user ? <UserPreferences /> : <Navigate to="/login" />} />
+                <Route path="" element={<Root />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
+                    <Route path="/comments/:postId" element={<Comments />} />
+                    <Route path="/user/:username" element={<Profile />} />
                     
-                    <Route path="login" element={state.user ? <Navigate to="/" /> : <Login />} />
-                    <Route path="register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="/preferences" element={state.user ? <Preferences /> : <Navigate to="/login" />} />
+                    <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />
+                    <Route path="/register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="/not-found" element={<h1>Page Not Found</h1>} />
                     <Route path="*" element={<h1>Page Not Found</h1>} />
                 </Route>
 

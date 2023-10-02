@@ -1,0 +1,17 @@
+.searchBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-fg-main);
+    border-radius: 1em;
+    padding: 0.4em 0.4em;
+}
+
+#searchBoxInput {
+    background: none;
+    border: none;
+}
+
+#searchBoxInput:focus {
+    outline: none;
+}

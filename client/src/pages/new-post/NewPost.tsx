@@ -81,7 +81,7 @@ export default function NewPost() {
             throw Error("Create post failed")
         }
         setIsFetching(false);
-        navigator(`/${res.id}`);
+        navigator(`/post/${res.id}`);
     }
 
     const handleDifficultyCheck = (e) => {

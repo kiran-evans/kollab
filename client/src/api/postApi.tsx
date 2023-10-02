@@ -66,8 +66,8 @@ export const createPost = async (postBody: {
  * @param offset - Where to start the limit count from.
  * @returns - A Promise containing an Array of zero or more Posts.
  */
-export const getAllPosts = async (limit: number=50, offset: number=0): Promise<Array<Post>> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=${limit}&offset=${offset}`);
+export const getAllPosts = async (limit: number, offset: number, author_id?: string): Promise<Array<Post>> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=${limit}&offset=${offset}&${author_id ? `author_id=${author_id}` : ""}`);
     if (!res.ok) {
         throw res.statusText;
     }

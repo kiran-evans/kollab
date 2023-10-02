@@ -7,6 +7,7 @@ import { ErrorMsg } from '../../components/ErrorMsg/ErrorMsg';
 import { AppContext } from "../../lib/ContextProvider";
 import { getErrorMessage } from '../../lib/error';
 import { fb } from "../../lib/firebase";
+import './Login.css';
 
 export default function Login() {
 
@@ -44,7 +45,7 @@ export default function Login() {
     }
 
     return (
-        <>
+        <div className='login'>
             <form onSubmit={e => handleSubmit(e)}>
                 <fieldset disabled={isFetching}>
                     <legend>Login</legend>
@@ -60,6 +61,6 @@ export default function Login() {
             </form>
             {errMsg && <ErrorMsg message={errMsg} />}
             <Link to="/register">Don't have an account? Register</Link>
-        </>
+        </div>
     );
 }

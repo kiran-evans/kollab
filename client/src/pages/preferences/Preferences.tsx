@@ -1,4 +1,4 @@
-export default function UserPreferences() {
+export const Preferences = () => {
   return (
     <div>
         User Settings

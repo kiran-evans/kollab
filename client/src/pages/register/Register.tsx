@@ -7,6 +7,7 @@ import { ErrorMsg } from '../../components/ErrorMsg/ErrorMsg';
 import { AppContext } from "../../lib/ContextProvider";
 import { getErrorMessage } from '../../lib/error';
 import { fb } from "../../lib/firebase";
+import './Register.css';
 
 export default function Register() {
     
@@ -59,7 +60,7 @@ export default function Register() {
     }
 
     return (
-        <>
+        <div className='register'>
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <legend>Register</legend>
@@ -85,6 +86,6 @@ export default function Register() {
             </form>
             {errMsg && <ErrorMsg message={errMsg} />}
             <Link to="/login">Already have an account? Login</Link>
-        </>
+        </div>
     )
 }

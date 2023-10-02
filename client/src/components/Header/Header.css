@@ -1,11 +1,18 @@
 header {
     align-self: stretch;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
     background-color: var(--color-bg-main);
     padding: 0.5rem 1rem;
     border-bottom: 0.1rem solid var(--color-fg-main);
+}
+
+#headerInner {
+    max-width: 720px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {

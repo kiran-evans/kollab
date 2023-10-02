@@ -1,5 +1,3 @@
-import { RichComment } from "./Comment";
-import { User } from "./User";
 
 export type Post = {
     id: string;
@@ -10,21 +8,6 @@ export type Post = {
     upvotes: Array<string>;
     downvotes: Array<string>;
     comments: Array<string>;
-    tools: Array<string>;
-    difficulty: Difficulty;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export type RichPost = {
-    id: string;
-    author: User | null;
-    title: string;
-    message: string;
-    images: Array<string>;
-    upvotes: number;
-    downvotes: number;
-    comments: Array<RichComment>;
     tools: Array<string>;
     difficulty: Difficulty;
     createdAt: Date;
