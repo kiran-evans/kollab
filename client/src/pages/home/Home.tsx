@@ -9,14 +9,14 @@ export const Home = () => {
     
     const [viewOptions, setViewOptions] = useState<ViewOptions>({
         sort: "date",
-        difficulty: Difficulty.Beginner,
+        difficulty: Difficulty.All,
         tools: [], // Array of all tools used by projects
     });
 
     return (
         <div id="home">
             <ViewOptionsMenu viewOptions={viewOptions} setViewOptions={setViewOptions} />
-            <PostList />
+            <PostList viewOptions={viewOptions} setViewOptions={setViewOptions} />
         </div>
     )
 }

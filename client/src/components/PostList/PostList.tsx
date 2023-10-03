@@ -4,9 +4,11 @@ import { Post } from '../../../types/Post'
 import { getAllPosts } from '../../api/postApi'
 import PostCard from './PostCard/PostCard'
 import './PostList.css'
+import { ViewOptions } from '../../../types/ViewOptions'
+import { selectPosts, selectTools } from '../../lib/ViewOptionsController'
 
-export const PostList = (props: { author_id?: string }) => {
-    const { author_id } = props;
+export const PostList = (props: { author_id?: string, viewOptions?: ViewOptions, setViewOptions? }) => {
+    const { author_id, viewOptions=null, setViewOptions=null } = props;
     const [postList, setPostList] = useState(new Array<Post>());
     const [isFetching, setIsFetching] = useState(true);
     
@@ -16,6 +18,14 @@ export const PostList = (props: { author_id?: string }) => {
             await loadMorePosts(10);
         })();
     }, []);
+    
+    useEffect(()=> {
+        // when posts change re-check Post[] and recreate viewOptions.tools[]
+        if (setViewOptions) {
+            setViewOptions((prev: ViewOptions) => ({...prev, tools: selectTools(postList)})); // Updates viewOptionsTools 
+        }
+        // It would be better not to run this if setViewOptions = null
+    },[postList])
 
     const loadMorePosts = async (numPostsToLoad: number) => {
         setIsFetching(true);
@@ -26,7 +36,7 @@ export const PostList = (props: { author_id?: string }) => {
     return (
         <div className="post-list">
             {postList.length ?
-                postList.map(post => (
+                selectPosts(postList, viewOptions).map(post => (
                     <PostCard key={post.id} data={post} />
                 ))
                 :
