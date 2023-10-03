@@ -64,7 +64,8 @@ export const createPost = async (postBody: {
  * 
  * @param limit - The maximum number of Posts to be fetched.
  * @param offset - Where to start the limit count from.
- * @returns - A Promise containing an Array of zero or more Posts.
+ * @param author_id - (Optional) Include a User ID to fetch Posts by that User.
+ * @returns A Promise containing an Array of zero or more Posts.
  */
 export const getAllPosts = async (limit: number, offset: number, author_id?: string): Promise<Array<Post>> => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=${limit}&offset=${offset}&${author_id ? `author_id=${author_id}` : ""}`);

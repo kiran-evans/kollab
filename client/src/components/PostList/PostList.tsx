@@ -11,6 +11,7 @@ export const PostList = (props: { author_id?: string, viewOptions?: ViewOptions,
     const { author_id, viewOptions=null, setViewOptions=null } = props;
     const [postList, setPostList] = useState(new Array<Post>());
     const [isFetching, setIsFetching] = useState(true);
+    const [hasReachedEnd, setHasReachedEnd] = useState(false);
     
     useEffect(() => {
         // Load the posts on page load
@@ -29,7 +30,12 @@ export const PostList = (props: { author_id?: string, viewOptions?: ViewOptions,
 
     const loadMorePosts = async (numPostsToLoad: number) => {
         setIsFetching(true);
-        setPostList([...postList, ...await getAllPosts(numPostsToLoad, postList.length, author_id)]);
+        const foundPosts = await getAllPosts(numPostsToLoad, postList.length, author_id);
+        if (foundPosts.length > 0) {
+            setPostList([...postList, ...foundPosts]);
+        } else {
+            setHasReachedEnd(true);
+        }
         setIsFetching(false);
     }
 
@@ -42,7 +48,7 @@ export const PostList = (props: { author_id?: string, viewOptions?: ViewOptions,
                 :
                 !isFetching && <p>No posts</p>
             }
-            {isFetching ? <CircularProgress /> : <button className='endListButton' onClick={() => loadMorePosts(10)}>Load more posts</button>}
+            {isFetching ? <CircularProgress /> : (hasReachedEnd ? <p>Looks like you've reached the end!</p> : <button className='endListButton' onClick={() => loadMorePosts(10)}>Load more posts</button>)}
         </div>
     )
 }
