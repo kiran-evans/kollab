@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
-import { createPost, deletePostById, getAllPosts, getPostById, updatePostById } from "../controllers/postController";
+import { createPost, deletePostById, downvotePostById, getAllPosts, getPostById, updatePostById, upvotePostById } from "../controllers/postController";
 
 const router = Router();
 
@@ -36,6 +36,20 @@ router.route('/:id')
         param('id').notEmpty().isUUID(),
         body('idToken').notEmpty().isJWT(),
         deletePostById
+    );
+
+router.route('/upvote/:id')
+    .patch(
+        param('id').notEmpty().isUUID(),
+        body('idToken').notEmpty().isJWT(),
+        upvotePostById
+    );
+
+router.route('/downvote/:id')
+    .patch(
+        param('id').notEmpty().isUUID(),
+        body('idToken').notEmpty().isJWT(),
+        downvotePostById
     );
 
 export default router;
