@@ -124,3 +124,69 @@ export const deletePostById = (async (req, res) => {
         console.error(err);
     }
 }) satisfies RequestHandler;
+
+export const upvotePostById = (async (req, res) => {
+    try {
+        const user = await UserModel.authenticate(req.body.idToken);
+
+        const post = await PostModel.findByPk(req.params.id);
+        if (!post) return res.status(404).send();
+
+        const updatedUpvotes = [...post.upvotes];
+
+        // Add the user's id if it isn't in there already
+        if (post.upvotes.includes(user.id)) {
+            updatedUpvotes.splice(post.upvotes.indexOf(user.id), 1);
+        } else {
+            updatedUpvotes.push(user.id);
+        }
+
+        const [affectedCount, affectedRows] = await PostModel.update({
+            upvotes: updatedUpvotes
+        }, {
+            where: {
+                id: post.id
+            },
+            returning: true
+        });
+        return res.status(200).json(affectedRows[0].toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;
+
+export const downvotePostById = (async (req, res) => {
+    try {
+        const user = await UserModel.authenticate(req.body.idToken);
+
+        const post = await PostModel.findByPk(req.params.id);
+        if (!post) return res.status(404).send();
+
+        const updatedUpvotes = [...post.downvotes];
+
+        // Add the user's id if it isn't in there already
+        if (post.downvotes.includes(user.id)) {
+            updatedUpvotes.splice(post.downvotes.indexOf(user.id), 1);
+        } else {
+            updatedUpvotes.push(user.id);
+        }
+
+        const [affectedCount, affectedRows] = await PostModel.update({
+            downvotes: updatedUpvotes
+        }, {
+            where: {
+                id: post.id
+            },
+            returning: true
+        });
+        return res.status(200).json(affectedRows[0].toJSON());
+
+    } catch (err: any) {
+        res.statusMessage = err;
+        res.status(500).send();
+        console.error(err);
+    }
+}) satisfies RequestHandler;

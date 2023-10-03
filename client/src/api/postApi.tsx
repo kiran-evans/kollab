@@ -148,3 +148,39 @@ export const updatePostById = async (postId: string, toBeUpdated: {
 
     return await res.json();
 }
+
+export const upvotePost = async (postId: string, idToken: string): Promise<Post> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/upvote/${postId}`, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            idToken
+        })
+    });
+
+    if (!res.ok) {
+        throw res.statusText;
+    }
+
+    return await res.json();
+}
+
+export const downvotePost = async (postId: string, idToken: string): Promise<Post> => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/downvote/${postId}`, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            idToken
+        })
+    });
+
+    if (!res.ok) {
+        throw res.statusText;
+    }
+
+    return await res.json();
+}
