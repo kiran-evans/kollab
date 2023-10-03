@@ -1,4 +1,4 @@
-import { Add } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -69,6 +69,12 @@ export default function NewPost() {
         setPost({ ...post, images: [...post.images, ...addedImages] });
     }
 
+    const handleRemoveImage = (file: File) => {
+        const updatedImages = [...post.images];
+        updatedImages.splice(updatedImages.indexOf(file), 1)
+        setPost({...post, images: updatedImages});
+    }
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsFetching(true);
@@ -81,7 +87,7 @@ export default function NewPost() {
             throw Error("Create post failed")
         }
         setIsFetching(false);
-        navigator(`/post/${res.id}`);
+        navigator(`/comments/${res.id}`);
     }
 
     const handleDifficultyCheck = (e) => {
@@ -90,54 +96,62 @@ export default function NewPost() {
     }
 
     return (
-        <form onSubmit={e => handleSubmit(e)}>
-            <fieldset disabled={isFetching}>
-                <legend>New Post</legend>
+        <div id="new-post">
+            <form onSubmit={e => handleSubmit(e)}>
+                <fieldset id='wrapper' disabled={isFetching}>
+                    <legend>New Post</legend>
 
-                <label htmlFor="title">Title</label>
-                <input type="text" id="title" required value={post.title} onChange={e => setPost({ ...post, title: e.target.value })} />
-                
-                <label htmlFor="message">Message</label>
-                <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
-
-                <fieldset className="difficulty-picker">
-                    <legend>Difficulty</legend>
-                    {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
-                        <div key={difficulty}>
-                            <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} name="difficulty" onClick={handleDifficultyCheck} />
-                            <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
-                                {difficulty}
-                            </label>
-                        </div>
-                    ))}
-                </fieldset>
-                <fieldset className="tools-adder">
-                    <legend>Tools</legend>
-
-                    <div className="new-tool">
-                        <label htmlFor="tool-name">Add tool:</label>
-                        <input type="text" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
-                        <button id="add-tool" type="button" onClick={handleAddTool}><Add /></button>
-                    </div>
+                    <label htmlFor="title">Title</label>
+                    <input type="text" id="title" required value={post.title} onChange={e => setPost({ ...post, title: e.target.value })} />
                     
-                    <div className="tools-list">
-                        {post.tools.map(tool => (
-                            <div key={tool} className="tool">
-                                <p>{tool}</p>
-                                <input type="button" value="X" onClick={() => handleRemoveTool(tool)} />
+                    <label htmlFor="message">Message</label>
+                    <textarea id="message" required value={post.message} onChange={e => setPost({...post, message: e.target.value})} ></textarea>
+
+                    <fieldset className="difficulty-picker">
+                        <legend>Difficulty</legend>
+                        {Object.values(Difficulty).filter(i => { return isNaN(Number(i)) }).map(difficulty => (
+                            <div key={difficulty}>
+                                <input className="difficulty-radio" type="radio" id={`difficulty-${difficulty}`} name="difficulty" onClick={handleDifficultyCheck} />
+                                <label className="for-difficulty" htmlFor={`difficulty-${difficulty}`}>
+                                    {difficulty}
+                                </label>
+                            </div>
+                        ))}
+                    </fieldset>
+                    <fieldset className="tools-adder">
+                        <legend>Tools</legend>
+
+                        <div className="new-tool">
+                            <label htmlFor="tool-name">Add tool:</label>
+                            <input type="text" id="tool-name" value={newToolName} onChange={e => setNewToolName(e.target.value)} />
+                            <button id="add-tool" type="button" onClick={handleAddTool}><Add /></button>
+                        </div>
+                        
+                        <div className="tools-list">
+                            {post.tools.map(tool => (
+                                <div key={tool} className="tool">
+                                    <p>{tool}</p>
+                                    <input type="button" value="X" onClick={() => handleRemoveTool(tool)} />
+                                </div>
+                            ))}
+                        </div>
+                    </fieldset>
+
+                    <label htmlFor="add-images">Add Images:</label>
+                    <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
+                    <div id="image-list">
+                        {post.images.map(file => (
+                            <div className="image-card" key={file.name}>
+                                <img width="200px" src={URL.createObjectURL(file)} alt={file.name} />
+                                <span className='remove-image' title="Remove image" onClick={() => handleRemoveImage(file)}><Delete /></span>
                             </div>
                         ))}
                     </div>
+
+                    <button id="submit-button" type="submit">{isFetching ? <><CircularProgress size={20} />&nbsp;Submitting...</> : <>Submit</>}</button>
                 </fieldset>
+            </form>
 
-                <label htmlFor="add-images">Add Images:</label>
-                <input type="file" name="add-images" id="add-images" accept="image/*" multiple onChange={e => handleAddImage(e)} />
-                {post.images.map(file => (
-                    <img width="200px" src={URL.createObjectURL(file)} alt={file.name} />
-                ))}
-
-                <button type="submit">{isFetching ? <><CircularProgress size={20} />&nbsp;Submitting...</> : <>Submit</>}</button>
-            </fieldset>
-        </form>
+        </div>
     );
 }

@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -61,49 +62,53 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
 
     return (
         <div className="post">
-            <div className="post-head">
-                {author ? <Link to={`/user/${author.username}`}>@{author.username}</Link> : <>User deleted</>}
-                <p>Date: {new Date(data.createdAt).toUTCString()}</p>
-                <p>Difficulty: {data.difficulty}</p>
-            </div>
-            <h3 className='post-title'>
-                {data.title}
-            </h3>
-            <div className="post-tools">
-                {data.tools.map(tool => <p key={tool}>{tool}</p>)}
-            </div>
-            <div className="post-contents">
-                <div className="post-images">
-                    {images.map((imgUrl, i) => (
-                        <img src={imgUrl} key={i} />
-                    ))}
-                </div>
-                <p>{data.message}</p>
-                <div className="post-rating">
-                    <p>Score: {data.upvotes - data.downvotes}</p>
-                    <input type="button" value="👍" />
-                    <input type="button" value="👎" />
-                </div>
-            </div>
-            <div className="post-buttons">
-                {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments {data.comments.length}</Link>}
-                {((state.user && author) && (state.user.id === author.id)) &&
-                    <>
-                    <input type="button" disabled={isFetching} value="Update" />
-                    <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />
-                    </>
-                }
-                {state.user?.id && <input type="button" disabled={isFetching} value="Save" />}
-            </div>
+            {isFetching ? <CircularProgress /> :
+                <>
+                    <div className="post-head">
+                        {author ? <Link to={`/user/${author.username}`}>@{author.username}</Link> : <>User deleted</>}
+                        <p>Date: {new Date(data.createdAt).toUTCString()}</p>
+                        <p>Difficulty: {data.difficulty}</p>
+                    </div>
+                    <h3 className='post-title'>
+                        {data.title}
+                    </h3>
+                    <div className="post-tools">
+                        {data.tools.map(tool => <p key={tool}>{tool}</p>)}
+                    </div>
+                    <div className="post-contents">
+                        <div className="post-images">
+                            {images.map((imgUrl, i) => (
+                                <img src={imgUrl} key={i} />
+                            ))}
+                        </div>
+                        <p>{data.message}</p>
+                        <div className="post-rating">
+                            <p>Score: {data.upvotes - data.downvotes}</p>
+                            <input type="button" value="👍" />
+                            <input type="button" value="👎" />
+                        </div>
+                    </div>
+                    <div className="post-buttons">
+                        {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments {data.comments.length}</Link>}
+                        {((state.user && author) && (state.user.id === author.id)) &&
+                            <>
+                            <input type="button" disabled={isFetching} value="Update" />
+                            <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />
+                            </>
+                        }
+                        {state.user?.id && <input type="button" disabled={isFetching} value="Save" />}
+                    </div>
 
-            {errorMsg && <ErrorMsg message={errorMsg} />}
+                    {errorMsg && <ErrorMsg message={errorMsg} />}
 
-            <dialog ref={dialogElement}>
-                <h2>Confirm delete</h2>
-                <p>Are you sure you want to delete this post? You cannot undo this action.</p>
-                <button className='cancelButton' onClick={() => dialogElement.current?.close()}>Cancel</button>
-                <button className='confirmButton' onClick={handlePostDelete}>Delete</button>
-            </dialog>
+                    <dialog ref={dialogElement}>
+                        <h2>Confirm delete</h2>
+                        <p>Are you sure you want to delete this post? You cannot undo this action.</p>
+                        <button className='cancelButton' onClick={() => dialogElement.current?.close()}>Cancel</button>
+                        <button className='confirmButton' onClick={handlePostDelete}>Delete</button>
+                    </dialog>
+                </>
+            }
         </div>
     )
 }

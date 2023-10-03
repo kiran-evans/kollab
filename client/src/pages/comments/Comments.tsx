@@ -16,6 +16,7 @@ export const Comments = () => {
     const [post, setPost] = useState({} as Post);
     const [displayedComments, setDisplayedComments] = useState(new Array<string>());
     const [isFetching, setIsFetching] = useState(true);
+    const [hasReachedEnd, setHasReachedEnd] = useState(false);
 
     useEffect(() => {
         // Fetch post data on page load
@@ -40,7 +41,10 @@ export const Comments = () => {
         // Start counting from the number of comments already in the array
         for (let i = displayedComments.length; i < displayedComments.length + numToDisplay; i++) {            
             // Stop trying to push more comments if there are no more in the Post's data
-            if (i >= post.comments.length) break;
+            if (i >= post.comments.length) {
+                setHasReachedEnd(true);
+                break;
+            }
             
             tempDisplayedComments.push(post.comments[i]);
         }
@@ -64,7 +68,7 @@ export const Comments = () => {
                             <h2>No comments</h2>
                         }
                         <div id="comment-list-end">
-                            {isFetching ? <CircularProgress /> : <button onClick={() => displayMoreComments(5)}>Load more comments</button>}
+                            {isFetching ? <CircularProgress /> : (hasReachedEnd ? <p>Looks like you've reached the end!</p> : <button onClick={() => displayMoreComments(5)}>Load more comments</button>)}
                         </div>
                     </div>
                 </>
