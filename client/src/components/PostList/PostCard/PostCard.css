@@ -1,7 +1,7 @@
 .post {
     background-color: var(--color-bg-main);
     padding: 0.25rem 0.75rem;
-    margin: 2rem 1rem;
+    margin: 2rem 0rem;
 }
 
 .post div {

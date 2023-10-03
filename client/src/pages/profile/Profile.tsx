@@ -32,7 +32,6 @@ export const Profile = () => {
                 :
                 user &&
                 <>
-                    <h1>{user.username}</h1>
                     <h2>Posts by {user.username}</h2>
                     <PostList author_id={user.id} />
                 </>
