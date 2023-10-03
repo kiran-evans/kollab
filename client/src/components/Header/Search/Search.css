@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: center;
     border: 1px solid var(--color-fg-main);
-    border-radius: 1em;
+    border-radius: 1rem;
+    height: 0.75rem;
     padding: 0.4em 0.4em;
 }
 
