@@ -45,6 +45,7 @@ export function ViewOptionsMenu(props: { viewOptions: ViewOptions, setViewOption
                     <option value="username">Username</option>
                 </select>
             </label>
+            
             <label htmlFor="difficulty">
                 Difficulty:
                 <select name="difficulty" id="difficulty-options"  value={viewOptions.difficulty} onChange={(e) => handleOptionsSelector(e)}>
@@ -55,16 +56,19 @@ export function ViewOptionsMenu(props: { viewOptions: ViewOptions, setViewOption
                     <option value="Expert">Expert</option>
                 </select>
             </label>
+
             <div className="tools-filter">
                 <p>Tools</p>
-                {viewOptions.tools.map((tool, i) => (
-                    <ViewTool
-                        key={i}
-                        name={tool.name}
-                        isChecked={tool.isChecked}
-                        handleChange={handleToolCheck}
-                    />
-                ))}
+                <div className="tools-list">
+                    {viewOptions.tools.map((tool, i) => (
+                        <ViewTool
+                            key={i}
+                            name={tool.name}
+                            isChecked={tool.isChecked}
+                            handleChange={handleToolCheck}
+                        />
+                    ))}
+                </div>
             </div>
 
             <input type="button" value="Reset" onClick={() => handleReset()} />

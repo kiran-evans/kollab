@@ -1,4 +1,4 @@
-import { AccountCircle, Login, Logout, Tune, DarkMode } from '@mui/icons-material'
+import { AccountCircle, Login, Logout, Tune, DarkMode, LightMode } from '@mui/icons-material'
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../../../lib/ContextProvider'
@@ -17,7 +17,16 @@ export const UserProfileMenu = () => {
         dispatch({ type: 'SET_USER', payload: null });
     }
     const toggleTheme = () => {
-
+        const bd = document.getElementsByTagName("body")[0]
+        const dtTheme = bd.getAttribute("data-theme")
+        
+        if (dtTheme !== "light" ) {
+            bd.setAttribute("data-theme", "light")
+            document.documentElement.style.setProperty("color-scheme", "light")
+        } else {
+            bd.setAttribute("data-theme", "dark")
+            document.documentElement.style.setProperty("color-scheme", "dark")
+        }
     }
 
     return (
@@ -29,7 +38,7 @@ export const UserProfileMenu = () => {
                         <ul id="user-profile-menu" onClick={() => setMenuIsOpen(false)}>
                             <Link to={`/user/${state.user.username}`}><li><AccountCircle />&nbsp;My Profile</li></Link>
                             <Link to='/preferences'><li><Tune />&nbsp;Preferences</li></Link>
-                            <Link to="" onClick={toggleTheme}><li><DarkMode />&nbsp;Theme</li></Link>
+                            <a onClick={toggleTheme}><li><DarkMode />&nbsp;<LightMode />&nbsp;Theme</li></a>
                             <Link to='/' onClick={handleLogout}><li><Logout />&nbsp;Logout</li></Link>
                         </ul>
                     }
