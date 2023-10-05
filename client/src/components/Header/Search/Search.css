@@ -2,8 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--color-fg-main);
-    border-radius: 1rem;
+    border: 0.1rem solid var(--fg-main);
+    border-radius: var(--rounded-borders);
     height: 0.75rem;
     padding: 0.4em 0.4em;
 }

@@ -1,19 +1,33 @@
 .post {
-    background-color: var(--color-bg-main);
+    background-color: var(--bg-transparent);
+    border: 0.1rem solid var(--bg-secondary);
+    box-shadow: 0 0 1.25rem var(--bg-dark);
+    
+    border-radius: var(--rounded-borders);
     padding: 0.25rem 0.75rem;
-    margin: 2rem 0rem;
+    margin-top: 1rem;
+    margin-bottom: 3.25rem;
+}
+.post .post-title {
+    text-align: center;
 }
 
 .post div {
     display: flex;
     margin: 0.75rem 0;
     justify-content: space-between;
+    gap: 0 0.5rem;
+    flex-wrap: wrap;
+    border-radius: var(--rounded-borders);
 }
 .post .post-tools {
-    border: 0.1rem solid var(--color-bg-secondary);
-    padding: 0 1rem;
-    width: 85%;
+    border: 0.1rem solid var(--bg-secondary);
+    padding: 0 0.5rem;
+    max-width: 85%;
     margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .post-images {
@@ -34,5 +48,8 @@
 
 .post-head {
     display: flex;
-    gap: 1em;
+    align-items: baseline;
+}
+.post-head a {
+    color: var(--fg-main);
 }

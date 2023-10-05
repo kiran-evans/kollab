@@ -3,8 +3,8 @@ export default function ViewTool(props: { name: string, isChecked: boolean, hand
 
     return (
         <>
-        <label htmlFor="nodejs">{String(name)}</label>
-        <input type="checkbox" name={name} id={'inptut-check-'+name} checked={isChecked} onChange={(e)=>handleChange(e)} />
+        <input className="hidden-checkbox" type="checkbox" name={name} id={'input-check-' + name} checked={isChecked} onChange={(e)=>handleChange(e)} />
+        <label className="hidden-checkbox-label" htmlFor={'input-check-' + name}>{String(name)}</label>
         </>
     )
 }

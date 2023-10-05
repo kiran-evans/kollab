@@ -27,8 +27,8 @@ export default function NewPost() {
     const handleAddTool = (e: FormEvent) => {
         e.preventDefault();
         
-        // Make sure this tool isn't already in the array of tools for this Post
-        if (post.tools.includes(newToolName.toLocaleLowerCase())) return;
+        // Make sure this tool isn't already in the array of tools for this Post and is not empty
+        if (post.tools.includes(newToolName.toLocaleLowerCase()) || newToolName.length < 1) return;
 
         // Add the selected tool to the Post's array of tools
         setPost({ ...post, tools: [...post.tools, newToolName] });

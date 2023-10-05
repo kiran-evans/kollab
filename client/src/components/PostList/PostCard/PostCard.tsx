@@ -72,9 +72,12 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                     <h3 className='post-title'>
                         {data.title}
                     </h3>
-                    <div className="post-tools">
-                        {data.tools.map(tool => <p key={tool}>{tool}</p>)}
-                    </div>
+                    {
+                        data.tools.length > 0 &&
+                        <div className="post-tools">
+                            {data.tools.map(tool => <p key={tool}>{tool}</p>)}
+                        </div>
+                    }
                     <div className="post-contents">
                         <div className="post-images">
                             {images.map((imgUrl, i) => (
@@ -89,7 +92,7 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                         </div>
                     </div>
                     <div className="post-buttons">
-                        {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments {data.comments.length}</Link>}
+                        {minimize || <Link className='button' to={`/comments/${data.id}`}>Comments{data.comments.length > 0 ? ` (${data.comments.length})`: ""}</Link>}
                         {((state.user && author) && (state.user.id === author.id)) &&
                             <>
                             <input type="button" disabled={isFetching} value="Update" />
