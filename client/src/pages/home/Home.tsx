@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Difficulty } from '../../../types/Post';
-import { ViewOptions } from '../../../types/ViewOptions';
 import { PostList } from '../../components/PostList/PostList';
 import { ViewOptionsMenu } from '../../components/ViewOptionsMenu/ViewOptionsMenu';
+import { Difficulty } from '../../types/Post';
+import { ViewOptions } from '../../types/ViewOptions';
 import './Home.css';
 
 export const Home = () => {

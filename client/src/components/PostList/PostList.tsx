@@ -1,11 +1,11 @@
 import { CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Post } from '../../../types/Post'
 import { getAllPosts } from '../../api/postApi'
+import { selectPosts, selectTools } from '../../lib/ViewOptionsController'
+import { Post } from '../../types/Post'
+import { ViewOptions } from '../../types/ViewOptions'
 import PostCard from './PostCard/PostCard'
 import './PostList.css'
-import { ViewOptions } from '../../../types/ViewOptions'
-import { selectPosts, selectTools } from '../../lib/ViewOptionsController'
 
 export const PostList = (props: { author_id?: string, viewOptions?: ViewOptions, setViewOptions? }) => {
     const { author_id, viewOptions=null, setViewOptions=null } = props;

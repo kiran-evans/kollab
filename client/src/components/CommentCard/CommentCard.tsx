@@ -1,13 +1,13 @@
 import { CircularProgress } from '@mui/material';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Comment } from '../../../types/Comment';
-import { User } from '../../../types/User';
 import { deleteCommentById, getCommentById, updateCommentById } from '../../api/commentApi';
 import { getUserById } from '../../api/userApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { getErrorMessage } from '../../lib/error';
 import { fb } from '../../lib/firebase';
+import { Comment } from '../../types/Comment';
+import { User } from '../../types/User';
 import { ErrorMsg } from '../ErrorMsg/ErrorMsg';
 import './CommentCard.css';
 

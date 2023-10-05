@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { ViewOptions } from "../../../types/ViewOptions";
+import { ViewOptions } from "../../types/ViewOptions";
 import ViewTool from "../ViewTool/ViewTool";
 import "./ViewOptionsMenu.css";
 

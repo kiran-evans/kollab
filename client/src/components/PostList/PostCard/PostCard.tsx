@@ -2,13 +2,13 @@ import { CircularProgress } from '@mui/material';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Post } from '../../../../types/Post';
-import { User } from '../../../../types/User';
 import { deletePostById } from '../../../api/postApi';
 import { getUserById } from '../../../api/userApi';
 import { AppContext } from '../../../lib/ContextProvider';
 import { getErrorMessage } from '../../../lib/error';
 import { fb } from '../../../lib/firebase';
+import { Post } from '../../../types/Post';
+import { User } from '../../../types/User';
 import { ErrorMsg } from '../../ErrorMsg/ErrorMsg';
 import './PostCard.css';
 

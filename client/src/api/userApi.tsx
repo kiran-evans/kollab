@@ -1,4 +1,4 @@
-import { User } from "../../types/User";
+import { User } from "../types/User";
 
 /**
  * Creates a User object in the database, using a Firebase Auth User.

@@ -2,10 +2,10 @@ import { Add, Delete } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Difficulty } from '../../../types/Post';
 import { createPost } from '../../api/postApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { fb } from '../../lib/firebase';
+import { Difficulty } from '../../types/Post';
 import "./NewPost.css";
 
 export default function NewPost() {

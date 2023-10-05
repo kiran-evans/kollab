@@ -1,9 +1,9 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { User } from '../../../types/User';
 import { getUserByUsername } from '../../api/userApi';
 import { PostList } from '../../components/PostList/PostList';
+import { User } from '../../types/User';
 import './Profile.css';
 
 export const Profile = () => {
