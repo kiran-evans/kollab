@@ -133,16 +133,25 @@ export const upvotePostById = (async (req, res) => {
         if (!post) return res.status(404).send();
 
         const updatedUpvotes = [...post.upvotes];
+        const updatedDownvotes = [...post.downvotes];
 
-        // Add the user's id if it isn't in there already
+        // If the user has downvoted this post, remove their id from the downvotes
+        if (post.downvotes.includes(user.id)) {
+            updatedDownvotes.splice(post.downvotes.indexOf(user.id), 1);
+        }
+
+        // If user has already upvoted
         if (post.upvotes.includes(user.id)) {
+            // Remove their id from the upvotes
             updatedUpvotes.splice(post.upvotes.indexOf(user.id), 1);
         } else {
+            // Add their id to the upvotes
             updatedUpvotes.push(user.id);
         }
 
         const [affectedCount, affectedRows] = await PostModel.update({
-            upvotes: updatedUpvotes
+            upvotes: updatedUpvotes,
+            downvotes: updatedDownvotes
         }, {
             where: {
                 id: post.id
@@ -165,17 +174,26 @@ export const downvotePostById = (async (req, res) => {
         const post = await PostModel.findByPk(req.params.id);
         if (!post) return res.status(404).send();
 
-        const updatedUpvotes = [...post.downvotes];
+        const updatedDownvotes = [...post.downvotes];
+        const updatedUpvotes = [...post.upvotes];
 
-        // Add the user's id if it isn't in there already
+        // If the user has upvoted this post, remove their id from the upvotes
+        if (post.upvotes.includes(user.id)) {
+            updatedUpvotes.splice(post.upvotes.indexOf(user.id), 1);
+        }
+
+        // If user has already downvoted
         if (post.downvotes.includes(user.id)) {
-            updatedUpvotes.splice(post.downvotes.indexOf(user.id), 1);
+            // Remove their id from the downvotes
+            updatedDownvotes.splice(post.downvotes.indexOf(user.id), 1);
         } else {
-            updatedUpvotes.push(user.id);
+            // Add their id to the downvotes
+            updatedDownvotes.push(user.id);
         }
 
         const [affectedCount, affectedRows] = await PostModel.update({
-            downvotes: updatedUpvotes
+            downvotes: updatedDownvotes,
+            upvotes: updatedUpvotes
         }, {
             where: {
                 id: post.id
