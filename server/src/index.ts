@@ -14,9 +14,6 @@ app.options('*', cors(corsOptions));
 import dotenv from 'dotenv';
 dotenv.config();
 
-import path from 'path';
-app.use('/', express.static(path.join(__dirname, 'public')));
-
 // Routes
 
 import commentRouter from './routers/commentRouter';
@@ -28,21 +25,18 @@ app.use('/api/post', postRouter);
 import userRouter from './routers/userRouter';
 app.use('/api/user', userRouter);
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/index.html', req.originalUrl));
-});
-
 // Connect to db
 import { sequelize } from './lib/pg';
-(async () => {
+export const initDb = async () => {
     await sequelize.authenticate();
-    console.log(`[server] connected to '${sequelize.getDatabaseName()}'`);
+    if (process.env.NODE_ENV !== 'test') console.log(`[server] connected to '${sequelize.getDatabaseName()}'`);
     
     await sequelize.sync();
-    console.log(`[server] all models in '${sequelize.getDatabaseName()}' synchronised successfully`);    
-})();
+    if (process.env.NODE_ENV !== 'test') console.log(`[server] all models in '${sequelize.getDatabaseName()}' synchronised successfully`);
+};
 
 // Server start
-app.listen(process.env.PORT, () => {
-  console.log(`[server] server started on '${process.env.DOMAIN}'`);
+export const server = app.listen(process.env.PORT, async () => {
+    await initDb();
+    if (process.env.NODE_ENV !== 'test') console.log(`[server] server started on '${process.env.DOMAIN}'`);
 });
