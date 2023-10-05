@@ -1,5 +1,5 @@
 import { Reducer } from 'react';
-import { User } from '../../types/User';
+import { User } from '../types/User';
 /**
  * @type AppState
  * @property {User | null} user - This part of the AppState stores whether or not there is a User logged in.

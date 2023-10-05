@@ -1,6 +1,6 @@
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
-import { User } from '../../types/User';
 import { getUserByFirebaseId } from '../api/userApi';
+import { User } from '../types/User';
 import { fb } from './firebase';
 import { AppState, ContextAction, stateReducer } from './stateReducer';
 

@@ -1,5 +1,5 @@
-import { Post } from "../../types/Post";
-import { ViewOptions, ViewOptionsTool } from "../../types/ViewOptions";
+import { Post } from "../types/Post";
+import { ViewOptions, ViewOptionsTool } from "../types/ViewOptions";
 
 export const selectPosts = (postsList: Post[], viewOptions: ViewOptions | null) => {
     if (!viewOptions) return postsList;

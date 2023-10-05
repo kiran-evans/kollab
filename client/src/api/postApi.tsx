@@ -6,8 +6,8 @@
 // savePostById
 
 import { ref, uploadBytes } from "firebase/storage";
-import { Difficulty, Post } from "../../types/Post";
 import { fb } from "../lib/firebase";
+import { Difficulty, Post } from "../types/Post";
 
 /**
  * Creates a Post object in the database.

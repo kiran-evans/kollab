@@ -1,10 +1,10 @@
 import { CircularProgress } from "@mui/material";
 import { Dispatch, FormEvent, SetStateAction, useContext, useState } from "react";
-import { Post } from "../../../types/Post";
 import { createComment } from '../../api/commentApi';
 import { AppContext } from '../../lib/ContextProvider';
 import { getErrorMessage } from "../../lib/error";
 import { fb } from '../../lib/firebase';
+import { Post } from "../../types/Post";
 import { ErrorMsg } from "../ErrorMsg/ErrorMsg";
 import './NewComment.css';
 
