@@ -1,3 +1,4 @@
+import { User } from "./User";
 
 export type Post = {
     id: string;
@@ -5,8 +6,8 @@ export type Post = {
     title: string;
     message: string;
     images: Array<string>;
-    upvotes: number;
-    downvotes: number;
+    upvotes: Array<User["id"]>;
+    downvotes:  Array<User["id"]>;
     comments: Array<string>;
     tools: Array<string>;
     difficulty: Difficulty;
