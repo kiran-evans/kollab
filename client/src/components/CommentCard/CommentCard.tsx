@@ -78,7 +78,7 @@ export const CommentCard = (props: { id: string }) => {
                     <>
                         <div className="comment-head">
                             {author ? <Link className='comment-author' to={`/user/${author.username}`}>@{author.username}</Link> : <p>User deleted</p>}
-                            {comment.createdAt && <p>{new Date(comment.createdAt).toUTCString()}</p>}
+                            {comment.createdAt && <p>{new Date(comment.createdAt).toDateString()}</p>}
                             <div>
                                 {/* if not the comment creator this will render an empty div */}
                                 {/* is it good to hav an empty div, if no empty div date will be shifted to the right side */}

@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material';
 import { ThumbDown, ThumbUp } from '@mui/icons-material';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { deletePostById, downvotePost, upvotePost } from '../../../api/postApi';
 import { getUserById } from '../../../api/userApi';
 import { AppContext } from '../../../lib/ContextProvider';
@@ -15,6 +15,7 @@ import './PostCard.css';
 
 function PostCard(props: { data: Post, minimize?: boolean }) { // specify type : Post
     // minimize should be true to render less elements ""
+    const navigate = useNavigate()
     const { state } = useContext(AppContext);
     const { data, minimize = false } = props;
 
@@ -58,30 +59,33 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
         } catch (err) {
             setErrorMsg(getErrorMessage(err));
         }
+        if (minimize) { // redirect to home if rendered from /comments/postId
+            navigate("/")
+        }
 
         setIsFetching(false);
     }
     const handleUpVote =async () => {
         if (!fb.auth.currentUser) return;
-        setIsFetching(true);
+        // setIsFetching(true);
         try {
             const res = await upvotePost(postData.id, await fb.auth.currentUser?.getIdToken())
             setPostData(res)
         } catch (err) {
             setErrorMsg(getErrorMessage(err))
         }
-        setIsFetching(false);
+        // setIsFetching(false);
     }
     const handleDownVote =async () => {
         if (!fb.auth.currentUser) return;
-        setIsFetching(true);
+        // setIsFetching(true);
         try {
             const res = await downvotePost(postData.id, await fb.auth.currentUser?.getIdToken())
             setPostData(res)
         } catch (err) {
             setErrorMsg(getErrorMessage(err))
         }
-        setIsFetching(false);
+        // setIsFetching(false);
     }
 
     return (
@@ -90,7 +94,7 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                 <>
                     <div className="post-head">
                         {author ? <Link to={`/user/${author.username}`}>@{author.username}</Link> : <>User deleted</>}
-                        <p>Date: {new Date(postData.createdAt).toUTCString()}</p>
+                        <p>Date: {new Date(postData.createdAt).toDateString()}</p>
                         <p>Difficulty: {postData.difficulty}</p>
                     </div>
                     <h3 className='post-title'>
@@ -110,9 +114,8 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                         </div>
                         <p>{postData.message}</p>
                         <div className="post-rating">
-                            <p>Rating: {postData.upvotes.length - postData.downvotes.length}</p>
-                            <button onClick={() => handleUpVote()}><ThumbUp/></button>
-                            <button onClick={() => handleDownVote()}><ThumbDown/></button>
+                            <button onClick={() => handleUpVote()}><ThumbUp className={state.user?.id&&postData.upvotes.includes(state.user?.id)?"blue-thumb":""} /> {postData.upvotes.length > 0 && <span className='post-votes'>{postData.upvotes.length}</span>}</button>
+                            <button onClick={() => handleDownVote()}><ThumbDown className={state.user?.id&&postData.downvotes.includes(state.user?.id)?"blue-thumb":""}/> {postData.downvotes.length > 0 && <span className='post-votes'>{postData.downvotes.length}</span>}</button>
                         </div>
                     </div>
                     <div className="post-buttons">
