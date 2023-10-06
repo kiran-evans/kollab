@@ -42,8 +42,17 @@
 }
 
 .post .post-rating {
-    display: block;
-    width: min-content;
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    gap: 0.35rem;
+}
+.post .post-rating button {
+    justify-content: space-around;
+}
+.post .post-rating .post-votes {
+    font-size: large;
+    margin-left: 0.5rem;
 }
 
 .post-head {
@@ -52,4 +61,8 @@
 }
 .post-head a {
     color: var(--fg-main);
+}
+.blue-thumb {
+    color: #2335D9;
+    /* color: var(--bg-secondary); */
 }
