@@ -1,6 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPostById } from '../../api/postApi';
 import { CommentCard } from '../../components/CommentCard/CommentCard';
 import NewComment from '../../components/NewComment/NewComment';
@@ -17,13 +17,19 @@ export const Comments = () => {
     const [displayedComments, setDisplayedComments] = useState(new Array<string>());
     const [isFetching, setIsFetching] = useState(true);
     const [hasReachedEnd, setHasReachedEnd] = useState(false);
+    const navigator = useNavigate();
 
     useEffect(() => {
         // Fetch post data on page load
         (async () => {
             if (!postId) throw Error("Error loading comments. Post ID is undefined.");
-            const foundPost = await getPostById(postId);
-            setPost(foundPost);
+            try {
+                const foundPost = await getPostById(postId);
+                setPost(foundPost);
+            } catch (err) {
+                console.error(err);
+                navigator("/not-found");
+            }
             setIsFetching(false);
         })();
     }, []);
