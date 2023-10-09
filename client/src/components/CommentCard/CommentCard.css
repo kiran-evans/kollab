@@ -1,0 +1,21 @@
+.comment {
+    padding: 0 1rem;
+    margin: 1rem 0;
+    background-color: var(--color-bg-secondary);
+}
+.comment .comment-head {
+    display: flex;
+    justify-content: space-between;
+}
+.comment .comment-author {
+    font-style: italic;
+    text-decoration: none;
+    color: var(--color-fg-main);
+}
+.comment .comment-message {
+    padding-left: 1rem;
+}
+.comment input[type=button] {
+    margin: 0 0.5rem;
+    padding: 0 0.5rem;
+}

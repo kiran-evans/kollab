@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+
+import { useContext } from 'react'
 import './App.css'
+import Root from './components/Root/Root'
+import { AppContext } from './lib/ContextProvider'
+import { Comments } from './pages/comments/Comments'
+import { Home } from './pages/home/Home'
+import Login from './pages/login/Login'
+import NewPost from './pages/new-post/NewPost'
+import { Preferences } from './pages/preferences/Preferences'
+import { Profile } from './pages/profile/Profile'
+import Register from './pages/register/Register'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const { state } = useContext(AppContext);
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="" element={<Root />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/new-post" element={state.user ? <NewPost /> : <Navigate to="/login" />} />
+                    <Route path="/comments/:postId" element={<Comments />} />
+                    <Route path="/user/:username" element={<Profile />} />
+                    
+                    <Route path="/preferences" element={state.user ? <Preferences /> : <Navigate to="/login" />} />
+                    <Route path="/login" element={state.user ? <Navigate to="/" /> : <Login />} />
+                    <Route path="/register" element={state.user ? <Navigate to="/" /> : <Register />} />
+                    <Route path="/not-found" element={<h1>Page Not Found</h1>} />
+                    <Route path="*" element={<h1>Page Not Found</h1>} />
+                </Route>
+
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App

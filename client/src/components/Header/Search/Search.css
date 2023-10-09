@@ -1,0 +1,18 @@
+.searchBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.1rem solid var(--fg-main);
+    border-radius: var(--rounded-borders);
+    height: 0.75rem;
+    padding: 0.4em 0.4em;
+}
+
+#searchBoxInput {
+    background: none;
+    border: none;
+}
+
+#searchBoxInput:focus {
+    outline: none;
+}

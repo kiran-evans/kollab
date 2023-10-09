@@ -1,0 +1,40 @@
+nav {
+    position: relative;
+}
+
+#profile-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+}
+
+#user-profile-menu {
+    position: absolute;
+    right: 0;
+    background-color: var(--bg-main);
+    border: 1px solid var(--fg-main);
+    padding: 0.5em 0em;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--rounded-borders);
+}
+
+#user-profile-menu a {
+    padding: 0.5em 1em;
+}
+
+#user-profile-menu a:hover {
+    background-color: var(--bg-secondary);
+}
+
+#user-profile-menu li {
+    list-style: none;
+    display: flex;
+}
