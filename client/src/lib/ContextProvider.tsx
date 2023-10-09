@@ -14,7 +14,7 @@ const getInitialUser = async (): Promise<User | null> => {
 }
 
 const initialState: AppState = {
-    user: await getInitialUser()
+    user: null
 }
 
 export const AppContext = createContext<{ state: AppState, dispatch: Dispatch<ContextAction> }>({ state: initialState, dispatch: () => {} });
