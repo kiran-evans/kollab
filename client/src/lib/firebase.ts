@@ -14,7 +14,10 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app);
-await setPersistence(auth, browserLocalPersistence);
+// This function is wrapped as the target environment does not support top-level await
+(async () => {
+    await setPersistence(auth, browserLocalPersistence);
+})();
 const storage = getStorage(app);
 
 const google = new GoogleAuthProvider();

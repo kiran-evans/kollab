@@ -44,7 +44,7 @@ export const createPost = async (postBody: {
         }
     }    
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -68,7 +68,7 @@ export const createPost = async (postBody: {
  * @returns A Promise containing an Array of zero or more Posts.
  */
 export const getAllPosts = async (limit: number, offset: number, author_id?: string): Promise<Array<Post>> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post?limit=${limit}&offset=${offset}&${author_id ? `author_id=${author_id}` : ""}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post?limit=${limit}&offset=${offset}&${author_id ? `author_id=${author_id}` : ""}`);
     if (!res.ok) {
         throw res.statusText;
     }
@@ -82,7 +82,7 @@ export const getAllPosts = async (limit: number, offset: number, author_id?: str
  * @returns A Promise containing a Post.
  */
 export const getPostById= async (postId: string): Promise<Post> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post/${postId}`);
     if (!res.ok) {
         throw res.statusText;
     }
@@ -97,7 +97,7 @@ export const getPostById= async (postId: string): Promise<Post> => {
  * @returns A Promise. This Promise does not contain any data.
  */
 export const deletePostById = async (postId: string, idToken: string): Promise<boolean> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post/${postId}`, {
         method: "DELETE",
         headers: {
             'content-type': 'application/json'
@@ -131,7 +131,7 @@ export const updatePostById = async (postId: string, toBeUpdated: {
     tools?: Array<string>;
     difficulty?: Difficulty;
 }, idToken: string): Promise<Post> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/${postId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post/${postId}`, {
         method: "PUT",
         headers: {
             'content-type': 'application/json'
@@ -150,7 +150,7 @@ export const updatePostById = async (postId: string, toBeUpdated: {
 }
 
 export const upvotePost = async (postId: string, idToken: string): Promise<Post> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/upvote/${postId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post/upvote/${postId}`, {
         method: 'PATCH',
         headers: {
             'content-type': 'application/json'
@@ -168,7 +168,7 @@ export const upvotePost = async (postId: string, idToken: string): Promise<Post>
 }
 
 export const downvotePost = async (postId: string, idToken: string): Promise<Post> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/post/downvote/${postId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/post/downvote/${postId}`, {
         method: 'PATCH',
         headers: {
             'content-type': 'application/json'
