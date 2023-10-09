@@ -10,7 +10,7 @@ import { Comment } from "../types/Comment";
  */
 export const createComment = async (message: string, postId: string, idToken: string): Promise<Comment> => {
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/comment`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -30,7 +30,7 @@ export const createComment = async (message: string, postId: string, idToken: st
 }
 
 export const getCommentById = async (commentId: string): Promise<Comment | null> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/comment/${commentId}`, {
         method: 'GET'
     });
 
@@ -49,7 +49,7 @@ export const getCommentById = async (commentId: string): Promise<Comment | null>
  * @returns A Promise containing the updated Comment
  */
 export const updateCommentById = async (commentId: string, message: string, idToken: string): Promise<Comment> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/comment/${commentId}`, {
         method: "PUT",
         headers: {
             'content-type': 'application/json'
@@ -75,7 +75,7 @@ export const updateCommentById = async (commentId: string, message: string, idTo
  * @returns A Promise. This Promise does not contain any data.
  */
 export const deleteCommentById = async (commentId: string, idToken: string): Promise<void> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/comment/${commentId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/comment/${commentId}`, {
         method: "DELETE",
         headers: {
             'content-type': 'application/json'

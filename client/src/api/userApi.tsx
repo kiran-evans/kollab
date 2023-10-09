@@ -8,7 +8,7 @@ import { User } from "../types/User";
  * @returns A Promise containing the data for the created user in the database.
  */
 export const signUpUser = async (username: string, idToken: string): Promise<User> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -33,7 +33,7 @@ export const signUpUser = async (username: string, idToken: string): Promise<Use
  * @returns A Promise containing the User data in the database.
  */
 export const getUserByFirebaseId = async (firebase_id: string): Promise<User | null> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?firebase_id=${firebase_id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user?firebase_id=${firebase_id}`, {
         method: 'GET'
     });
     
@@ -50,7 +50,7 @@ export const getUserByFirebaseId = async (firebase_id: string): Promise<User | n
  * @returns A Promise containing the User data in the database.
  */
 export const getUserById = async (id: string): Promise<User | null> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?id=${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user?id=${id}`, {
         method: 'GET'
     });
     
@@ -67,7 +67,7 @@ export const getUserById = async (id: string): Promise<User | null> => {
  * @returns A Promise containing the User data in the database.
  */
 export const getUserByUsername = async (username: string): Promise<User | null> => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user?username=${username}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user?username=${username}`, {
         method: 'GET'
     });
     

@@ -17,13 +17,13 @@ dotenv.config();
 // Routes
 
 import commentRouter from './routers/commentRouter';
-app.use('/api/comment', commentRouter);
+app.use('/comment', commentRouter);
 
 import postRouter from './routers/postRouter';
-app.use('/api/post', postRouter);
+app.use('/post', postRouter);
 
 import userRouter from './routers/userRouter';
-app.use('/api/user', userRouter);
+app.use('/user', userRouter);
 
 // Connect to db
 import { sequelize } from './lib/pg';

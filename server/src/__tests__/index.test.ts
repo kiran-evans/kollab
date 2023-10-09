@@ -12,7 +12,7 @@ describe("Test index.ts", () => {
     });
 
     it("should respond with 200", async () => {
-        const res = (await request(server).get("/api/post?limit=5&offset=0"));
+        const res = (await request(server).get("/post?limit=5&offset=0"));
         expect(res.statusCode).toEqual(200);
     });
 
