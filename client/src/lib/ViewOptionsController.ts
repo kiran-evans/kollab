@@ -16,10 +16,10 @@ export const selectPosts = (postsList: Post[], viewOptions: ViewOptions | null) 
                 return a.title > b.title ? 1: 0
                 break;
             case "upvotes":
-                return a.upvotes > b.upvotes ? 1: 0
+                return a.upvotes.length < b.upvotes.length ? 1: 0
                 break;
             case "downvotes":
-                return a.downvotes > b.downvotes ? 1: 0
+                return a.downvotes.length < b.downvotes.length ? 1: 0
                 break;
             // case "username":
             //     if (a.author && b.author) {
