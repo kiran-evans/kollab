@@ -15,8 +15,8 @@
 .post div {
     display: flex;
     margin: 0.75rem 0;
-    justify-content: space-between;
-    gap: 0 0.5rem;
+    justify-content: space-evenly;
+    gap: 0 1rem;
     flex-wrap: wrap;
     border-radius: var(--rounded-borders);
 }
@@ -25,20 +25,16 @@
     padding: 0 0.5rem;
     max-width: 85%;
     margin-inline: auto;
-    display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    align-items: center;
+}
+.post .post-contents {
+    /* flex-wrap: nowrap; */
 }
 
-.post-images {
-    display: flex;
-    gap: 1em;
-}
-
-.post-images img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+.post .post-message {
+    flex: 1;
+    width: fit-content;
 }
 
 .post .post-rating {
@@ -54,15 +50,18 @@
     font-size: large;
     margin-left: 0.5rem;
 }
+.post .post-rating .blue-thumb {
+    color: #2335D9;
+    /* color: var(--bg-secondary); */
+}
 
-.post-head {
-    display: flex;
+.post .post-head {
     align-items: baseline;
+    justify-content: space-between;
 }
 .post-head a {
     color: var(--fg-main);
 }
-.blue-thumb {
-    color: #2335D9;
-    /* color: var(--bg-secondary); */
+.post .post-buttons {
+    justify-content: space-between;
 }

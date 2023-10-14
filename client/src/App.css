@@ -66,3 +66,9 @@ button:active, input[type=button]:active, .button:active {
 p {
     margin: 0.25rem 0;
 }
+a {
+    cursor: pointer;
+}
+a:visited {
+    color: var(--fg-main);
+}

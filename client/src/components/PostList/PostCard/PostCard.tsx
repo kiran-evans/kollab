@@ -12,6 +12,7 @@ import { Post } from '../../../types/Post';
 import { User } from '../../../types/User';
 import { ErrorMsg } from '../../ErrorMsg/ErrorMsg';
 import './PostCard.css';
+import PostCarousel from './PostCarousel/PostCarousel';
 
 function PostCard(props: { data: Post, minimize?: boolean }) { // specify type : Post
     // minimize should be true to render less elements ""
@@ -107,12 +108,8 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                         </div>
                     }
                     <div className="post-contents">
-                        <div className="post-images">
-                            {images.map((imgUrl, i) => (
-                                <img src={imgUrl} key={i} />
-                            ))}
-                        </div>
-                        <p>{postData.message}</p>
+                        {postData.images.length > 0 && <PostCarousel postImages={images}/> }
+                        <p className="post-message">{postData.message}</p>
                         <div className="post-rating">
                             <button onClick={() => handleUpVote()}><ThumbUp className={state.user?.id&&postData.upvotes.includes(state.user?.id)?"blue-thumb":""} /> {postData.upvotes.length > 0 && <span className='post-votes'>{postData.upvotes.length}</span>}</button>
                             <button onClick={() => handleDownVote()}><ThumbDown className={state.user?.id&&postData.downvotes.includes(state.user?.id)?"blue-thumb":""}/> {postData.downvotes.length > 0 && <span className='post-votes'>{postData.downvotes.length}</span>}</button>
@@ -122,7 +119,7 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                         {minimize || <Link className='button' to={`/comments/${postData.id}`}>Comments{postData.comments.length > 0 ? ` (${postData.comments.length})`: ""}</Link>}
                         {((state.user && author) && (state.user.id === author.id)) &&
                             <>
-                            <input type="button" disabled={isFetching} value="Update" />
+                            {/* <input type="button" disabled={isFetching} value="Update" /> */}
                             <input type="button" disabled={isFetching} value="Delete" onClick={() => dialogElement.current?.showModal()} />
                             </>
                         }

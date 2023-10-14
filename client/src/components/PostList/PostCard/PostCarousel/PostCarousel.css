@@ -1,0 +1,39 @@
+.post-carousel {
+    flex: 4;
+    position: relative;
+    max-width: 50%;
+    max-height: 400px;
+    overflow: hidden;
+}
+.post-carousel img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--rounded-borders);
+    border: 0.1rem solid var(--bg-dark);
+}
+.post-carousel .carousel-control {
+    position: absolute;
+    bottom: 0;
+    opacity: 0.65;
+}
+.post-carousel .carousel-control:hover {
+    opacity: 1;
+    background-color: var(--bg-main);
+}
+
+.post-carousel .carousel-control.carousel-prev {
+    left: 0;
+}
+.post-carousel .carousel-control.carousel-next {
+    right: 0;
+}
+.post-carousel .carousel-indicator{
+    position: absolute;
+    bottom: 0;
+    right: 45%;
+    text-shadow: 0 0 0.25rem var(--bg-main);
+    border-radius: var(--rounded-borders);
+    opacity: 0.75;
+}
+
