@@ -109,10 +109,13 @@ function PostCard(props: { data: Post, minimize?: boolean }) { // specify type :
                     }
                     <div className="post-contents">
                         {postData.images.length > 0 && <PostCarousel postImages={images}/> }
+
+                        <div className="message-rating">
                         <p className="post-message">{postData.message}</p>
                         <div className="post-rating">
                             <button onClick={() => handleUpVote()}><ThumbUp className={state.user?.id&&postData.upvotes.includes(state.user?.id)?"blue-thumb":""} /> {postData.upvotes.length > 0 && <span className='post-votes'>{postData.upvotes.length}</span>}</button>
                             <button onClick={() => handleDownVote()}><ThumbDown className={state.user?.id&&postData.downvotes.includes(state.user?.id)?"blue-thumb":""}/> {postData.downvotes.length > 0 && <span className='post-votes'>{postData.downvotes.length}</span>}</button>
+                        </div>
                         </div>
                     </div>
                     <div className="post-buttons">

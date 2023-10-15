@@ -15,6 +15,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+@media screen and (max-width: 500px) {
+    #headerInner {
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
 }
 
 header h1 {
@@ -29,6 +36,7 @@ header a {
     display: flex;
     justify-content: space-between;
     gap: 1.25rem;
+    /* width: 100%; */
 }
 #new-post-button {
     display: flex;

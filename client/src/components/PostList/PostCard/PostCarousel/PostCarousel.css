@@ -1,9 +1,15 @@
 .post-carousel {
     flex: 4;
     position: relative;
+    min-width: 250px;
     max-width: 50%;
     max-height: 400px;
     overflow: hidden;
+}
+@media screen and (max-width: 500px) {
+    .post-carousel {
+        max-width: 100%;
+    }
 }
 .post-carousel img {
     width: 100%;

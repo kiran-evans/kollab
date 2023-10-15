@@ -14,7 +14,6 @@ body {
 }
 
 main {
-    height: 95vh;
     width: 100%;
     max-width: 800px;
     padding: 0 1rem;
@@ -24,15 +23,12 @@ main {
     overflow-y: auto;
 }
 
-header {
-    height: 5vh;
-}
-
 fieldset {
     display: flex;
     flex-direction: column;
     align-items: start;
     border: 0.1rem solid var(--bg-secondary);
+    border-radius: var(--rounded-borders);
 }
 input, select, textarea {
     color: var(--fg-main);
@@ -47,7 +43,6 @@ button, input[type=button], .button {
     display: flex;
     align-items: center;
     background-color: var(--bg-dark);
-    /* background-color: var(--bg-transparent); */
     color: var(--fg-main);
     border: 0.125rem solid var(--bg-main);
     box-shadow: 0rem 0rem 0.35rem var(--bg-dark), 0.175rem 0.175rem 0rem var(--bg-dark);
@@ -71,4 +66,7 @@ a {
 }
 a:visited {
     color: var(--fg-main);
+}
+fieldset button[type=submit] {
+    margin: 0.5rem 0;
 }
