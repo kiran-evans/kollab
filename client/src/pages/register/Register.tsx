@@ -67,20 +67,20 @@ export default function Register() {
 
                     <label htmlFor="email">
                         Email:
-                        <input type="email" name="email" id="email" required value={formEntries.email} onChange={e => setFormEntries({...formEntries, email: e.target.value})} />
                     </label>
+                    <input type="email" name="email" id="email" required value={formEntries.email} onChange={e => setFormEntries({...formEntries, email: e.target.value})} />
                     <label htmlFor="username">
                         Username:
-                        <input type="text" name="username" id="username" required value={formEntries.username} onChange={e => setFormEntries({...formEntries, username: e.target.value})} />
                     </label>
+                    <input type="text" name="username" id="username" required value={formEntries.username} onChange={e => setFormEntries({...formEntries, username: e.target.value})} />
                     <label htmlFor="password">
                         Password:
-                        <input type="password" name="password" id="password" required value={formEntries.password} onChange={e => setFormEntries({...formEntries, password: e.target.value})} />
                     </label>
+                    <input type="password" name="password" id="password" required value={formEntries.password} onChange={e => setFormEntries({...formEntries, password: e.target.value})} />
                     <label htmlFor="confirm-password">
                         Confirm Password:
-                        <input type="password" name="confirm-password" id="confirm-password" required value={formEntries.confirmPassword} onChange={e => setFormEntries({...formEntries, confirmPassword: e.target.value})} />
                     </label>
+                    <input type="password" name="confirm-password" id="confirm-password" required value={formEntries.confirmPassword} onChange={e => setFormEntries({...formEntries, confirmPassword: e.target.value})} />
                     <button type="submit" disabled={isFetching}>{isFetching ? <><CircularProgress size={15} />&nbsp;Registering...</> : <>Register</>}</button>
                 </fieldset>
             </form>
