@@ -1,6 +1,6 @@
 import { Add } from '@mui/icons-material';
 import './Header.css';
-import { SearchBox } from './Search/Search';
+// import { SearchBox } from './Search/Search';
 import { UserProfileMenu } from './UserProfileMenu/UserProfileMenu';
 
 import { useContext } from 'react';
@@ -17,7 +17,7 @@ export const Header = () => {
                         Collab-Rate
                     </Link>
                 </h1>
-                <SearchBox />
+                {/* <SearchBox /> */}
                 {/* only if user logged in */}
                 <div className="user-actions">
                     { state?.user?.id && <Link to="/new-post"><button id="new-post-button"><Add />&nbsp;Create Post</button></Link>}

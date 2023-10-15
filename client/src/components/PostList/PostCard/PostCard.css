@@ -29,12 +29,19 @@
     align-items: center;
 }
 .post .post-contents {
-    /* flex-wrap: nowrap; */
+    flex-wrap: wrap;
+    position: relative;
+    flex-direction: row;
+}
+.post .post-contents .message-rating {
+    flex: 4;
 }
 
 .post .post-message {
     flex: 1;
     width: fit-content;
+    /* max-width: 20%; */
+    min-width: 250px;
 }
 
 .post .post-rating {
