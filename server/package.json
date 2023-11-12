@@ -1,8 +1,7 @@
 {
-  "name": "collab-rate",
+  "name": "kollab-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
   "type": "commonjs",
   "scripts": {
     "build": "tsc --outDir ./dist",
