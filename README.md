@@ -1,3 +1,3 @@
-# Collab-Rate
+# Kollab
 
 A collaborative note-taking app

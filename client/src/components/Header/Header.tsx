@@ -14,7 +14,7 @@ export const Header = () => {
             <div id="headerInner">
                 <h1>
                     <Link to='/'>
-                        Collab-Rate
+                        Kollab
                     </Link>
                 </h1>
                 {/* <SearchBox /> */}
